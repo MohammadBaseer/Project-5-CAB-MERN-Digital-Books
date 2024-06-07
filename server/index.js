@@ -5,6 +5,7 @@ import colors from "colors";
 import * as dotenv from "dotenv";
 import router from "./routes/testRoute.js";
 import productsRouter from "./routes/productsRoute.js";
+import booksRoute from "./routes/booksRoute.js";
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,8 @@ const startServer = () => {
 const loadRoots = () => {
   app.use("/api", router);
   app.use("/api/products", productsRouter);
+  // books
+  app.use("/api/books", booksRoute);
 };
 
 const DBConnection = async () => {

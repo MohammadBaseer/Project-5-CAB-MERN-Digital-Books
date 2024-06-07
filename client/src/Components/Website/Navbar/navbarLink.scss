@@ -1,0 +1,6 @@
+@import "../../../assets/scss/variables.scss";
+
+.active {
+  background-color: $buttonActiveColor !important;
+  color: #fff;
+}

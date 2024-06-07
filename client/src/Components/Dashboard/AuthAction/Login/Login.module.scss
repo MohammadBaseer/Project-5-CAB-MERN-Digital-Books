@@ -1,0 +1,72 @@
+@import "../../../../assets/scss/variables.scss";
+
+// * {
+//   padding: 0px !important;
+//   margin: 0px !important;
+// }
+body {
+  // background-color: #82dde3;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+.container {
+  height: 100vh;
+  color: $fontColor;
+
+  .main_box {
+    width: 35%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $bgColor;
+    padding: 30px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    .reg_head {
+      text-align: center;
+    }
+    form {
+      border: 3px solid $borderColor;
+      padding: 10px !important;
+      hr {
+        margin: 10px !important;
+      }
+      .error {
+        color: red;
+      }
+
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 12px 20px !important;
+        margin: 8px 0 !important;
+        display: inline-block;
+        border: 1px solid $borderColor;
+        box-sizing: border-box;
+        background-color: $borderColor !important;
+        color: $fontColor;
+      }
+      .form_btn {
+        margin: 18px 0 !important;
+        padding: 10px 15px !important;
+        font-weight: bold;
+        font-size: 1rem;
+        background-color: $buttonColor;
+        border-radius: 8px !important;
+        border: none;
+        cursor: pointer;
+        &:hover {
+          background-color: $hoverButtonColor;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 815px) {
+  .main_box {
+    width: 60%;
+  }
+}

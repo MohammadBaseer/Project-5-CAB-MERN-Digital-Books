@@ -34,13 +34,11 @@ const NavbarHead = () => {
           <div className={styles.nav_elements}>
             {!user ? (
               <>
-                <p>
-                  <Link to="/cart">
-                    <i className="pi pi-shopping-cart">
-                      <span>0</span>
-                    </i>
-                  </Link>
-                </p>
+                <Link to="/cart">
+                  <i className="pi pi-shopping-cart">
+                    <span> 0</span>
+                  </i>
+                </Link>
 
                 <div className={styles.user_tab_navbar}>
                   <div className={styles.user_tab_navbar_photo}>

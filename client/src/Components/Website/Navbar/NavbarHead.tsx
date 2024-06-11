@@ -51,9 +51,9 @@ const NavbarHead = () => {
                     </div>
 
                     <div className={styles.user_tab_navbar_element}>
-                      <span className="pi pi-user">
-                        <Link to="/register"> My Profile</Link>
-                      </span>
+                      <Link to="/register">
+                        <span className="pi pi-user"> My Profile</span>
+                      </Link>
                     </div>
                     <div className={styles.user_tab_navbar_element}>
                       <Link to="/chat">
@@ -68,9 +68,9 @@ const NavbarHead = () => {
                       </Link>
                     </div>
                     <div className={styles.user_tab_navbar_element}>
-                      <span className="pi pi-cog">
-                        <Link to="/register"> Settings</Link>
-                      </span>
+                      <Link to="/register">
+                        <span className="pi pi-cog"> Settings</span>
+                      </Link>
                     </div>
                     <div className={styles.user_tab_navbar_element}>
                       <Link to="#">
@@ -82,12 +82,11 @@ const NavbarHead = () => {
               </>
             ) : (
               <>
-                <span className="">
-                  <Link to="/login">Login</Link>
-                  &nbsp;/&nbsp;
-                  <Link to="/register">Register</Link>
-                  &nbsp;
-                  <span className="pi pi-sign-in" style={{ fontSize: "0.8rem" }}></span>
+                <span className={styles.login_section}>
+                  <Link to="/login">
+                   <span className="pi pi pi-user" style={{ fontSize: "0.8rem" }}></span>
+                  </Link>
+                 
                 </span>
               </>
             )}

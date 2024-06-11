@@ -4,11 +4,20 @@
 // $buttonColor: #2ca4ab;
 // $hoverButtonColor: #76a4a6;
 
-$bgColor: #f8f9fa; // Lighter Gray
-$userProfileNavMenu: #dc3545; // Danger Red
-$fontColor: #333333; // Dark Gray
+$bgColor: #1f2125; // Lighter Gray
+$navBarColor: #343a40;
+
+$userProfileNavMenu: #343a40; // Danger Red
+$cardColor: #343a40; // Danger Red
+$userProfileNavMenuFontColor: #e7e9ea; // Danger Red
+$fontColor: #e7e9ea; // Dark Gray
+$textFontSize: 13px;
 $borderColor: #c8ced3; // Gray
-$buttonColor: #ffc107; // Warning Yellow
-$hoverButtonColor: #e0a800; // Darker Yellow
-$buttonActiveColor: #e0a800; // Darker Yellow (same as hover)
-$linkHoverColor: #20c997; // Success Green
+
+$sideNavbarButton: #1f2125;
+
+$buttonActiveColor: #343a40; // Darker Yellow (same as hover)
+$linkHoverColor: #343a40; // Success Green
+
+$buttonColor: #1f2125; // Warning Yellow
+$hoverButtonColor: #343a40; // Darker Yellow

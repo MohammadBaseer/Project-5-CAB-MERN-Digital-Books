@@ -26,7 +26,7 @@ function App() {
               </FetchApiContextProvider>
             }
           />
-          <Route path="/details" element={<BooksDetails />} />
+          <Route path="/books/:id" element={<BooksDetails />} />
           <Route path="/read" element={<BookReadMode />} />
         </Route>
       </>

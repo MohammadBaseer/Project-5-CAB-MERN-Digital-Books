@@ -29,7 +29,7 @@ function Navbar() {
         <i className="pi pi-bars" onClick={menuToggle}></i>
       </div>
       <div className={styles.body_container} style={hideMenuToggle === true ? { display: "block" } : { display: "" }}>
-        <nav className="navbar">
+        <nav className={styles.navbar}>
           <div className={styles.flex_box}>
             <ul>
               <div className={styles.flex}>

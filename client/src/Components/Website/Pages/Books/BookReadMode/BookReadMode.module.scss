@@ -1,10 +1,12 @@
-.container {
-  border: solid;
+@import "../../../../../assets/scss/variables.scss";
 
+.container {
+  // border: solid;
+  font-size: $textFontSize;
   .nav_side_elements {
-    border: solid blue;
     display: inline-block;
     width: 15%;
+    background-color: $navBarColor;
 
     .switch_container {
       position: relative;
@@ -12,18 +14,20 @@
       grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
       padding: 5px;
       margin: 18px;
-      border: solid;
+      // border: solid;
       border-radius: 30px;
-
+      background-color: $sideNavbarButton;
       .switch_item {
         padding: 10px;
         border-radius: 20px;
         margin: 3px;
         cursor: pointer;
         border: none;
-        background-color: #fff;
+        background-color: $sideNavbarButton;
+        color: $fontColor;
+
         &:hover {
-          background-color: #eee9e9;
+          background-color: $buttonActiveColor;
         }
       }
     }
@@ -48,8 +52,12 @@
           input {
             padding: 10px 5px;
             width: 98%;
-            border-radius: 5px;
+            border-radius: 10px;
             margin-bottom: 10px;
+            background-color: $bgColor;
+            border: none;
+            outline: none;
+            color: $fontColor;
           }
         }
       }
@@ -64,8 +72,12 @@
           input {
             padding: 10px 5px;
             width: 98%;
-            border-radius: 5px;
+            border-radius: 10px;
             margin-bottom: 10px;
+            background-color: $bgColor;
+            border: none;
+            outline: none;
+            color: $fontColor;
           }
         }
       }
@@ -73,6 +85,12 @@
   }
 }
 .link_base {
+  display: block;
+  color: $fontColor;
+  border-radius: 10px;
+  &:hover {
+    background-color: $bgColor;
+  }
   .sidebar_navigation_listItem {
     border: solid 1px gray;
     text-align: left;
@@ -81,6 +99,7 @@
     align-items: center;
     padding: 7px 0px;
     border-radius: 10px;
+    color: $fontColor;
 
     .sidebar_navigation_chapter_number {
       padding: 10px 0px;

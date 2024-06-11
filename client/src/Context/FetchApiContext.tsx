@@ -15,16 +15,19 @@ type FetchApiContextProvider = {
 };
 const FetchApiContextProvider = ({ children }: FetchApiContextProvider) => {
   const [data, setData] = useState<BooksDataType[] | null>(null);
-  const ApiData = async () => {
+
+  const ApiURL = "http://localhost:5000/api/books/all";
+  const ApiData = async (ApiURL: string) => {
     try {
-      const url = await fetch("http://localhost:5000/api/books/all");
+      const url = await fetch(ApiURL);
       const result = (await url.json()) as ApiResponse;
+
       setData(result.allBooks);
     } catch (error) {}
   };
 
   useEffect(() => {
-    ApiData();
+    ApiData(ApiURL);
   }, []);
 
   return <FetchApiContext.Provider value={{ data }}> {children}</FetchApiContext.Provider>;

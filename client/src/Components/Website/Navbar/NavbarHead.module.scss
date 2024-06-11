@@ -1,72 +1,80 @@
 @import "../../../assets/scss/variables.scss";
 
 .navbar_head {
-  background-color: $bgColor;
-  padding: 10px;
+  display: flex;
+  background-color: $navBarColor;
+  // padding: 10px;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.body_container {
-  width: 90%;
-  margin: auto !important;
-}
-.nav_elements {
-  /* text-align: right !important; */
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  // p {
-  //   font-size: 10px;
-  //   padding: 6px;
-  // }
-}
-.nav_elements a {
-  text-decoration: none !important;
-  color: $fontColor;
-  list-style: none;
-  display: contents;
-}
-.user_tab_navbar {
-  display: inline-block;
-  opacity: 1;
-  background-color: $userProfileNavMenu;
-}
+  box-shadow: 0 0 10px rgba(221, 219, 219, 0.1);
+  height: 60px;
+  .body_container {
+    width: 90%;
+    margin: auto !important;
+    .nav_elements {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
 
-.user_tab_navbar_element_box {
-  display: inline-block;
-  opacity: 1;
-  background-color: $userProfileNavMenu;
-}
+      a {
+        text-decoration: none !important;
+        color: $userProfileNavMenuFontColor;
+        list-style: none;
+        display: contents;
+      }
 
-.user_photo {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-}
-.user_tab_navbar {
-  position: relative;
-}
-.user_tab_navbar_element_box {
-  position: absolute;
-  width: 125px;
-  right: -3px;
-  border: solid 1px $borderColor;
-  display: none;
-}
-.user_tab_navbar_element {
-  font-size: 0.8rem !important;
-  text-align: left;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-}
+      .user_tab_navbar {
+        position: relative;
+        display: inline-block;
+        opacity: 1;
+        background-color: $userProfileNavMenu;
+        color: $userProfileNavMenuFontColor;
+        z-index: 1;
 
-.user_tab_navbar_element span {
-  padding: 10px;
-  cursor: pointer;
-  width: 100%;
-}
-.user_tab_navbar_element span:hover {
-  background-color: $bgColor;
+        .user_photo {
+          margin: 5px;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+        }
+
+        .user_tab_navbar_element_box {
+          display: inline-block;
+          opacity: 1;
+          background-color: $userProfileNavMenu;
+          // padding: 10px !important;
+          position: absolute;
+          width: 125px;
+          right: -3px;
+          border: solid 1px $borderColor;
+          display: none;
+
+          .user_tab_navbar_element {
+            font-size: 0.8rem !important;
+            text-align: left;
+            box-shadow: 0px 1px 4px rgba(231, 228, 228, 0.1);
+            display: flex;
+            align-items: center;
+
+            span {
+              padding: 12px 15px !important;
+              cursor: pointer;
+              width: 100%;
+              &:hover {
+                background-color: $bgColor;
+              }
+            }
+          }
+        }
+      }
+
+      .login_section {
+        a {
+          span {
+            font-size: 25px !important;
+          }
+        }
+      }
+    }
+  }
 }

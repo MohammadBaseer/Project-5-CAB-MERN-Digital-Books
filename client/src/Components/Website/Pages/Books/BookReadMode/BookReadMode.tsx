@@ -33,7 +33,7 @@ const BookReadMode = () => {
 
               <a href="/1" className={styles.link_base}>
                 <div className={styles.sidebar_navigation_listItem}>
-                  <span className={styles.sidebar_navigation_chapter_number}>1</span>
+                  <span className={styles.sidebar_navigation_chapter_number}>2</span>
                   <span className={styles.chapter_title}> Getting started with TypeScript</span>
                 </div>
               </a>

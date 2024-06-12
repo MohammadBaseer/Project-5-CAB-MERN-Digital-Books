@@ -3,10 +3,14 @@ import { ApiResponse, BooksDataType } from "../@Types/Types";
 
 type FetchApiContextType = {
   data: BooksDataType[] | null;
+  ApiFetchDataFun: (ApiURL: string) => void;
 };
 
 const initFetchApiContext = {
   data: [] as BooksDataType[] | null,
+  ApiFetchDataFun: () => {
+    throw new Error("The ApiFetchDataFun Error");
+  },
 };
 
 export const FetchApiContext = createContext<FetchApiContextType>(initFetchApiContext);
@@ -17,7 +21,7 @@ const FetchApiContextProvider = ({ children }: FetchApiContextProvider) => {
   const [data, setData] = useState<BooksDataType[] | null>(null);
 
   const ApiURL = "http://localhost:5000/api/books/all";
-  const ApiData = async (ApiURL: string) => {
+  const ApiFetchDataFun = async (ApiURL: string) => {
     try {
       const url = await fetch(ApiURL);
       const result = (await url.json()) as ApiResponse;
@@ -27,10 +31,10 @@ const FetchApiContextProvider = ({ children }: FetchApiContextProvider) => {
   };
 
   useEffect(() => {
-    ApiData(ApiURL);
+    ApiFetchDataFun(ApiURL);
   }, []);
 
-  return <FetchApiContext.Provider value={{ data }}> {children}</FetchApiContext.Provider>;
+  return <FetchApiContext.Provider value={{ data, ApiFetchDataFun }}> {children}</FetchApiContext.Provider>;
 };
 
 export default FetchApiContextProvider;

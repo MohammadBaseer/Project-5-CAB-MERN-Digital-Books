@@ -12,7 +12,7 @@ const BookSchema = new Schema({
   status: { type: String, required: true },
   authors: { type: [String], required: true },
   categories: { type: [String], required: true },
-  detail: [{ type: mongoose.Schema.ObjectId, ref: "booksdetail" }],
+  detail: { type: mongoose.Schema.ObjectId, ref: "booksdetail" },
 });
 
 const BookModel = mongoose.model("book", BookSchema);

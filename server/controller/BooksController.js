@@ -17,9 +17,11 @@ const bookApi = async (req, res) => {
 
 const FetchByID = async (req, res) => {
   const fetchByIdPrams = req.params.id;
+  console.log("fetchByIdPrams", fetchByIdPrams);
   try {
-    const allBooks = await BookModel.find({ _id: fetchByIdPrams }).populate("detail");
-    res.status(201).json(allBooks);
+    const allBooks = await BookModel.findById({ _id: fetchByIdPrams }).populate("detail");
+
+    res.status(201).send(allBooks);
   } catch (error) {
     console.log("error", error);
     res.status(400).json({

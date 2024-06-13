@@ -1,3 +1,15 @@
+//! USer Reiteration Types
+export type NotOkType = {
+  error: string;
+};
+
+export type User = {
+  email: string;
+  username: string;
+  _id: string;
+};
+
+//! Books Data Type
 export declare type BooksDataType = {
   _id: string;
   title: string;

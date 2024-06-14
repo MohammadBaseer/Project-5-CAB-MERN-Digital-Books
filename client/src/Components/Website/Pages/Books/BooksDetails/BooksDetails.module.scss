@@ -50,4 +50,56 @@
       }
     }
   }
+
+  .comment_section {
+    text-align: -webkit-center;
+
+    .comment_container {
+      width: 65% !important;
+      .comment_box {
+        margin-top: 40px;
+        text-align: center;
+
+        .comments {
+          width: 100% !important;
+          margin: auto;
+          font-size: 20px;
+          border-radius: 20px;
+          padding: 15px !important;
+        }
+      }
+      .comment_button {
+        text-align: right;
+        margin: 10px 0px;
+        width: 100% !important;
+        // border: solid;
+        button {
+          padding: 10px !important;
+          font-size: 25px;
+        }
+      }
+
+      .comment_user {
+        display: flex;
+        padding-bottom: 15px;
+        .comment_photo_box {
+          .comment_photo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: solid 1px #fff;
+          }
+        }
+        .comment_text_box {
+          text-align: left;
+          text-align: justify;
+          p {
+            padding: 12px;
+            padding-bottom: 3px !important;
+            margin: 0px !important;
+          }
+        }
+      }
+    }
+  }
 }

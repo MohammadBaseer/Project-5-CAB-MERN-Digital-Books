@@ -89,6 +89,38 @@ const BooksDetails = () => {
             Size: 7.25" l x 5.09" w x 0.68" h
           </h5>
         </div>
+        {/* ------------------------------- */}
+
+        <hr />
+        <hr />
+
+        <div className={styles.comment_section}>
+          <div className={styles.comment_container}>
+            <div className={styles.comment_box}>
+              <textarea className={styles.comments} rows="10" placeholder="Aa"></textarea>
+            </div>
+
+            <div className={styles.comment_button}>
+              <button>Comment</button>
+            </div>
+
+            <div className={styles.comment_user}>
+              <div className={styles.comment_photo_box}>
+                <img className={styles.comment_photo} src="https://johannesippen.com/img/blog/humans-not-users/header.jpg" alt="" />
+              </div>
+              <div className={styles.comment_text_box}>
+                <p>Name</p>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis autem atque aut exercitationem ratione voluptatum nulla libero, ipsa ullam. Laborum, minus iusto? Molestiae mollitia aliquid esse ducimus accusantium tempore earum?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        {/* ------------------------------- */}
       </div>
     </>
   );

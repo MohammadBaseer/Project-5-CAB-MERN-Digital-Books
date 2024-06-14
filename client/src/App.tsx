@@ -8,6 +8,7 @@ import Register from "./Components/Dashboard/AuthAction/Register/Register";
 import FetchApiContextProvider from "./Context/FetchApiContext";
 import BooksDetails from "./Components/Website/Pages/Books/BooksDetails/BooksDetails";
 import BookReadMode from "./Components/Website/Pages/Books/BookReadMode/BookReadMode";
+import UserProfile from "./Components/Dashboard/DashbourdPages/UserProfile/UserProfile";
 
 function App() {
   const router = createBrowserRouter(
@@ -28,6 +29,7 @@ function App() {
           />
           <Route path="/books/:id" element={<BooksDetails />} />
           <Route path="/read" element={<BookReadMode />} />
+          <Route path="/profiletabel" element={<UserProfile />} />
         </Route>
       </>
     )

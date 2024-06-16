@@ -1,11 +1,6 @@
 @import "../../../../assets/scss/variables.scss";
 
-// * {
-//   padding: 0px !important;
-//   margin: 0px !important;
-// }
 body {
-  // background-color: #82dde3;
   padding: 0px !important;
   margin: 0px !important;
 }
@@ -54,7 +49,9 @@ body {
         align-items: center;
         cursor: pointer;
         .avatar {
-          width: 100px !important;
+          width: 80px !important;
+          border-radius: 20px !important;
+          margin: 5px;
         }
       }
 
@@ -78,6 +75,9 @@ body {
 
 @media only screen and (max-width: 815px) {
   .main_box {
-    width: 60%;
+    width: 80%;
+  }
+  .avatar {
+    width: 30% !important;
   }
 }

@@ -1,6 +1,7 @@
 //! USer Reiteration Types
 export type NotOkType = {
   error: string;
+  message: string;
 };
 
 export type User = {

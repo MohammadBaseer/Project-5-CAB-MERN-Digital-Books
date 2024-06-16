@@ -10,3 +10,7 @@ body {
   background-color: $bgColor;
   color: $fontColor;
 }
+html {
+  scrollbar-color: #888 #f0f0f0;
+  scrollbar-width: thin;
+}

@@ -1,5 +1,7 @@
 import express from "express";
 import { FetchByID, bookApi } from "../controller/BooksController.js";
+import BooksDetailsModel from "../models/booksDetailsModel.js";
+import BookModel from "../models/booksModel.js";
 
 const booksRoute = express.Router();
 

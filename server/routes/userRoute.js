@@ -1,33 +1,12 @@
 import express from "express";
-import UserModel from "../models/userModel.js";
-
+import multer from "multer";
+import { storage } from "../utils/Multer/MulterUploadImage.js";
+import { RegisterUser, UserFetchData } from "../controller/UserController.js";
 const UserRouter = express.Router();
+const upload = multer({ storage });
 
-UserRouter.get("/user", async (req, res) => {
-  //   console.log("req Checking ======>".bgGreen, req);
+UserRouter.get("/user", UserFetchData);
 
-  try {
-    const { name, email, password } = req.body;
-
-    const users = new UserModel({
-      name,
-      email,
-      password,
-    });
-
-    const userData = await users.save();
-
-    res.status(200).send({
-      msg: "Successfully added",
-      data: userData,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-
-  //   res.status(200).json({
-  //     message: "it working",
-  //   });
-});
+UserRouter.post("/user", upload.single("avatar"), RegisterUser);
 
 export default UserRouter;

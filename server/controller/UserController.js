@@ -4,7 +4,7 @@ import { SecurePassword } from "../utils/Bcrypt/PasswordHash.js";
 
 const RegisterUser = async (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ error: "No file uploaded" });
+    return res.status(400).send({ error: "No file uploaded" });
   }
   try {
     const photoPath = req.file.path;
@@ -17,7 +17,7 @@ const RegisterUser = async (req, res) => {
     });
     const userData = await UserModel.findOne({ email: req.body.email });
     if (userData) {
-      return res.status(200).send({ error: "user already exists" });
+      return res.status(400).send({ error: "user already exists" });
     } else {
       const InsertUser = await user.save();
       res.status(200).send({ Result: InsertUser });
@@ -30,7 +30,7 @@ const RegisterUser = async (req, res) => {
 const UserFetchData = async (req, res) => {
   try {
     const userData = await UserModel.find({}, "name email avatar createdAt");
-    res.status(200).json(userData);
+    res.status(200).send(userData);
   } catch (error) {
     res.status(200).send({
       error: error.message,

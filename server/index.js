@@ -8,6 +8,7 @@ import productsRouter from "./routes/productsRoute.js";
 import booksRoute from "./routes/booksRoute.js";
 import UserRouter from "./routes/userRoute.js";
 import testRouter from "./routes/testRoute.js";
+import { cloudinaryConfig } from "./config/Cloudinary.js";
 
 dotenv.config();
 const app = express();
@@ -17,6 +18,7 @@ const addMiddlewares = () => {
   // app.use(urlencoded({ extended: true }));
   app.use(express.urlencoded({ extended: true }));
   app.use(cors());
+  cloudinaryConfig();
 };
 
 const startServer = () => {

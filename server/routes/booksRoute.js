@@ -1,12 +1,17 @@
 import express from "express";
-import { FetchByID, bookApi } from "../controller/BooksController.js";
-import BooksDetailsModel from "../models/booksDetailsModel.js";
-import BookModel from "../models/booksModel.js";
+import { DisplayBook, DisplayBookById, BookUpdate } from "../controller/BooksController.js";
+// import BooksDetailsModel from "../models/booksDetailsModel.js";
+// import BookModel from "../models/booksModel.js";
 
 const booksRoute = express.Router();
 
-booksRoute.get("/all", bookApi);
+//! display All Book Data API Endpoint
+booksRoute.get("/all", DisplayBook);
 
-booksRoute.get("/all/:id", FetchByID);
+//! Display by ID API Endpoint
+booksRoute.get("/all/:id", DisplayBookById);
+
+//! Display by ID and update API Endpoint
+booksRoute.post("/update", BookUpdate);
 
 export default booksRoute;

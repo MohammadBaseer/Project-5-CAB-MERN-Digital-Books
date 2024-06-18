@@ -31,7 +31,7 @@ const loadRoots = () => {
   app.use("/api/products", productsRouter);
 
   // books
-  app.use("/api/books", booksRoute);
+  app.use("/api", booksRoute);
 
   //  Users
   app.use("/auth", UserRouter);

@@ -7,15 +7,15 @@ import { multerUpload } from "../middleware/multer.js";
 const booksRoute = express.Router();
 
 //! display All Book Data API Endpoint
-booksRoute.get("/all", displayBook);
+booksRoute.get("/books", displayBook);
 
 //! Display by ID (Details) API Endpoint
-booksRoute.get("/all/:id", displayBookById);
+booksRoute.get("/books/:id", displayBookById);
 
 //! Post Data API Endpoint
-booksRoute.post("/post", multerUpload.single("image"), bookInsert);
+booksRoute.post("/books", multerUpload.single("image"), bookInsert);
 
 //! Display by ID and update API Endpoint
-booksRoute.post("/update", bookUpdate);
+// booksRoute.put("/books/:id", bookUpdate);
 
 export default booksRoute;

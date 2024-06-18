@@ -20,7 +20,7 @@ type FetchApiContextProvider = {
 const FetchApiContextProvider = ({ children }: FetchApiContextProvider) => {
   const [data, setData] = useState<BooksDataType[] | null>(null);
 
-  const ApiURL = "http://localhost:5000/api/books/all";
+  const ApiURL = "http://localhost:5000/api/books";
   const ApiFetchDataFun = async (ApiURL: string) => {
     try {
       const url = await fetch(ApiURL);

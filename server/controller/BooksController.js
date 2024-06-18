@@ -71,10 +71,13 @@ const bookInsert = async (req, res) => {
 //! Display by ID and update API Endpoint
 
 const bookUpdate = async (req, res) => {
-  const result = req.body;
-  console.log("result ==>", req.params);
+  const bookId = req.params.id;
 
   try {
+    const result = await BookModel.replaceOne({ _id: bookId }, req.body);
+
+    console.log("result ======> ", result);
+
     res.status(200).json({ result });
   } catch (message) {
     res.status(400).json({ message: message });

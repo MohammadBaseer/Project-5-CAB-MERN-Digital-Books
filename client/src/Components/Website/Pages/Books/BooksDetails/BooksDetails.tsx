@@ -9,9 +9,9 @@ const BooksDetails = () => {
   const [data, setData] = useState<BooksDataType | null>(null);
   let { id } = useParams();
 
-  const ApiFetchDataFunA = async () => {
-    // const ApiURL = "http://localhost:5000/api/books/all/66630ce850d41bcb8fa629d6";
-    const ApiURL = `http://localhost:5000/api/books/all/${id}`;
+  const ApiFetchDataFun = async () => {
+    // const ApiURL = "http://localhost:5000/api/books/66630ce850d41bcb8fa629d6";
+    const ApiURL = `http://localhost:5000/api/books/${id}`;
 
     try {
       const url = await fetch(ApiURL);
@@ -22,12 +22,12 @@ const BooksDetails = () => {
   };
 
   useEffect(() => {
-    ApiFetchDataFunA();
+    ApiFetchDataFun();
   }, []);
 
-  if (data) {
-    console.log("data------->>>>", data.detail.date);
-  }
+  // if (data) {
+  //   console.log("data------->>>>", data.detail.date);
+  // }
 
   return (
     <>

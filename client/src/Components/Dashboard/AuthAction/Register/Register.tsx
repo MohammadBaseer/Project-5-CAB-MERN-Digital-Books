@@ -120,8 +120,8 @@ const Register = () => {
             </label>
             <input style={{ display: "none" }} type="file" id="file" name="avatar" onChange={handleFileChange} />
           </div>
-          {/* {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>} */}
-          <div className={styles.error}>{errorHandler}</div>
+          {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}
+          {/* <div className={styles.error}>{errorHandler}</div> */}
 
           <div className={styles.sub_btn_box}>
             <button className={styles.form_btn} type="submit">

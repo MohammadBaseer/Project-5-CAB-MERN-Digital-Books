@@ -1,8 +1,16 @@
-import ProductsModel from "../models/productsModel.js";
+// // import productsModel from "../models/productsModel.js";
+// import ProductsModel from '../models/ProductsModel.js'; // Adjust the import path as needed
+// import ProductDetailsModel from '../models/ProductDetails.js'; // Adjust the import path as needed
+import ProductsModel from "../models/productsModel.js"
+import ProductDetailsModel from "../models/productDetails.js"
 
-const products = async (req, res) => {
+
+
+
+const products = async (req, res) => { 
+  
   try {
-    const allProducts = await ProductsModel.find({});
+    const allProducts = await ProductsModel.find().populate('product_id');
     console.log("allProducts", allProducts);
 
     res.status(200).json({
@@ -16,6 +24,13 @@ const products = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
 
 const productsByCategory = async (req, res) => {
   // console.log("category".bgGreen, req);

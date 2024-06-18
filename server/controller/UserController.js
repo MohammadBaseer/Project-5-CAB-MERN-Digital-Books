@@ -25,26 +25,24 @@ const RegisterUser = async (req, res) => {
       return res.status(400).send({ error: "user already exists" });
     }
 
-    const newUser = new UserModel(req.body);
-    if (req.file) {
+    if (!req.file) {
+      return res.status(400).send({ error: "Please select an image" });
+    } else {
       const avatarURL = await imageUpload(req.file, "users_avatar");
-      newUser.avatar = avatarURL;
+
+      const sPassword = await SecurePassword(req.body.password);
+      const newUser = new UserModel({
+        name: req.body.name,
+        email: req.body.email,
+        password: sPassword,
+        avatar: avatarURL,
+      });
+      await newUser.save();
+
+      res.status(200).send({ message: "New user created" });
     }
-
-    await newUser.save();
-
-    const sPassword = await SecurePassword(req.body.password);
-    const userForFront = new UserModel({
-      name: newUser.name,
-      email: newUser.email,
-      password: sPassword,
-      avatar: newUser.avatar,
-    });
-
-    // res.status(200).send({ Result: newUser });
-    res.status(200).send({ Result: userForFront });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send({ error: error });
   } finally {
     removeTempFile(req.file);
   }
@@ -56,10 +54,7 @@ const UsersAllData = async (req, res) => {
     const userData = await UserModel.find({}, "name email avatar createdAt");
     res.status(200).json(userData);
   } catch (error) {
-    res.status(200).json({
-      error: error.message,
-      code: error.code,
-    });
+    res.status(200).json({ error: error });
   }
 };
 
@@ -81,7 +76,7 @@ const UserLogin = async (req, res) => {
       res.status(200).json({ error: "User Login failed" });
     }
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(400).json({ error: error });
   }
 };
 

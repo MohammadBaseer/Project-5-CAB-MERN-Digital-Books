@@ -10,7 +10,7 @@ const DashboardSidebar = () => {
         <div className={styles.nav_elements}>
           <ul className={styles.ul_main}>
             <li className={styles.li_main}>
-              <NavLink to="dashboardhome">
+              <NavLink to="dashboard">
                 <span className="pi pi-home"> Dashboard</span>
               </NavLink>
             </li>

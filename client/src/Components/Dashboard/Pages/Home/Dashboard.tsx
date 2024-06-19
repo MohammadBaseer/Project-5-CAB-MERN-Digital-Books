@@ -1,7 +1,8 @@
 import { BodyStyleFun } from "../../../Website/Layout/BodyStyleFun";
 import DashboardNavbar from "../../DashboardElements/DashboardNavbar/DashboardNavbar";
-import styles from "./DashboardHome.module.scss";
-const DashboardHome = () => {
+import styles from "./Dashboard.module.scss";
+
+const Dashboard = () => {
   // BodyStyleFun();
 
   return (
@@ -20,4 +21,4 @@ const DashboardHome = () => {
     </>
   );
 };
-export default DashboardHome;
+export default Dashboard;

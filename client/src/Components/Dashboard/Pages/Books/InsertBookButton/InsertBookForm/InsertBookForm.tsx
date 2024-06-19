@@ -66,7 +66,9 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
 
           <div className={styles.row}>
             <div className={styles.col_25}>
-              <label htmlFor="title">Book Title:</label>
+              <label className={styles.elements_label} htmlFor="title">
+                Book Title:
+              </label>
             </div>
             <div className={styles.col_75}>
               <input type="text" id="title" name="title" placeholder="Book title.." value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -75,7 +77,9 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
 
           <div className={styles.row}>
             <div className={styles.col_25}>
-              <label htmlFor="author">Book Authors: </label>
+              <label className={styles.elements_label} htmlFor="author">
+                Book Authors:{" "}
+              </label>
             </div>
             <div className={styles.col_75}>
               <textarea id="author" name="author" placeholder="Author1, Author2, Author3..." value={author} onChange={(e) => setAuthor(e.target.value)} />
@@ -84,7 +88,7 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
 
           <br />
           <div className={styles.row}>
-            <input type="submit" value="Submit" />
+            <input className={styles.submit_btn} type="submit" value="Submit" />
           </div>
         </form>
       </div>

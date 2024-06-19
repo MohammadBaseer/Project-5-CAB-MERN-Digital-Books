@@ -1,9 +1,32 @@
-* {
-  box-sizing: border-box !important;
-}
-.form {
-  padding: 15px;
-  border: none;
+.container {
+  border-radius: 5px;
+
+  .form {
+    padding: 15px;
+    border: none;
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .flex {
+      display: flex;
+      align-items: center;
+    }
+    .submit_btn {
+      background-color: #476a8d;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      float: right;
+
+      &:hover {
+        background-color: #5e7e9f;
+      }
+    }
+  }
 }
 input[type="text"],
 input[type="number"],
@@ -16,64 +39,35 @@ textarea {
   resize: vertical;
 }
 
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
-}
-
-input[type="submit"] {
-  background-color: #476a8d;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  float: right;
-}
-
-input[type="submit"]:hover {
-  background-color: #5e7e9f;
-}
-
-.container {
-  border-radius: 5px;
-  /* background-color: #f2f2f2; */
-  /* padding: 20px; */
-}
-
 .col_25 {
   float: left;
   width: 25%;
   margin-top: 6px;
+  .elements_label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+  }
 }
 
 .col_75 {
   float: left;
   width: 75%;
   margin-top: 6px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-.file {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  .image {
-    width: 90px !important;
-    height: 100px;
-    border-radius: 5px !important;
-    margin: 5px;
+  .file {
+    display: flex !important;
+    align-items: center;
+    cursor: pointer;
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+    .image {
+      width: 90px !important;
+      height: 100px;
+      border-radius: 5px !important;
+      margin: 5px;
+    }
   }
 }
-.flex {
-  display: flex;
-  align-items: center;
-}
+
 /* .avatar{
    width: 100px !important;
   } */
@@ -82,7 +76,7 @@ input[type="submit"]:hover {
 @media screen and (max-width: 600px) {
   .col-25,
   .col-75,
-  input[type="submit"] {
+  .submit_btn[type="submit"] {
     width: 100%;
     margin-top: 0;
   }

@@ -6,6 +6,7 @@ import * as dotenv from "dotenv";
 import booksRoute from "./routes/booksRoute.js";
 import UserRouter from "./routes/userRoute.js";
 import { cloudinaryConfig } from "./config/Cloudinary.js";
+import { CommentRoute } from "./routes/commentsRoute.js";
 
 dotenv.config();
 const app = express();
@@ -21,18 +22,19 @@ const addMiddlewares = () => {
 const startServer = () => {
   const port = process.env.port || 5000;
   app.listen(port, () => {
-    console.log("server is running on Por", port);
+    console.log("server is running on Port", port);
   });
 };
 
 const loadRoots = () => {
-
-
   // books
   app.use("/api", booksRoute);
 
   //  Users
   app.use("/auth", UserRouter);
+
+  // Comment
+  app.use("/api", CommentRoute);
 
   // Wrong Url Validation
   app.use("*", (req, res) => {

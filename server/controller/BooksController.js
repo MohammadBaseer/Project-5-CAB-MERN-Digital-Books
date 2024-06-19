@@ -10,10 +10,10 @@ const displayBook = async (req, res) => {
     res.status(200).json({
       allBooks,
     });
-  } catch (message) {
-    console.log("message", message);
+  } catch (error) {
+    console.log("error", error);
     res.status(400).json({
-      message: "Something went wrong",
+      error: "Something went wrong",
     });
   }
 };
@@ -25,10 +25,10 @@ const displayBookById = async (req, res) => {
   try {
     const allBooks = await BookModel.findById({ _id: fetchByIdPrams }).populate("detail");
     res.status(201).json(allBooks);
-  } catch (message) {
-    console.log("message", message);
+  } catch (error) {
+    console.log("error", error);
     res.status(400).json({
-      message: "Something went wrong",
+      error: "Something went wrong",
     });
   }
 };
@@ -37,51 +37,71 @@ const displayBookById = async (req, res) => {
 
 const bookInsert = async (req, res) => {
   if (!req.body.title || !req.body.authors) {
-    return res.status(400).json({ message: "inputs missing" });
+    return res.status(400).json({ error: "inputs missing" });
     removeTempFile(req.file);
   }
   try {
     //1. store the image in Cloudinary
     let imageUrl = req.body.image;
     if (!req.file) {
-      return res.status(400).json({ message: "Image is missing" });
+      return res.status(400).json({ error: "Image is missing" });
     } else {
       let imageUrl = await imageUpload(req.file, "books_images");
-
       //2. create a new object (new BookModel) with the title from the body and url from cloudinary
       const insertNewData = new BookModel({
         title: req.body.title,
         image: imageUrl,
         authors: req.body.authors.split(","),
       });
-
       //3. save that object to the database
       await insertNewData.save();
-
       //4. send response with confirmation to the client
-      res.status(200).json({ message: "New book inserted", test: insertNewData });
+      res.status(200).json({ error: "New book inserted", test: insertNewData });
     }
-  } catch (message) {
-    res.status(400).json({ message: message });
+  } catch (error) {
+    res.status(400).json({ error: error });
   } finally {
     removeTempFile(req.file);
   }
 };
 
 //! Display by ID and update API Endpoint
-
+//REVIEW -  //! Should Add the image update Fun
 const bookUpdate = async (req, res) => {
   const bookId = req.params.id;
-
+  if (!req.body.title || !req.body.authors) {
+    return res.status(400).json({ error: "inputs missing" });
+    // removeTempFile(req.file);
+  }
   try {
-    const result = await BookModel.replaceOne({ _id: bookId }, req.body);
-
-    console.log("result ======> ", result);
-
-    res.status(200).json({ result });
-  } catch (message) {
-    res.status(400).json({ message: message });
+    const authors = req.body.authors.split(",")
+    const doc = {
+    title: req.body.title,
+    image: req.body.image,
+    authors : authors
+    }
+    const result = await BookModel.findByIdAndUpdate({ _id: bookId }, doc, {new: true});
+    res.status(200).json({ error: "Update successful" });
+  } catch (error) {
+    res.status(400).json({ error: error });
   }
 };
 
-export { displayBookById, displayBook, bookInsert, bookUpdate };
+
+//! Display by ID API Endpoint
+const deleteBook = async (req, res) => {
+  const doc_id = req.params.id;
+  console.log("doc_id", doc_id);
+  try {
+    const deleteBook = await BookModel.findByIdAndDelete({ _id: doc_id });
+    res.status(201).json({error: "Book deleted"});
+  } catch (error) {
+    console.log("error", error);
+    res.status(400).json({
+      error: "Something went wrong",
+    });
+  }
+};
+
+
+export { displayBookById, displayBook, bookInsert, bookUpdate, deleteBook};

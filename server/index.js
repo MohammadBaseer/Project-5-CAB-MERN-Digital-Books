@@ -3,7 +3,6 @@ import cors from "cors";
 import mongoose from "mongoose";
 import colors from "colors";
 import * as dotenv from "dotenv";
-import productsRouter from "./routes/productsRoute.js";
 import booksRoute from "./routes/booksRoute.js";
 import UserRouter from "./routes/userRoute.js";
 import { cloudinaryConfig } from "./config/Cloudinary.js";
@@ -27,8 +26,7 @@ const startServer = () => {
 };
 
 const loadRoots = () => {
-  // Products
-  app.use("/api/products", productsRouter);
+
 
   // books
   app.use("/api", booksRoute);

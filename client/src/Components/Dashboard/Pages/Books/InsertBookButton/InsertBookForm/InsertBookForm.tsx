@@ -1,6 +1,6 @@
 import styles from "./InsertBookForm.module.scss";
-import add from "../../../../../../assets/img/registrationFormAvatar/addAvatar.png";
-import { Dispatch, SetStateAction, useState } from "react";
+import add from "../../../../../../assets/img/dashboard/addbook.png";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 type DisplayToggleProps = {
   setDisplayToggle: Dispatch<SetStateAction<boolean>>;
@@ -8,6 +8,9 @@ type DisplayToggleProps = {
 
 const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
   // UseState to get my input data
+  const selectedFile = useRef<File | null>(null);
+
+  const [imageDisplay, setImageDisplay] = useState(null);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [file, setFile] = useState<File | null | any>(null);
@@ -22,7 +25,25 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
       console.log("========>", error);
     }
   };
+  // ! image preview
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
+    if (file) {
+      URL.revokeObjectURL(file);
+    }
+    if (e.target.files && e.target.files.length > 0) {
+      selectedFile.current = e.target.files[0];
+      const tempURL = URL.createObjectURL(e.target.files[0]);
+      setFile(tempURL);
+    } else {
+      if (file) {
+        URL.revokeObjectURL(file);
+      }
+    }
+  };
+
+  //! ----------------------------------------
   return (
     <>
       <div className={styles.container}>
@@ -35,22 +56,11 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
             </div>
             <div className={styles.col_75}>
               <label htmlFor="file" className={styles.file}>
-                <img className={styles.avatar} src={add} alt="" />
+                <img className={styles.image} src={file !== null ? file : add} alt="" />
                 <span>Add an Image</span>
               </label>
 
-              <input
-                type="file"
-                id="file"
-                name="file"
-                placeholder="Your last name.."
-                style={{ display: "none" }}
-                onChange={(e) => {
-                  if (e.target.files) {
-                    setFile(e.target.files[0]);
-                  }
-                }}
-              />
+              <input type="file" id="file" name="file" placeholder="Your last name.." style={{ display: "none" }} onChange={handleFileChange} />
             </div>
           </div>
 

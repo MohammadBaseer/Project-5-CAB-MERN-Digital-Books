@@ -3,6 +3,7 @@ import { FetchApiContext } from "../../../../Context/FetchApiContext";
 import DashboardNavbar from "../../DashboardElements/DashboardNavbar/DashboardNavbar";
 import styles from "./DashboardBooks.module.scss";
 import "primeicons/primeicons.css";
+import InsertBookButtonModal from "./InsertBookButton/InsertBookButtonModal/InsertBookButtonModal";
 
 const DashboardBooks = () => {
   const { data } = useContext(FetchApiContext);
@@ -16,9 +17,7 @@ const DashboardBooks = () => {
         </h2>
         <div className={styles.table_box}>
           <div className={styles.button_section}>
-            <button>
-              <span className="pi pi-plus"></span> Add New Book
-            </button>
+            <InsertBookButtonModal />
           </div>
           <table className={styles.table}>
             <thead>

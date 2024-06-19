@@ -14,6 +14,16 @@ const insertComments = async (req, res) => {
   }
 };
 
+//! Fetch Comment APi Endpoint
+const fetchComments = async (req, res) => {
+  try {
+    const allComments = await CommentModel.find();
+    res.status(200).json(allComments);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 //! Delete Comment APi Endpoint
 const deleteComments = async (req, res) => {
   const commentID = req.params.id;
@@ -25,4 +35,4 @@ const deleteComments = async (req, res) => {
   }
 };
 
-export { insertComments, deleteComments };
+export { insertComments, deleteComments, fetchComments };

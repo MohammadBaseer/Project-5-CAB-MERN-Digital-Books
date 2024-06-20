@@ -14,13 +14,15 @@ const InsertBookButtonModal = () => {
     }
   };
 
-  return (
+  return ( 
     <>
+
       <button onClick={formToggle}>
         <span className="pi pi-plus"></span> Add New Book{" "}
       </button>
       <div id="myModal" className={styles.modal} style={displayToggle === true ? { display: "block" } : { display: "none" }}>
         <div className={styles.modal_content}>
+          {/* //REVIEW -  //! Run a fun to clear for data if close the modal */}
           <span className={styles.close} onClick={formToggle}>
             {" "}
             &times;{" "}

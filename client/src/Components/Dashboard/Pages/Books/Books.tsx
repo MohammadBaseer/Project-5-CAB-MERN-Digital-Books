@@ -1,13 +1,12 @@
 import { useContext } from "react";
 import { FetchApiContext } from "../../../../Context/FetchApiContext";
 import DashboardNavbar from "../../DashboardElements/DashboardNavbar/DashboardNavbar";
-import styles from "./DashboardBooks.module.scss";
+import styles from "./Books.module.scss";
 import "primeicons/primeicons.css";
 import InsertBookButtonModal from "./InsertBookButton/InsertBookButtonModal/InsertBookButtonModal";
 
-const DashboardBooks = () => {
+const Books = () => {
   const { data } = useContext(FetchApiContext);
-  console.log("data======>", data);
   return (
     <div className={styles.main_container}>
       <DashboardNavbar />
@@ -75,4 +74,4 @@ const DashboardBooks = () => {
   );
 };
 
-export default DashboardBooks;
+export default Books;

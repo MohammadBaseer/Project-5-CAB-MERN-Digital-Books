@@ -9,7 +9,7 @@ import FetchApiContextProvider from "./Context/FetchApiContext";
 import BooksDetails from "./Components/Website/Pages/Books/BooksDetails/BooksDetails";
 import BookReadMode from "./Components/Website/Pages/Books/BookReadMode/BookReadMode";
 import DashboardLayout from "./Components/Dashboard/DashboardLayout/DashboardLayout";
-import DashboardBooks from "./Components/Dashboard/Pages/Books/DashboardBooks";
+import BooksFromDashboard from "./Components/Dashboard/Pages/Books/Books";
 import User from "./Components/Dashboard/Pages/UserProfile/Users";
 import Dashboard from "./Components/Dashboard/Pages/Home/Dashboard";
 
@@ -42,7 +42,7 @@ function App() {
             path="books-table"
             element={
               <FetchApiContextProvider>
-                <DashboardBooks />
+                <BooksFromDashboard />
               </FetchApiContextProvider>
             }
           />

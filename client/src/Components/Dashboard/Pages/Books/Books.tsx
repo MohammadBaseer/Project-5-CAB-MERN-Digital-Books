@@ -4,9 +4,11 @@ import DashboardNavbar from "../../DashboardElements/DashboardNavbar/DashboardNa
 import styles from "./Books.module.scss";
 import "primeicons/primeicons.css";
 import InsertBookButtonModal from "./InsertBookButton/InsertBookButtonModal/InsertBookButtonModal";
+import BookDelete from "./BookDelete/BookDelete";
 
 const Books = () => {
   const { data } = useContext(FetchApiContext);
+
   return (
     <div className={styles.main_container}>
       <DashboardNavbar />
@@ -58,10 +60,8 @@ const Books = () => {
                         <a href="#">
                           <span className="pi pi-file-edit">&nbsp;</span>
                         </a>
-                        {/* Delete */}
-                        <a href="#">
-                          <span className="pi pi-trash">&nbsp;</span>
-                        </a>
+                        {/* Delete Confirm Notified */}
+                        <BookDelete id={book._id} />
                       </td>
                     </tr>
                   );

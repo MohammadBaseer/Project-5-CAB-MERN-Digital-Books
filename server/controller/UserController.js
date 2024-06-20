@@ -3,7 +3,8 @@ import UserModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import { imageUpload } from "../utils/imageManagement.js";
 import { removeTempFile } from "../utils/tempFileManagement.js";
-import { encryptPassword } from "../utils/Bcrypt/PasswordService.js";
+import { encryptPassword, verifyPassword } from "../utils/Bcrypt/PasswordService.js";
+import generateToken from "../utils/tokenServices.js";
 
 const RegisterUser = async (req, res) => {
   if (!req.body.name || !req.body.email || !req.body.password) {
@@ -69,20 +70,43 @@ const UsersAllData = async (req, res) => {
 
 //! User Login
 const UserLogin = async (req, res) => {
+  if (!req.body.email || !req.body.password) {
+    res.status(400).json({ error: "Credentials missing" });
+    return;
+  }
   try {
-    const email = req.body.email;
-    const password = req.body.password;
-    const userData = await UserModel.findOne({ email: email });
-    console.log("userData", userData);
-    if (userData) {
-      const passwordMatch = await bcrypt.compare(password, userData.password);
-      if (passwordMatch) {
-        res.status(200).json({ Success: "User Found" });
-      } else {
-        res.status(200).json({ error: "User Login failed" });
+    const existingUser = await UserModel.findOne({ email: req.body.email });
+    if (!existingUser) {
+      res.status(400).json({ error: "Email is not registered" });
+      return;
+    }
+
+    if (existingUser) {
+      const isPasswordCorrect = await verifyPassword(req.body.password, existingUser.password);
+
+      if (!isPasswordCorrect) {
+        res.status(400).json({ Success: "Password doesn't match" });
+        return;
       }
-    } else {
-      res.status(200).json({ error: "User Login failed" });
+      if (isPasswordCorrect) {
+        const token = generateToken(existingUser._id);
+        if (!token) {
+          res.status(400).json({ error: "Something went wrong with token" });
+          return;
+        }
+        if (token) {
+          res.status(200).json({
+            Success: "Login Successful",
+            user: {
+              _id: existingUser._id,
+              name: existingUser.name,
+              email: existingUser.email,
+              avatar: existingUser.avatar,
+            },
+            token: token,
+          });
+        }
+      }
     }
   } catch (error) {
     res.status(400).json({ error: error });

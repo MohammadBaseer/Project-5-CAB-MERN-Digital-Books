@@ -14,7 +14,6 @@ const encryptPassword = async (plainPassword) => {
 
 const verifyPassword = async (plainPassword, hashedPassword) => {
   const isPasswordCorrect = await bcrypt.compare(plainPassword, hashedPassword);
-  console.log("isPasswordCorrect :>> ", isPasswordCorrect);
   return isPasswordCorrect;
 };
 

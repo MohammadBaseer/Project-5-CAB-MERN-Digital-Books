@@ -1,48 +1,57 @@
 import colors from "colors";
 import UserModel from "../models/userModel.js";
-import { SecurePassword } from "../utils/Bcrypt/PasswordHash.js";
 import bcrypt from "bcrypt";
 import { imageUpload } from "../utils/imageManagement.js";
 import { removeTempFile } from "../utils/tempFileManagement.js";
+import { encryptPassword } from "../utils/Bcrypt/PasswordService.js";
 
 const RegisterUser = async (req, res) => {
-  // console.log("File =============>>>>>>>>>", req.file);
   if (!req.body.name || !req.body.email || !req.body.password) {
-    return res.status(400).json({ error: "Credentials missing" });
     removeTempFile(req.file);
+    res.status(400).json({ error: "Credentials missing" });
+    return;
   }
-  //1. check if user exists?
-  //if it exists, just send response to client
-
-  //2. User do not exist?
-  //a) store image
-  //b)create new user object with the model
-  //c)send response to client.
   try {
     const existUser = await UserModel.findOne({ email: req.body.email });
     if (existUser) {
       removeTempFile(req.file);
-      return res.status(400).send({ error: "user already exists" });
+      res.status(400).json({ error: "user already exists" });
+      return;
     }
+    if (!existUser) {
+      const encryptedPassword = await encryptPassword(req.body.password);
+      if (!encryptedPassword) {
+        console.log("error encrypting password");
 
-    if (!req.file) {
-      return res.status(400).send({ error: "Please select an image" });
-    } else {
-      const avatarURL = await imageUpload(req.file, "users_avatar");
+        res.status(400).json({ error: "Password encrypt error" });
+        return;
+      }
+      if (encryptedPassword) {
+        const newUser = new UserModel({
+          email: req.body.email,
+          password: encryptedPassword,
+          name: req.body.name,
+        });
 
-      const sPassword = await SecurePassword(req.body.password);
-      const newUser = new UserModel({
-        name: req.body.name,
-        email: req.body.email,
-        password: sPassword,
-        avatar: avatarURL,
-      });
-      await newUser.save();
-
-      res.status(200).send({ message: "New user created" });
+        if (!req.file) {
+          return res.status(400).json({ error: "Please select an image" });
+        }
+        if (req.file) {
+          const avatarURL = await imageUpload(req.file, "users_avatar");
+          newUser.avatar = avatarURL;
+        }
+        await newUser.save();
+        const userForFront = {
+          _id: newUser._id,
+          name: newUser.name,
+          email: newUser.email,
+          avatar: newUser.avatar,
+        };
+        res.status(200).json({ message: "New user created", userForFront });
+      }
     }
   } catch (error) {
-    res.status(400).send({ error: error });
+    res.status(400).json({ error: error });
   } finally {
     removeTempFile(req.file);
   }

@@ -7,6 +7,7 @@ import booksRoute from "./routes/booksRoute.js";
 import UserRouter from "./routes/userRoute.js";
 import { cloudinaryConfig } from "./config/Cloudinary.js";
 import { CommentRoute } from "./routes/commentsRoute.js";
+import { bookDetailRoute } from "./routes/bookDetailRoute.js";
 
 dotenv.config();
 const app = express();
@@ -29,6 +30,9 @@ const startServer = () => {
 const loadRoots = () => {
   // books
   app.use("/api", booksRoute);
+
+  // book detail
+  app.use("/api", bookDetailRoute);
 
   //  Users
   app.use("/auth", UserRouter);

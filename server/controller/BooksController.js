@@ -56,7 +56,7 @@ const bookInsert = async (req, res) => {
       //3. save that object to the database
       await insertNewData.save();
       //4. send response with confirmation to the client
-      res.status(200).json({ error: "New book inserted", test: insertNewData });
+      res.status(200).json({ error: "New book inserted" });
     }
   } catch (error) {
     res.status(400).json({ error: error });
@@ -74,19 +74,18 @@ const bookUpdate = async (req, res) => {
     // removeTempFile(req.file);
   }
   try {
-    const authors = req.body.authors.split(",")
+    const authors = req.body.authors.split(",");
     const doc = {
-    title: req.body.title,
-    image: req.body.image,
-    authors : authors
-    }
-    const result = await BookModel.findByIdAndUpdate({ _id: bookId }, doc, {new: true});
+      title: req.body.title,
+      image: req.body.image,
+      authors: authors,
+    };
+    const result = await BookModel.findByIdAndUpdate({ _id: bookId }, doc, { new: true });
     res.status(200).json({ error: "Update successful" });
   } catch (error) {
     res.status(400).json({ error: error });
   }
 };
-
 
 //! Display by ID API Endpoint
 const deleteBook = async (req, res) => {
@@ -94,7 +93,7 @@ const deleteBook = async (req, res) => {
   console.log("doc_id", doc_id);
   try {
     const deleteBook = await BookModel.findByIdAndDelete({ _id: doc_id });
-    res.status(201).json({error: "Book deleted"});
+    res.status(201).json({ error: "Book deleted" });
   } catch (error) {
     console.log("error", error);
     res.status(400).json({
@@ -103,5 +102,4 @@ const deleteBook = async (req, res) => {
   }
 };
 
-
-export { displayBookById, displayBook, bookInsert, bookUpdate, deleteBook};
+export { displayBookById, displayBook, bookInsert, bookUpdate, deleteBook };

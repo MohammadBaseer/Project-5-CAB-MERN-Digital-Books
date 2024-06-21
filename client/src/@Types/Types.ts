@@ -6,8 +6,17 @@ export type NotOkType = {
 
 export type User = {
   email: string;
-  username: string;
+  name: string;
   _id: string;
+};
+
+
+export type LoginOkResponse = {
+  token: string;
+  _id: string;
+  name: string;
+  email: string;
+  error: NotOkType;
 };
 
 //! Books Data Type

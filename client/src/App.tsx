@@ -1,4 +1,5 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import { useEffect } from "react";
 import Home from "./Components/Website/Pages/Home/Home";
 import Contact from "./Components/Website/Pages/Contact/Contact";
 import Login from "./Components/Dashboard/AuthAction/Login/Login";
@@ -12,6 +13,8 @@ import DashboardLayout from "./Components/Dashboard/DashboardLayout/DashboardLay
 import BooksFromDashboard from "./Components/Dashboard/Pages/Books/Books";
 import User from "./Components/Dashboard/Pages/UserProfile/Users";
 import Dashboard from "./Components/Dashboard/Pages/Home/Dashboard";
+import { getToken } from "./Utils/tokenServices";
+
 
 function App() {
   const router = createBrowserRouter(
@@ -51,6 +54,16 @@ function App() {
     )
   );
 
+
+  useEffect(() => {
+  const isUserLogged = getToken();
+  if (isUserLogged) {
+    console.log("user is LOGGED IN");
+  } else {
+    console.log("user is NOT LOGGED IN");
+  }
+  }, [])
+  
   return (
     <>
       <RouterProvider router={router} />

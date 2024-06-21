@@ -2,9 +2,10 @@ import "primeicons/primeicons.css";
 import styles from "./NavbarHead.module.scss";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { removeToken } from "../../../Utils/tokenServices";
 
 const NavbarHead = () => {
-  const { user, setUser } = useState<boolean>(true);
+  const { user, setUser } = useState<boolean>(false);
   //! in every location change the toggle state
   const location = useLocation();
   //!---------------------------------------------------------------------------------
@@ -18,6 +19,12 @@ const NavbarHead = () => {
     } else {
       setProfileNavbarToggle(true);
     }
+  };
+  //!---------------------------------------------------------------------------------
+//! Logout Function
+  const logout = () => {
+    removeToken();
+    setUser(false);
   };
   //!---------------------------------------------------------------------------------
 
@@ -34,11 +41,7 @@ const NavbarHead = () => {
           <div className={styles.nav_elements}>
             {!user ? (
               <>
-                <Link to="/cart">
-                  <i className="pi pi-shopping-cart">
-                    <span> 0</span>
-                  </i>
-                </Link>
+
 
                 <div className={styles.user_tab_navbar}>
                   <div className={styles.user_tab_navbar_photo}>
@@ -73,7 +76,7 @@ const NavbarHead = () => {
                       </Link>
                     </div>
                     <div className={styles.user_tab_navbar_element}>
-                      <Link to="#">
+                      <Link to="#"  onClick={logout}>
                         <span className="pi pi-sign-out"> Logout</span>
                       </Link>
                     </div>

@@ -84,7 +84,7 @@ const ViewBook = ({ book }) => {
                 Size: 7.25" l x 5.09" w x 0.68" h
               </h3>
             ) : (
-              <InsertBookDetailForm />
+              <InsertBookDetailForm id={book._id}/>
             )}
           </div>
         </div>

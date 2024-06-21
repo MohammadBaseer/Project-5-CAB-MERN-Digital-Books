@@ -7,7 +7,7 @@ const BooksDetailsSchema = new Schema(
     longDescription: { type: String, required: true },
     categories: { type: [String], required: true },
     publishAt: { type: String, required: true },
-    bookref: { type: mongoose.Schema.ObjectId, ref: "book", required: true },
+    bookref: { type: mongoose.Schema.ObjectId, ref: "book"},
   },
   { timestamps: true }
 );

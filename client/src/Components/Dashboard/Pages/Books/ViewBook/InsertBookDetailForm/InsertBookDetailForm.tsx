@@ -3,34 +3,62 @@ import { NotOkType } from "../../../../../../@Types/Types";
 import styles from "./InsertBookDetailForm.module.scss";
 import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
 
-const InsertBookDetailForm = () => {
+const InsertBookDetailForm = ({id}) => {
   const [formToggle, setFormToggle] = useState<boolean>(false);
 
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
-  const [bookInput, setBookInput] = useState({ title: "", authors: "" });
+  const [bookDetailInput, setBookDetailInput] = useState({ longDescription: "", categories: "" , publishAt:"", bookref:id});
+
+
+//! OnChange Fun
+
+const getInputValues = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+  setBookDetailInput((prev) => {
+    return { ...prev, [e.target.name]: e.target.value };
+  });
+};
+
+
 
   const addProductHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+console.log("bookDetailInput", bookDetailInput);
+
     setErrorHandler("");
     e.preventDefault();
-    if (!bookInput.title.trim()) {
-      setErrorHandler("Title is missing");
+    if (!bookDetailInput.longDescription) {
+      setErrorHandler("Description is missing");
       return;
     }
-    if (!bookInput.authors.trim()) {
-      setErrorHandler("Author is missing");
+    if (!bookDetailInput.categories.trim()) {
+      setErrorHandler("Category is missing");
+      return;
+    }
+    if (!bookDetailInput.publishAt.trim()) {
+      setErrorHandler("Publish Date is missing");
       return;
     }
 
-    const formdata = new FormData();
-    formdata.append("title", bookInput.title);
-    formdata.append("authors", bookInput.authors);
+try {
+  const headers = new Headers();
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+    const body = new URLSearchParams();
+    body.append("bookref", bookDetailInput.bookref);
+    body.append("longDescription", bookDetailInput.longDescription);
+    body.append("categories", bookDetailInput.categories);
+    body.append("publishAt", bookDetailInput.publishAt);
 
-    try {
-      const response = await fetch(`${BaseURL}/api/books`, { method: "POST", body: formdata });
+    const requestOption = {
+      method: "POST",
+      headers: headers,
+      body: body,
+    }
+
+      const response = await fetch(`${BaseURL}/api/book/detail`, requestOption);
       console.log("response", response);
       if (response.ok) {
         await response.json();
-        setBookInput({ title: "", authors: "" });
+        setBookDetailInput({ longDescription: "", categories: "" , publishAt:"", bookref:""});
+        setFormToggle(false);
       }
       if (!response.ok) {
         const data = (await response.json()) as NotOkType;
@@ -42,17 +70,7 @@ const InsertBookDetailForm = () => {
     }
   };
 
-  //! OnChange Fun
-
-  const getInputValues = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
-    setBookInput((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
-  };
-  // ! image preview
-
-  //! ----------------------------------------
-
+  
   return (
     <>
       <button onClick={() => setFormToggle(true)}>
@@ -67,44 +85,41 @@ const InsertBookDetailForm = () => {
           </span>
           <h2>Insert Book Detail</h2>
           <hr />
-
           <div className={styles.container}>
             <form className={styles.form} onSubmit={addProductHandler}>
+
+              <div className={styles.row}>
+                <div className={styles.col_25}>
+                  <label className={styles.elements_label} htmlFor="description">
+                    Book Description:{" "}
+                  </label>
+                </div>
+                <div className={styles.col_75}>
+                  <textarea id="description" name="longDescription" placeholder="Description" rows={20} value={bookDetailInput.longDescription} onChange={getInputValues} />
+                </div>
+              </div>
+
+
               <div className={`${styles.row} ${styles.flex}`}>
                 <div className={styles.col_25}>
-                  <label htmlFor="file" className={styles.file}>
-                    Book Photo:
+                  <label htmlFor="categories" className={styles.file}>
+                    Book Category:
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <label htmlFor="file" className={styles.file}>
-                    Title
-                  </label>
-
-                  <input type="file" id="file" name="image" placeholder="Your last name.." />
+                  <input type="text" id="categories" name="categories" placeholder="Category1, Category2, Category3 .." value={bookDetailInput.categories} onChange={getInputValues}/>
                 </div>
               </div>
 
-              <div className={styles.row}>
+
+              <div className={`${styles.row} ${styles.flex}`}>
                 <div className={styles.col_25}>
-                  <label className={styles.elements_label} htmlFor="title">
-                    Book Title:
+                  <label htmlFor="publishAt" className={styles.file}>
+                    Publish Date:
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <input type="text" id="title" name="title" placeholder="Book title.." value={bookInput.title} onChange={getInputValues} />
-                </div>
-              </div>
-
-              <div className={styles.row}>
-                <div className={styles.col_25}>
-                  <label className={styles.elements_label} htmlFor="authors">
-                    Book Authors:{" "}
-                  </label>
-                </div>
-                <div className={styles.col_75}>
-                  <textarea id="authors" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
-
+                  <input type="date" id="publishAt" name="publishAt" placeholder="Your last name.." value={bookDetailInput.publishAt} onChange={getInputValues}/>
                   <div className={styles.error}>{errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}</div>
                 </div>
               </div>

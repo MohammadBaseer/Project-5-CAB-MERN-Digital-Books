@@ -85,7 +85,7 @@ const UserLogin = async (req, res) => {
       const isPasswordCorrect = await verifyPassword(req.body.password, existingUser.password);
 
       if (!isPasswordCorrect) {
-        res.status(400).json({ Success: "Password doesn't match" });
+        res.status(400).json({ error: "Password doesn't match" });
         return;
       }
       if (isPasswordCorrect) {

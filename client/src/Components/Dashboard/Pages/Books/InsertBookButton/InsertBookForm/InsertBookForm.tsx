@@ -124,9 +124,15 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
             </div>
             <div className={styles.col_75}>
               <textarea id="authors" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
+
+              <div className={styles.error}>
+                 {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}
+              </div>
+              
             </div>
+            
           </div>
-          {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}
+         
           <br />
           <div className={styles.row}>
             <input className={styles.submit_btn} type="submit" value="Submit" />

@@ -1,10 +1,11 @@
-import { useContext } from "react";
 import { FetchApiContext } from "../../../../Context/FetchApiContext";
 import DashboardNavbar from "../../DashboardElements/DashboardNavbar/DashboardNavbar";
 import styles from "./Books.module.scss";
 import "primeicons/primeicons.css";
 import InsertBookButtonModal from "./InsertBookButton/InsertBookButtonModal/InsertBookButtonModal";
 import BookDelete from "./BookDelete/BookDelete";
+import ViewBook from "./ViewBook/ViewBook";
+import { useContext } from "react";
 
 const Books = () => {
   const { data } = useContext(FetchApiContext);
@@ -45,9 +46,9 @@ const Books = () => {
 
                       <td>
                         {/* Book Details */}
-                        <a href="#">
-                          <span className="pi pi-file">&nbsp;</span>
-                        </a>
+
+                        <ViewBook book={book} />
+
                         {/* SECTION Table of Content */}
                         <a href="#">
                           <span className="pi pi-receipt">&nbsp;</span>

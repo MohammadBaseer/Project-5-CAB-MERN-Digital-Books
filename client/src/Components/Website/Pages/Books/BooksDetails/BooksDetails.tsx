@@ -2,32 +2,27 @@ import { useParams } from "react-router-dom";
 import styles from "./BooksDetails.module.scss";
 import "primeicons/primeicons.css";
 import { useEffect, useState } from "react";
-
 import { BooksDataType } from "../../../../../@Types/Types";
+import { ApiFetchDataFun } from "../../../../../Utils/FetchApICustomFunctions/BookDetailCustomFunction/BookDetailCustomFunction";
+
+
 
 const BooksDetails = () => {
   const [data, setData] = useState<BooksDataType | null>(null);
   let { id } = useParams();
-
-  const ApiFetchDataFun = async () => {
-    // const ApiURL = "http://localhost:5000/api/books/66630ce850d41bcb8fa629d6";
-    const ApiURL = `http://localhost:5000/api/books/${id}`;
-
-    try {
-      const url = await fetch(ApiURL);
-      const result = (await url.json()) as BooksDataType;
-      console.log("result ====> ", result);
-      setData(result);
-    } catch (error) {}
-  };
+id = id as string
 
   useEffect(() => {
-    ApiFetchDataFun();
-  }, []);
+    const fetchData = async (id:string) => {
+      const result = await ApiFetchDataFun(id);
+      if (result) {
+        setData(result);
+      }
+    };
+    fetchData(id);
+  }, [id]);
 
-  // if (data) {
-  //   console.log("data------->>>>", data.detail.date);
-  // }
+
 
   return (
     <>

@@ -1,0 +1,127 @@
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal_content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  
+.container {
+    border-radius: 5px;
+  
+    .form {
+      padding: 15px;
+      border: none;
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .flex {
+        display: flex;
+        align-items: center;
+      }
+      .submit_btn {
+        background-color: #476a8d;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+  
+        &:hover {
+          background-color: #5e7e9f;
+        }
+      }
+    }
+  }
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+  
+  .col_25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+    .elements_label {
+      padding: 12px 12px 12px 0;
+      display: inline-block;
+    }
+  }
+  
+  .col_75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+    .file {
+      display: flex !important;
+      align-items: center;
+      cursor: pointer;
+      padding: 12px 12px 12px 0;
+      display: inline-block;
+      .image {
+        width: 90px !important;
+        height: 100px;
+        border-radius: 5px !important;
+        margin: 5px;
+      }
+    }
+    .error{
+      color: red;
+    }
+  }
+  
+  /* .avatar{
+     width: 100px !important;
+    } */
+  
+  /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .col-25,
+    .col-75,
+    .submit_btn[type="submit"] {
+      width: 100%;
+      margin-top: 0;
+    }
+  }
+  

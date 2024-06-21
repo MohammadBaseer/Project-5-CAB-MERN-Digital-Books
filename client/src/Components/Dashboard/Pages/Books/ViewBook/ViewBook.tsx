@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import styles from "./ViewBook.module.scss";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
+import InsertBookDetailForm from "./InsertBookDetailForm/InsertBookDetailForm";
 
 const ViewBook = ({ book }) => {
-console.log("books", book);
-
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
 
-  
   useEffect(() => {
     if (displayToggle) {
       document.body.style.overflow = "hidden";
@@ -65,35 +63,30 @@ console.log("books", book);
               </div>
             </div>
           </div>
-{/* ----------------------- */}
+          {/* ----------------------- */}
 
-
-
-{book.detail ? <div className="styles.toc_Container">
-          <div className="styles Overview">
-            <h2>Overview</h2>
-            <h3>{book?.detail?.longDescription}</h3>
+          <div className="styles.toc_Container">
+            <div className="styles Overview">
+              <h2>Overview</h2>
+              {book.detail ? <h3>{book?.detail?.longDescription}</h3> : ""}
+            </div>
+            <hr />
+            <h3>Additional Info</h3>
+            <hr />
+            <h3>Info</h3>{" "}
+            {book.detail ? (
+              <h3>
+                ISBN: {book?.detail?.isbn} <br />
+                Published Date: {book?.detail?.date} <br />
+                Publisher: Grand Central Publishing <br />
+                Language: English <br />
+                Page Count: {book?.detail?.pageCount} <br />
+                Size: 7.25" l x 5.09" w x 0.68" h
+              </h3>
+            ) : (
+              <InsertBookDetailForm />
+            )}
           </div>
-          <hr />
-          <h3>Additional Info</h3>
-          <hr />
-          <h3>Info</h3>{" "}
-          <h3>
-            ISBN: {book?.detail?.isbn} <br />
-            Published Date: {book?.detail?.date} <br />
-            Publisher: Grand Central Publishing <br />
-            Language: English <br />
-            Page Count: {book?.detail?.pageCount} <br />
-            Size: 7.25" l x 5.09" w x 0.68" h
-          </h3>
-        </div>: "Add Details"}
-
-
-
-
-
-
-
         </div>
       </div>
     </>

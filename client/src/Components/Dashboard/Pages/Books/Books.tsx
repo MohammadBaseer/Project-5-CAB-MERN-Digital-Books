@@ -45,10 +45,7 @@ const Books = () => {
                       <td>{book.authors}</td>
 
                       <td>
-                        {/* Book Details */}
-
                         <ViewBook book={book} />
-
                         {/* SECTION Table of Content */}
                         <a href="#">
                           <span className="pi pi-receipt">&nbsp;</span>

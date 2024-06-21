@@ -5,9 +5,9 @@ import { FetchApiContext } from "../../../../../Context/FetchApiContext";
 import { Link } from "react-router-dom";
 
 const BooksDisplayItem = () => {
+  //! FetchApiContext
   const { data } = useContext(FetchApiContext);
-
-  console.log("data======>", data);
+  //! ------------------------------------------------
   return (
     <>
       <h1>This is books Page</h1>
@@ -26,25 +26,19 @@ const BooksDisplayItem = () => {
                       <strong>{displayItem.title}</strong>
                     </p>
                     <p className={styles.author}>{displayItem.authors[0]}</p>
-                    <p className={styles.star}>
-                      
-                      
-                      
-                      </p>
+                    <p className={styles.star}></p>
                     <a href="/read" className={styles.read}>
                       <i className="pi pi-book"> Read</i>
                     </a>
                     {/* {const bookID = displayItem.id} */}
 
-
-
-
-                   {displayItem.detail ?  <Link to={`${displayItem._id}`} className={styles.content}><i className="pi pi-file"> Details</i></Link>: ""}
-
-
-
-
-
+                    {displayItem.detail ? (
+                      <Link to={`${displayItem._id}`} className={styles.content}>
+                        <i className="pi pi-file"> Details</i>
+                      </Link>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>

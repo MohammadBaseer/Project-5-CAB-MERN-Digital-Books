@@ -58,13 +58,7 @@ const BookDelete = ({ id }) => {
     <>
       <Toast ref={toastBC} />
 
-      <Link
-        to="#"
-        onClick={(e) => {
-          e.preventDefault();
-          confirm("item-id");
-        }}
-      >
+      <Link to="#" onClick={(e) => {e.preventDefault(); confirm("item-id");}}>
         <span className="pi pi-trash">&nbsp;</span>
       </Link>
     </>

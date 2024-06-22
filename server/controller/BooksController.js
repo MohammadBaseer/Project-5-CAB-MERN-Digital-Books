@@ -6,7 +6,7 @@ import { imageUpload } from "../utils/imageManagement.js";
 //! display All Book Data API Endpoint
 const displayBook = async (req, res) => {
   try {
-    const allBooks = await BookModel.find().populate("detail");
+    const allBooks = await BookModel.find().populate("detail").exec();
     res.status(200).json({
       allBooks,
     });

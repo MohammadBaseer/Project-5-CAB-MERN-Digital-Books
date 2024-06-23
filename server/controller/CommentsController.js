@@ -8,7 +8,7 @@ const insertComments = async (req, res) => {
   try {
     const insertNewComment = new CommentModel(req.body);
     await insertNewComment.save();
-    res.status(200).json({ msg: "Commented" });
+    res.status(200).json({ error: "Commented" });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

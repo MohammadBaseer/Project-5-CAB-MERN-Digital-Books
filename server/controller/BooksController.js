@@ -6,10 +6,8 @@ import { imageUpload } from "../utils/imageManagement.js";
 //! display All Book Data API Endpoint
 const displayBook = async (req, res) => {
   try {
-    const allBooks = await BookModel.find().populate("detail").exec();
-    res.status(200).json({
-      allBooks,
-    });
+    const allBooks = await BookModel.find().populate("detail").populate("comment");
+    res.status(200).json(allBooks);
   } catch (error) {
     console.log("error", error);
     res.status(400).json({
@@ -23,7 +21,7 @@ const displayBookById = async (req, res) => {
   const fetchByIdPrams = req.params.id;
   console.log("fetchByIdPrams", fetchByIdPrams);
   try {
-    const allBooks = await BookModel.findById({ _id: fetchByIdPrams }).populate("detail");
+    const allBooks = await BookModel.findById({ _id: fetchByIdPrams }).populate("detail").populate("comment");
     res.status(201).json(allBooks);
   } catch (error) {
     console.log("error", error);
@@ -34,28 +32,23 @@ const displayBookById = async (req, res) => {
 };
 
 //! Insert Data  API Endpoint
-
 const bookInsert = async (req, res) => {
   if (!req.body.title || !req.body.authors) {
     return res.status(400).json({ error: "inputs missing" });
     removeTempFile(req.file);
   }
   try {
-    //1. store the image in Cloudinary
     let imageUrl = req.body.image;
     if (!req.file) {
       return res.status(400).json({ error: "Image is missing" });
     } else {
       let imageUrl = await imageUpload(req.file, "books_images");
-      //2. create a new object (new BookModel) with the title from the body and url from cloudinary
       const insertNewData = new BookModel({
         title: req.body.title,
         image: imageUrl,
         authors: req.body.authors.split(","),
       });
-      //3. save that object to the database
       await insertNewData.save();
-      //4. send response with confirmation to the client
       res.status(200).json({ error: "New book inserted" });
     }
   } catch (error) {
@@ -71,7 +64,7 @@ const bookUpdate = async (req, res) => {
   const bookId = req.params.id;
   if (!req.body.title || !req.body.authors) {
     return res.status(400).json({ error: "inputs missing" });
-    // removeTempFile(req.file);
+    removeTempFile(req.file);
   }
   try {
     const authors = req.body.authors.split(",");

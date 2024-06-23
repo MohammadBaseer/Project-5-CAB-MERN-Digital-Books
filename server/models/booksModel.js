@@ -15,7 +15,14 @@ BookSchema.virtual("detail", {
   ref: "booksdetail",
   localField: "_id",
   foreignField: "bookref",
-  justOne: true, // Use justOne if you expect a one-to-one relationship
+  justOne: false,
+});
+
+BookSchema.virtual("comment", {
+  ref: "comment",
+  localField: "_id",
+  foreignField: "bookRef",
+  justOne: false,
 });
 
 BookSchema.set("toObject", { virtuals: true });

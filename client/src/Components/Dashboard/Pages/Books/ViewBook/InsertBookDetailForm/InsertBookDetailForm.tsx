@@ -7,7 +7,7 @@ const InsertBookDetailForm = ({ id }) => {
   const [formToggle, setFormToggle] = useState<boolean>(false);
 
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
-  const [bookDetailInput, setBookDetailInput] = useState({ longDescription: "", categories: "", publishAt: "", bookref: id });
+  const [bookDetailInput, setBookDetailInput] = useState({ longDescription: "", categories: "", publishAt: "" });
 
   //! OnChange Fun
 
@@ -32,16 +32,11 @@ const InsertBookDetailForm = ({ id }) => {
       setErrorHandler("Publish Date is missing");
       return;
     }
-    if (!bookDetailInput.bookref()) {
-      setErrorHandler("Ref ID is missing");
-      return;
-    }
-
     try {
       const headers = new Headers();
       headers.append("Content-Type", "application/x-www-form-urlencoded");
       const body = new URLSearchParams();
-      body.append("bookref", bookDetailInput.bookref);
+      body.append("bookref", id);
       body.append("longDescription", bookDetailInput.longDescription);
       body.append("categories", bookDetailInput.categories);
       body.append("publishAt", bookDetailInput.publishAt);

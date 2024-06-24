@@ -25,6 +25,7 @@ const BooksDisplayItem = () => {
                     <p className={styles.title}>
                       <strong>{displayItem.title}</strong>
                     </p>
+                    <p className={styles.author}>{displayItem?.detail?.publishAt}</p>
                     <p className={styles.author}>{displayItem.authors[0]}</p>
                     <p className={styles.star}></p>
                     <a href="/read" className={styles.read}>

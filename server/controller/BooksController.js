@@ -21,7 +21,9 @@ const displayBookById = async (req, res) => {
   const fetchByIdPrams = req.params.id;
   console.log("fetchByIdPrams", fetchByIdPrams);
   try {
-    const allBooks = await BookModel.findById({ _id: fetchByIdPrams }).populate("detail").populate("comment");
+    const allBooks = await BookModel.findById({ _id: fetchByIdPrams })
+      .populate("detail")
+      .populate({ path: "comment", select: ["comment", "bookRef"] });
     res.status(201).json(allBooks);
   } catch (error) {
     console.log("error", error);
@@ -33,6 +35,7 @@ const displayBookById = async (req, res) => {
 
 //! Insert Data  API Endpoint
 const bookInsert = async (req, res) => {
+  console.log("req.file", req.file);
   if (!req.body.title || !req.body.authors) {
     return res.status(400).json({ error: "inputs missing" });
     removeTempFile(req.file);

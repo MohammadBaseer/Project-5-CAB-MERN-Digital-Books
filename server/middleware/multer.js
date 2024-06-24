@@ -6,7 +6,8 @@ export const multerUpload = multer({
   fileFilter: (req, file, cb) => {
     let extension = path.extname(file.originalname);
     if (extension !== ".jpg" && extension !== ".jpeg" && extension !== ".png") {
-      cb(new Error("File extension not supported"), false);
+      // cb(new Error("File extension not supported"), false);
+      cb(null, false);
       return;
     }
     cb(null, true);

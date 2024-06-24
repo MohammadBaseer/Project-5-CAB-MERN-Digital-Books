@@ -15,7 +15,7 @@ BookSchema.virtual("detail", {
   ref: "booksdetail",
   localField: "_id",
   foreignField: "bookref",
-  justOne: false,
+  justOne: true,
 });
 
 BookSchema.virtual("comment", {

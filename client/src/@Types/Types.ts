@@ -10,7 +10,6 @@ export type User = {
   _id: string;
 };
 
-
 export type LoginOkResponse = {
   token: string;
   _id: string;
@@ -20,13 +19,24 @@ export type LoginOkResponse = {
 };
 
 //! Books Data Type
+export type CommentType = {
+  createdAt: any;
+  comment: string;
+  bookRef: string;
+};
 export declare type BooksDataType = {
   _id: string;
   title: string;
   image: string;
   authors: Array<string>;
-  detail: { isbn: string; pageCount: number; date: any | number; longDescription: string | number; status: string | number; categories: Array<string> | number };
+  detail: { publishAt: any; longDescription: string; categories: Array<string> };
+  comment: CommentType[];
 };
-export declare type ApiResponse = {
-  allBooks: BooksDataType[];
+
+//! Comments Data Type
+export declare type CommentsType = {
+  _id: string;
+  comments: Array<string>;
+  userRef: string;
+  bookRef: string;
 };

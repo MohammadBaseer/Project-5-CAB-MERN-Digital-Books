@@ -1,14 +1,16 @@
 import styles from "./InsertBookForm.module.scss";
 import add from "../../../../../../assets/img/dashboard/addbook.png";
-import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useContext, useRef, useState } from "react";
 import { NotOkType } from "../../../../../../@Types/Types";
 import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
+import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
 
 type DisplayToggleProps = {
   setDisplayToggle: Dispatch<SetStateAction<boolean>>;
 };
 
 const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
+  const { ApiFetchDataFun } = useContext(FetchApiContext);
   const selectedFile = useRef<File | null>(null);
 
   const [image, setImage] = useState<File | null | any>(null);
@@ -34,7 +36,6 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
     const formdata = new FormData();
     formdata.append("title", bookInput.title);
     formdata.append("authors", bookInput.authors);
-
     if (selectedFile.current) {
       formdata.append("image", selectedFile.current);
     }
@@ -43,7 +44,9 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
       const response = await fetch(`${BaseURL}/api/books`, { method: "POST", body: formdata });
       console.log("response", response);
       if (response.ok) {
-        await response.json();
+        const result = await response.json();
+        ApiFetchDataFun();
+        console.log("new book response", response);
         setBookInput({ title: "", authors: "" });
         selectedFile.current = null;
         setImage(null);
@@ -125,14 +128,10 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
             <div className={styles.col_75}>
               <textarea id="authors" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
 
-              <div className={styles.error}>
-                 {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}
-              </div>
-              
+              <div className={styles.error}>{errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}</div>
             </div>
-            
           </div>
-         
+
           <br />
           <div className={styles.row}>
             <input className={styles.submit_btn} type="submit" value="Submit" />

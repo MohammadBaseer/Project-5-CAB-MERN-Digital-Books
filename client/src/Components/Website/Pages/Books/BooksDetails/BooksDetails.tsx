@@ -3,24 +3,39 @@ import styles from "./BooksDetails.module.scss";
 import "primeicons/primeicons.css";
 import { useEffect, useState } from "react";
 import { BooksDataType } from "../../../../../@Types/Types";
-import { ApiFetchDataFun } from "../../../../../Utils/FetchApICustomFunctions/BookDetailCustomFunction/BookDetailCustomFunction";
-
-
+import CommentSection from "./CommentSection/CommentSection";
 
 const BooksDetails = () => {
   const [data, setData] = useState<BooksDataType | null>(null);
-  let { id } = useParams();
-id = id as string
 
-  useEffect(() => {
-    const fetchData = async (id:string) => {
-      const result = await ApiFetchDataFun(id);
-      if (result) {
-        setData(result);
+  let { id } = useParams();
+  id = id as string;
+
+  const ApiURL = `http://localhost:5000/api/books/${id}`;
+  const ApiFetchDataFunction = async () => {
+    try {
+      const url = await fetch(ApiURL);
+      const response = (await url.json()) as BooksDataType;
+      if (response) {
+        console.log("=====================result", response);
+        setData(response);
       }
-    };
-    fetchData(id);
-  }, [id]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+useEffect(() => {
+  ApiFetchDataFunction()
+}, [])
+
+
+
+
+
+const addComment = () => {
+  ApiFetchDataFunction()
+};
 
 
 
@@ -44,7 +59,7 @@ id = id as string
               <h5>{data?.authors}</h5>
             </div>
             <div className={styles.details_publish_date}>
-              <h5>{data?.detail.date}</h5>
+              <h5>{data?.detail.publishAt}</h5>
             </div>
             <div className={styles.pages}>
               <h5>
@@ -76,12 +91,7 @@ id = id as string
           <hr />
           <h3>Info</h3>{" "}
           <h5>
-            ISBN: {data?.detail.isbn} <br />
-            Published Date: {data?.detail.date} <br />
-            Publisher: Grand Central Publishing <br />
-            Language: English <br />
-            Page Count: {data?.detail.pageCount} <br />
-            Size: 7.25" l x 5.09" w x 0.68" h
+            Published Date: {data?.detail.publishAt} <br />
           </h5>
         </div>
         {/* ------------------------------- */}
@@ -89,27 +99,8 @@ id = id as string
         <hr />
         <hr />
 
-        <div className={styles.comment_section}>
-          <div className={styles.comment_container}>
-            <div className={styles.comment_box}>
-              <textarea className={styles.comments} rows="10" placeholder="Aa"></textarea>
-            </div>
+        <CommentSection id={id} comment={data?.comment} addComment={addComment}/>
 
-            <div className={styles.comment_button}>
-              <button>Comment</button>
-            </div>
-
-            <div className={styles.comment_user}>
-              <div className={styles.comment_photo_box}>
-                <img className={styles.comment_photo} src="https://johannesippen.com/img/blog/humans-not-users/header.jpg" alt="" />
-              </div>
-              <div className={styles.comment_text_box}>
-                <p>Name</p>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis autem atque aut exercitationem ratione voluptatum nulla libero, ipsa ullam. Laborum, minus iusto? Molestiae mollitia aliquid esse ducimus accusantium tempore earum?</p>
-              </div>
-            </div>
-          </div>
-        </div>
         <br />
         <br />
         <br />

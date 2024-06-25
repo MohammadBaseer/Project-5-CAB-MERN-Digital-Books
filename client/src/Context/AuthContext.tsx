@@ -145,10 +145,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (res.ok) {
         if (result.token) {
           localStorage.setItem("token", result.token);
-          //  localStorage.setItem("user", JSON.stringify(result.user));
+          getUserProfile();
         }
-
-        console.log(result);
         setCurrentUser({ email: "", password: "" });
         setErrorHandler("Login Successful");
       }
@@ -187,7 +185,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         if (response.ok) {
           const result = (await response.json()) as GetProfileResponse;
           setUserProfile(result.user);
-          console.log("User Profile Result ====>", result);
+          // console.log("User Profile Result ====>", result);
         }
       } catch (error) {
         console.log("User Profile -----<", error);

@@ -8,6 +8,8 @@ import UserRouter from "./routes/userRoute.js";
 import { cloudinaryConfig } from "./config/Cloudinary.js";
 import { CommentRoute } from "./routes/commentsRoute.js";
 import { bookDetailRoute } from "./routes/bookDetailRoute.js";
+import passport from "passport";
+import passportStrategy from "./config/passportConfig.js";
 
 dotenv.config();
 const app = express();
@@ -18,6 +20,8 @@ const addMiddlewares = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(cors());
   cloudinaryConfig();
+  app.use(passport.initialize());
+  passport.use(passportStrategy)
 };
 
 const startServer = () => {

@@ -113,4 +113,33 @@ const UserLogin = async (req, res) => {
   }
 };
 
-export { RegisterUser, UsersAllData, UserLogin };
+
+
+
+
+
+//! User Profile
+const getUserProfile = async (req, res) => {
+  console.log("it working")
+
+  console.log(req.user)
+
+  if (req.user) {
+    res.status(200).json({
+      error: "User Profile information",
+      user: {
+        name: req.user.name,
+        email: req.user.email,
+        avatar: req.user.avatar,
+        createAt: req.user.createAt
+
+      }
+    })
+  }
+}
+
+
+
+
+
+export { RegisterUser, UsersAllData, UserLogin , getUserProfile};

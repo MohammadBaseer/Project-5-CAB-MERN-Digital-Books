@@ -22,8 +22,6 @@ const RegisterUser = async (req, res) => {
     if (!existUser) {
       const encryptedPassword = await encryptPassword(req.body.password);
       if (!encryptedPassword) {
-        console.log("error encrypting password");
-
         res.status(400).json({ error: "Password encrypt error" });
         return;
       }
@@ -98,7 +96,7 @@ const UserLogin = async (req, res) => {
           res.status(200).json({
             Success: "Login Successful",
             user: {
-              _id: existingUser._id,
+              id: existingUser._id,
               name: existingUser.name,
               email: existingUser.email,
               avatar: existingUser.avatar,
@@ -113,33 +111,19 @@ const UserLogin = async (req, res) => {
   }
 };
 
-
-
-
-
-
 //! User Profile
 const getUserProfile = async (req, res) => {
-  console.log("it working")
-
-  console.log(req.user)
-
   if (req.user) {
     res.status(200).json({
-      error: "User Profile information",
+      msg: "User Profile information",
       user: {
+        id: req.user._id,
         name: req.user.name,
         email: req.user.email,
         avatar: req.user.avatar,
-        createAt: req.user.createAt
-
-      }
-    })
+      },
+    });
   }
-}
+};
 
-
-
-
-
-export { RegisterUser, UsersAllData, UserLogin , getUserProfile};
+export { RegisterUser, UsersAllData, UserLogin, getUserProfile };

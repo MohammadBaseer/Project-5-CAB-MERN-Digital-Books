@@ -1,4 +1,4 @@
-import { FormEvent, ReactNode, createContext, useRef, useState } from "react";
+import { FormEvent, ReactNode, SetStateAction, createContext, useRef, useState } from "react";
 import { GetProfileResponse, LoginOkResponse, NotOkType, User } from "../@Types/Types";
 import { BaseURL } from "../Utils/URLs/ApiURL";
 import { getToken } from "../Utils/tokenServices";
@@ -9,12 +9,14 @@ type AuthContextType = {
   previewImg: string | null;
   selectedFile: File | null;
   currentUser: { email: string; password: string };
+  UserProfile: User | null;
   setCurrentUser: (prev: any) => any;
   setNewUser: (prev: any) => any;
   setPreviewImg: (previewImg: string | null) => void;
   UserRegisterFun: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   getUserProfile: () => Promise<void>;
   userLogin: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  setUserProfile: (value: SetStateAction<User | null>) => void;
 };
 
 const AuthContextInitialValue: AuthContextType = {
@@ -23,6 +25,7 @@ const AuthContextInitialValue: AuthContextType = {
   previewImg: "",
   selectedFile: null,
   currentUser: { email: "", password: "" },
+  UserProfile: { email: "", name: "", id: "", avatar: "" },
   setCurrentUser: () => {
     throw new Error("The setCurrentUser Error");
   },
@@ -40,6 +43,9 @@ const AuthContextInitialValue: AuthContextType = {
   },
   userLogin: () => {
     throw new Error("The UserRegisterFun Error");
+  },
+  setUserProfile: () => {
+    throw new Error("The setUserProfile Error");
   },
 };
 
@@ -154,8 +160,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //!--------------------------------------------------------
 
   //TODO ------------------USer Profile------------------
-  //NOTE: //! User Profile State
-
+  //! User Profile State
   //TODO - in This UserProfile my exist user data stored, Now I can Pass at anywhere I want
   const [UserProfile, setUserProfile] = useState<User | null>(null);
   //TODO - -------------------------------------------------------
@@ -192,7 +197,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   //!--------------------------------------------------------
 
-  return <AuthContext.Provider value={{ newUser, errorHandler, previewImg, setNewUser, setPreviewImg, selectedFile, UserRegisterFun, getUserProfile, currentUser, setCurrentUser, userLogin }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ newUser, errorHandler, previewImg, setNewUser, setPreviewImg, selectedFile, UserRegisterFun, getUserProfile, currentUser, setCurrentUser, userLogin, UserProfile, setUserProfile }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContextProvider;

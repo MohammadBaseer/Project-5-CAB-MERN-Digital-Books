@@ -7,8 +7,8 @@ export type NotOkType = {
 export type User = {
   email: string;
   name: string;
-  _id: string;
-  avatar: string
+  id: string;
+  avatar: string;
 };
 
 export type LoginOkResponse = {
@@ -44,7 +44,7 @@ export declare type CommentsType = {
 
 //! User Profile Types
 
-export type GetProfileResponse ={
+export type GetProfileResponse = {
   msg: string;
-user: User
- }
+  user: User;
+};

@@ -13,8 +13,6 @@ import DashboardLayout from "./Components/Dashboard/DashboardLayout/DashboardLay
 import BooksFromDashboard from "./Components/Dashboard/Pages/Books/Books";
 import User from "./Components/Dashboard/Pages/UserProfile/Users";
 import Dashboard from "./Components/Dashboard/Pages/Home/Dashboard";
-import { isToken } from "./Utils/tokenServices";
-
 
 function App() {
   const router = createBrowserRouter(
@@ -54,16 +52,15 @@ function App() {
     )
   );
 
+  // useEffect(() => {
+  //   const isUserLogged = isToken();
+  //   if (isUserLogged) {
+  //     console.log("user is LOGGED IN", isUserLogged);
+  //   } else {
+  //     console.log("user is NOT LOGGED IN", isUserLogged);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-  const isUserLogged = isToken();
-  if (isUserLogged) {
-    console.log("user is LOGGED IN");
-  } else {
-    console.log("user is NOT LOGGED IN");
-  }
-  }, [])
-  
   return (
     <>
       <RouterProvider router={router} />

@@ -1,11 +1,14 @@
 import "primeicons/primeicons.css";
 import styles from "./NavbarHead.module.scss";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { removeToken } from "../../../Utils/tokenServices";
+import { isToken, removeToken } from "../../../Utils/tokenServices";
+import { AuthContext } from "../../../Context/AuthContext";
 
 const NavbarHead = () => {
-  const { user, setUser } = useState<boolean>(false);
+  //! AuthContext to get the User Profile
+  const { UserProfile, setUserProfile } = useContext(AuthContext);
+  //!------------------------------------
   //! in every location change the toggle state
   const location = useLocation();
   //!---------------------------------------------------------------------------------
@@ -21,10 +24,10 @@ const NavbarHead = () => {
     }
   };
   //!---------------------------------------------------------------------------------
-//! Logout Function
+  //! Logout Function
   const logout = () => {
     removeToken();
-    setUser(false);
+    setUserProfile(null);
   };
   //!---------------------------------------------------------------------------------
 
@@ -33,24 +36,29 @@ const NavbarHead = () => {
     setProfileNavbarToggle(false);
   }, [location]);
   //!---------------------------------------------------------------------------------
-
+  const isUserLogged = isToken();
+  useEffect(() => {
+    if (isUserLogged) {
+      console.log("From Nav Head user is LOGGED IN", isUserLogged);
+    } else {
+      console.log("From Nav Head user is NOT LOGGED IN", isUserLogged);
+    }
+  }, []);
   return (
     <>
       <div className={styles.navbar_head}>
         <div className={styles.body_container}>
           <div className={styles.nav_elements}>
-            {!user ? (
+            {isUserLogged ? (
               <>
-
-
                 <div className={styles.user_tab_navbar}>
                   <div className={styles.user_tab_navbar_photo}>
-                    <img className={styles.user_photo} src="" alt="" onClick={toggle} />
+                    <img className={styles.user_photo} src={UserProfile?.avatar} alt="" onClick={toggle} />
                   </div>
                   <div className={styles.user_tab_navbar_element_box} style={profileNavbarToggle === true ? { display: "block" } : { display: "none" }}>
                     <div className={styles.user_tab_navbar_element}>
-                      <img className={styles.user_photo} src="" alt="" onClick={toggle} />
-                      <p>Baseer</p>
+                      <img className={styles.user_photo} src={UserProfile?.avatar} alt="" onClick={toggle} />
+                      <p>{UserProfile?.name}</p>
                     </div>
 
                     <div className={styles.user_tab_navbar_element}>
@@ -65,9 +73,9 @@ const NavbarHead = () => {
                       </Link>
                     </div>
                     <div className={styles.user_tab_navbar_element}>
-                      <Link to="/myShop">
+                      <Link to="/dashboard">
                         {" "}
-                        <span className="pi pi-shop"> My Shop</span>{" "}
+                        <span className="pi pi-shop"> Admin Panel</span>{" "}
                       </Link>
                     </div>
                     <div className={styles.user_tab_navbar_element}>
@@ -76,7 +84,7 @@ const NavbarHead = () => {
                       </Link>
                     </div>
                     <div className={styles.user_tab_navbar_element}>
-                      <Link to="#"  onClick={logout}>
+                      <Link to="#" onClick={logout}>
                         <span className="pi pi-sign-out"> Logout</span>
                       </Link>
                     </div>
@@ -87,9 +95,8 @@ const NavbarHead = () => {
               <>
                 <span className={styles.login_section}>
                   <Link to="/login">
-                   <span className="pi pi pi-user" style={{ fontSize: "0.8rem" }}></span>
+                    <span className="pi pi pi-user" style={{ fontSize: "0.8rem" }}></span>
                   </Link>
-                 
                 </span>
               </>
             )}

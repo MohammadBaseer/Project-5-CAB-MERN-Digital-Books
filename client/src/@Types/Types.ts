@@ -8,6 +8,7 @@ export type User = {
   email: string;
   name: string;
   _id: string;
+  avatar: string
 };
 
 export type LoginOkResponse = {
@@ -40,3 +41,10 @@ export declare type CommentsType = {
   userRef: string;
   bookRef: string;
 };
+
+//! User Profile Types
+
+export type GetProfileResponse ={
+  msg: string;
+user: User
+ }

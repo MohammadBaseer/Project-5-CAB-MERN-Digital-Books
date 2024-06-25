@@ -1,19 +1,21 @@
-import { useEffect } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../../../Context/AuthContext";
 
 const Home = () => {
-  const fetchAPI = async () => {
-    const response = await fetch("http://localhost:5000/api/products/all");
-    const result = await response.json();
-    console.log("result", result);
-  };
 
-  useEffect(() => {
-    fetchAPI();
-  }, []);
+  const {getUserProfile}= useContext(AuthContext)
+
+
+
+
+
+
+
 
   return (
     <div>
       <h1>This is my Home Page</h1>
+      <button onClick={getUserProfile}>Test Me</button>
     </div>
   );
 };

@@ -1,22 +1,31 @@
 import { FormEvent, ReactNode, createContext, useRef, useState } from "react";
-import { NotOkType } from "../@Types/Types";
+import { GetProfileResponse, LoginOkResponse, NotOkType, User } from "../@Types/Types";
 import { BaseURL } from "../Utils/URLs/ApiURL";
+import { getToken } from "../Utils/tokenServices";
 
 type AuthContextType = {
   newUser: { name: string; email: string; password: string };
   errorHandler: NotOkType | string | any;
   previewImg: string | null;
-  setNewUser:(prev: any) => any;
+  selectedFile: File | null;
+  currentUser: { email: string; password: string };
+  setCurrentUser: (prev: any) => any;
+  setNewUser: (prev: any) => any;
   setPreviewImg: (previewImg: string | null) => void;
-  selectedFile: File | null
-  UserRegisterFun: (e: FormEvent<HTMLFormElement>) => Promise<void>
-
+  UserRegisterFun: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  getUserProfile: () => Promise<void>;
+  userLogin: (e: FormEvent<HTMLFormElement>) => Promise<void>;
 };
+
 const AuthContextInitialValue: AuthContextType = {
   newUser: { name: "", email: "", password: "" },
   errorHandler: "" as NotOkType | string | any,
   previewImg: "",
   selectedFile: null,
+  currentUser: { email: "", password: "" },
+  setCurrentUser: () => {
+    throw new Error("The setCurrentUser Error");
+  },
   setNewUser: () => {
     throw new Error("The setNewUser Error");
   },
@@ -24,6 +33,12 @@ const AuthContextInitialValue: AuthContextType = {
     throw new Error("The setPreviewImg Error");
   },
   UserRegisterFun: () => {
+    throw new Error("The UserRegisterFun Error");
+  },
+  getUserProfile: () => {
+    throw new Error("The getUserProfile Error");
+  },
+  userLogin: () => {
     throw new Error("The UserRegisterFun Error");
   },
 };
@@ -37,7 +52,7 @@ type AuthContextProviderProps = {
 };
 //TODO - ---------------------------------------------------------------
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-//TODO - ---------------------------------------------------------------
+  //TODO - ---------------------------------------------------------------
 
   // NOTE: //! User Registration State
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
@@ -86,22 +101,98 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       console.log("err==============>", error);
     }
   };
-//!---------------------------------------------------------------------
+  //!---------------------------------------------------------------------
 
+  //TODO ------------------User Login------------------
+  //! Login State
+  const [currentUser, setCurrentUser] = useState({ email: "", password: "" });
 
+  //! Login Function
+  const userLogin = async (e: FormEvent<HTMLFormElement>) => {
+    setErrorHandler("");
+    e.preventDefault();
 
+    if (!currentUser.email.trim()) {
+      setErrorHandler("Email is missing");
+      return;
+    }
+    try {
+      const headers = new Headers();
+      headers.append("Content-Type", "application/x-www-form-urlencoded");
+      const body = new URLSearchParams();
+      body.append("email", currentUser.email);
+      body.append("password", currentUser.password);
+      const requestOption = {
+        method: "POST",
+        headers: headers,
+        body: body,
+      };
 
+      const res = await fetch(`${BaseURL}/auth/login`, requestOption);
+      const result = (await res.json()) as LoginOkResponse;
+      if (res.status !== 200) {
+        return setErrorHandler(result.error);
+      }
+      if (!res.ok) {
+        setErrorHandler("Login failed");
+      }
+      if (res.ok) {
+        if (result.token) {
+          localStorage.setItem("token", result.token);
+          //  localStorage.setItem("user", JSON.stringify(result.user));
+        }
 
+        console.log(result);
+        setCurrentUser({ email: "", password: "" });
+        setErrorHandler("Login Successful");
+      }
+    } catch (error) {
+      setErrorHandler(error);
+    }
+  };
 
+  //!--------------------------------------------------------
 
+  //TODO ------------------USer Profile------------------
+  //NOTE: //! User Profile State
 
+  //TODO - in This UserProfile my exist user data stored, Now I can Pass at anywhere I want
+  const [UserProfile, setUserProfile] = useState<User | null>(null);
+  //TODO - -------------------------------------------------------
 
-  return (
-    <AuthContext.Provider value={{newUser, errorHandler, previewImg, setNewUser, setPreviewImg, selectedFile, UserRegisterFun}}>
-      {children}
-    </AuthContext.Provider>
-  );
-  
+  const getUserProfile = async () => {
+    const token = getToken();
+    if (!token) {
+      alert("You need Token");
+    }
+    if (token) {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+      try {
+        const response = await fetch("http://localhost:5000/auth/profile", requestOptions);
+        if (!response.ok && response.status === 401) {
+          console.log("Token Invalid or Login again");
+          return;
+        }
+        if (response.ok) {
+          const result = (await response.json()) as GetProfileResponse;
+          setUserProfile(result.user);
+          console.log("User Profile Result ====>", result);
+        }
+      } catch (error) {
+        console.log("User Profile -----<", error);
+      }
+    }
+  };
+
+  //!--------------------------------------------------------
+
+  return <AuthContext.Provider value={{ newUser, errorHandler, previewImg, setNewUser, setPreviewImg, selectedFile, UserRegisterFun, getUserProfile, currentUser, setCurrentUser, userLogin }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContextProvider;

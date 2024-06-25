@@ -1,4 +1,18 @@
 const getToken = () => {
+    const token = localStorage.getItem("token") 
+    if (token) {
+        return token
+    }
+    if (!token) {
+
+        console.log("No Token")
+        return null
+    }
+}
+
+
+
+const isToken = () => {
  const token = localStorage.getItem("token") 
 if (token) {
     return true
@@ -12,4 +26,4 @@ const removeToken = () => {
     localStorage.removeItem("token");
 }
 
-export {getToken, removeToken};
+export {getToken, isToken, removeToken};

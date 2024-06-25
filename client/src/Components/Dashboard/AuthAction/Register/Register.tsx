@@ -1,68 +1,27 @@
 // import "./Login.scss";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useContext, useEffect} from "react";
 import styles from "./Register.module.scss";
-import { BaseURL } from "../../../../Utils/URLs/ApiURL";
-import { NotOkType } from "../../../../@Types/Types";
 import avatar from "../../../../assets/img/registrationFormAvatar/addAvatar.png";
+import { AuthContext } from "../../../../Context/AuthContext";
 
 const Register = () => {
-  const selectedFile = useRef<File | null>(null);
-  const [previewImg, setPreviewImg] = useState<string | null>(null);
-  const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
-  const [newUser, setNewUser] = useState({ name: "", email: "", password: "" });
 
-  const UserRegisterFun = async (e: FormEvent<HTMLFormElement>) => {
-    setErrorHandler("");
-    e.preventDefault();
+const {setNewUser,previewImg, setPreviewImg, errorHandler,newUser,selectedFile, UserRegisterFun} = useContext(AuthContext)
 
-    if (!newUser.name.trim()) {
-      setErrorHandler("Username is missing");
-      return;
-    }
-    if (!newUser.email.trim()) {
-      setErrorHandler("Email is missing");
-      return;
-    }
-    if (!newUser.password.trim()) {
-      setErrorHandler("Password is missing");
-      return;
-    }
 
-    const formdata = new FormData();
-    formdata.append("name", newUser.name);
-    formdata.append("email", newUser.email);
-    formdata.append("password", newUser.password);
 
-    if (selectedFile.current) {
-      formdata.append("avatar", selectedFile.current);
-    }
-    try {
-      const response = await fetch(`${BaseURL}/auth/user`, { method: "POST", body: formdata });
+  
 
-      console.log("response", response);
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Result ===> ", data);
-        setNewUser({ name: "", email: "", password: "" });
-        selectedFile.current = null;
-        setPreviewImg(null);
-      }
-      if (!response.ok) {
-        const data = (await response.json()) as NotOkType;
-        setErrorHandler(data);
-        console.log(" Error", data);
-      }
-    } catch (error: any) {
-      setErrorHandler(error.message || "An unknown error occurred");
-      console.log("err==============>", error);
-    }
-  };
+
 
   const getInputValues = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewUser((prev) => {
+    setNewUser((prev:any) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+
+
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
@@ -80,7 +39,7 @@ const Register = () => {
     }
   };
 
-  console.log("previewImg=====>", previewImg);
+
 
   useEffect(() => {
     return () => {

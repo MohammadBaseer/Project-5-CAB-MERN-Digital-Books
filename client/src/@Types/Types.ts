@@ -24,6 +24,8 @@ export type CommentType = {
   createdAt: any;
   comment: string;
   bookRef: string;
+  userRef: string;
+  users: User[];
 };
 export declare type BooksDataType = {
   _id: string;

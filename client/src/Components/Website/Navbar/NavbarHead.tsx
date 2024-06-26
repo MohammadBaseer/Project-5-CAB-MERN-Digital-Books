@@ -8,11 +8,6 @@ import { AuthContext } from "../../../Context/AuthContext";
 const NavbarHead = () => {
   //! AuthContext to get the User Profile
   const { userProfile, setUserProfile, getUserProfile } = useContext(AuthContext);
-
-
-// console.log("UserProfile from navbar", UserProfile)
-
-
   //!------------------------------------
   //! in every location change the toggle state
   const location = useLocation();
@@ -43,13 +38,8 @@ const NavbarHead = () => {
   //!---------------------------------------------------------------------------------
   const isUserLogged = isToken();
   useEffect(() => {
-
-    getUserProfile();
-    
     if (isUserLogged) {
-      console.log("From Nav Head user is LOGGED IN", isUserLogged);
-    } else {
-      console.log("From Nav Head user is NOT LOGGED IN", isUserLogged);
+      getUserProfile();
     }
   }, []);
   return (

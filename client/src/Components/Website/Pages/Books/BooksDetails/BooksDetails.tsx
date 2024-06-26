@@ -11,33 +11,25 @@ const BooksDetails = () => {
   let { id } = useParams();
   id = id as string;
 
-  const ApiURL = `http://localhost:5000/api/books/${id}`;
   const ApiFetchDataFunction = async () => {
     try {
-      const url = await fetch(ApiURL);
+      const url = await fetch(`http://localhost:5000/api/books/${id}`);
       const response = (await url.json()) as BooksDataType;
       if (response) {
-        console.log("=====================result", response);
         setData(response);
       }
     } catch (error) {
       console.log(error);
     }
   };
-  
-useEffect(() => {
-  ApiFetchDataFunction()
-}, [])
 
+  useEffect(() => {
+    ApiFetchDataFunction();
+  }, []);
 
-
-
-
-const addComment = () => {
-  ApiFetchDataFunction()
-};
-
-
+  const addComment = () => {
+    ApiFetchDataFunction();
+  };
 
   return (
     <>
@@ -99,7 +91,7 @@ const addComment = () => {
         <hr />
         <hr />
 
-        <CommentSection id={id} comment={data?.comment} addComment={addComment}/>
+        <CommentSection id={id} comment={data?.comment} addComment={addComment} />
 
         <br />
         <br />

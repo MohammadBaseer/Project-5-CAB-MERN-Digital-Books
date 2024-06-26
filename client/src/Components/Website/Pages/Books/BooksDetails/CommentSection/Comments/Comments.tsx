@@ -3,12 +3,29 @@ import styles from "./Comments.module.scss";
 import { CommentType } from "../../../../../../../@Types/Types";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../../../../../Context/AuthContext";
+import { BaseURL } from "../../../../../../../Utils/URLs/ApiURL";
 type CommentTypeProps = {
-  // id: string;
   comment: CommentType[];
+  addComment: any;
 };
-const Comments = ({ comment }: CommentTypeProps) => {
+const Comments = ({ comment, addComment }: CommentTypeProps) => {
   const { userProfile } = useContext(AuthContext);
+
+
+  const deleteComments = async (commentId: string) => {
+    try {
+      const result = await fetch(`${BaseURL}/api/comments/${commentId}`, { method: "DELETE" });
+      if (result.status === 200) {
+        if (!userProfile) {
+          alert("Please Login first")
+          return;
+        }
+        addComment();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -23,17 +40,21 @@ const Comments = ({ comment }: CommentTypeProps) => {
                 <p>{singleComment.users[0].name}</p>
                 <p className={styles.comment_text}>{singleComment.comment}</p>
 
-                {singleComment.userRef === userProfile?.id ? (
+                {singleComment.userRef === userProfile?.id && (
                   <p className={styles.exist_user_action}>
-                    <Link rel="stylesheet" to="#">
+                    <Link to="#">
                       <span className="pi pi-file-edit">&nbsp;</span>
                     </Link>
-                    <Link rel="stylesheet" to="#">
+                    <Link
+                      to="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        deleteComments(singleComment.id);
+                      }}
+                    >
                       <span className="pi pi-trash"> </span>
                     </Link>
                   </p>
-                ) : (
-                  ""
                 )}
               </div>
             </div>

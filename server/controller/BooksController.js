@@ -1,6 +1,6 @@
 import BookModel from "../models/booksModel.js";
 import { removeTempFile } from "../utils/tempFileManagement.js";
-import { imageUpload } from "../utils/imageManagement.js";
+import { imageUpload, removeImage } from "../utils/imageManagement.js";
 // import CommentModel from "../models/commentsModel.js";
 import BooksDetailsModel from "../models/booksDetailsModel.js";
 
@@ -29,7 +29,7 @@ const displayBookById = async (req, res) => {
     const allBooks = await BookModel.findById({ _id: fetchByIdPrams })
       .populate("detail")
       .populate({ path: "comment", select: ["_id", "comment", "bookRef", "userRef"], populate: { path: "users", select: ["name", "avatar"] } });
-    res.status(201).json(allBooks);
+    res.status(200).json(allBooks);
   } catch (error) {
     console.log("error", error);
     res.status(400).json({
@@ -90,18 +90,20 @@ const bookUpdate = async (req, res) => {
 
 //! Display by ID API Endpoint
 const deleteBook = async (req, res) => {
-  const book_id = req.params.id;
-  console.log("book_id", book_id);
+  const book_id = req.query.id;
+  const imageUrl = req.query.imageUrl;
+
   try {
     const deleteBook = await BookModel.findByIdAndDelete({ _id: book_id });
     const deleteBookDetails = await BooksDetailsModel.deleteMany({ bookref: book_id });
     // const deleteComments = await CommentModel.deleteMany({ bookRef: book_id });
+    removeImage("books_images", imageUrl);
 
-    res.status(201).json({ error: "Book deleted" });
+    res.status(200).json({ error: "Book deleted" });
   } catch (error) {
     console.log("error", error);
     res.status(400).json({
-      error: "Something went wrong",
+      error: error,
     });
   }
 };

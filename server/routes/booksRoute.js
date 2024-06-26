@@ -19,7 +19,7 @@ booksRoute.post("/books", multerUpload.single("image"), bookInsert);
 booksRoute.put("/books/:id", bookUpdate);
 
 //! Delete by ID  API Endpoint
-booksRoute.delete("/books/:id", deleteBook);
-
+// booksRoute.delete("/books/:id", deleteBook);
+booksRoute.delete("/books/", deleteBook);
 
 export default booksRoute;

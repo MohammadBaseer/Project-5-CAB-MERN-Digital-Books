@@ -6,7 +6,12 @@ import { BaseURL } from "../../../../../Utils/URLs/ApiURL";
 import { Link, useParams } from "react-router-dom";
 import { FetchApiContext } from "../../../../../Context/FetchApiContext";
 
-const BookDelete = ({ id }) => {
+type PropsType = {
+  id: string;
+  imageUrl: string;
+};
+
+const BookDelete = ({ id, imageUrl }: PropsType) => {
   const { ApiFetchDataFun } = useContext(FetchApiContext);
 
   const [visible, setVisible] = useState(false);
@@ -22,10 +27,10 @@ const BookDelete = ({ id }) => {
     try {
       console.log("id =======<", id);
 
-      await fetch(`${BaseURL}/api/books/${id}`, { method: "DELETE" });
+      await fetch(`${BaseURL}/api/books?id=${id}&imageUrl=${imageUrl}`, { method: "DELETE" });
       //   if (result.status === 200) {
       toastBC.current.show({ severity: "success", summary: "Item deleted successfully!" });
-      ApiFetchDataFun()
+      ApiFetchDataFun();
 
       //   }
     } catch (error) {
@@ -61,7 +66,13 @@ const BookDelete = ({ id }) => {
     <>
       <Toast ref={toastBC} />
 
-      <Link to="#" onClick={(e) => {e.preventDefault(); confirm("item-id");}}>
+      <Link
+        to="#"
+        onClick={(e) => {
+          e.preventDefault();
+          confirm("item-id");
+        }}
+      >
         <span className="pi pi-trash">&nbsp;</span>
       </Link>
     </>

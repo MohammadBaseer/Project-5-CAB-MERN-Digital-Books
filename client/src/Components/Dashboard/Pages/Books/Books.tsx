@@ -59,7 +59,7 @@ const Books = () => {
                           <span className="pi pi-file-edit">&nbsp;</span>
                         </a>
                         {/* Delete Confirm Notified */}
-                        <BookDelete id={book._id} />
+                        <BookDelete id={book._id} imageUrl={book.image} />
                       </td>
                     </tr>
                   );

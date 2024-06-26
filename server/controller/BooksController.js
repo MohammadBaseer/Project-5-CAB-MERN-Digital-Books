@@ -1,12 +1,17 @@
 import BookModel from "../models/booksModel.js";
-import BooksDetailsModel from "../models/booksDetailsModel.js";
 import { removeTempFile } from "../utils/tempFileManagement.js";
 import { imageUpload } from "../utils/imageManagement.js";
+// import CommentModel from "../models/commentsModel.js";
+import BooksDetailsModel from "../models/booksDetailsModel.js";
 
 //! display All Book Data API Endpoint
 const displayBook = async (req, res) => {
   try {
-    const allBooks = await BookModel.find().populate("detail").populate("comment");
+    // const allBooks = await BookModel.find().populate("detail").populate("comment");
+    const allBooks = await BookModel.find()
+      .populate("detail")
+      .populate({ path: "comment", populate: { path: "users", select: ["name", "avatar"] } });
+
     res.status(200).json(allBooks);
   } catch (error) {
     console.log("error", error);
@@ -23,7 +28,7 @@ const displayBookById = async (req, res) => {
   try {
     const allBooks = await BookModel.findById({ _id: fetchByIdPrams })
       .populate("detail")
-      .populate({ path: "comment", select: ["comment", "bookRef"] });
+      .populate({ path: "comment", select: ["comment", "bookRef", "userRef"], populate: { path: "users", select: ["name", "avatar"] } });
     res.status(201).json(allBooks);
   } catch (error) {
     console.log("error", error);
@@ -37,8 +42,8 @@ const displayBookById = async (req, res) => {
 const bookInsert = async (req, res) => {
   console.log("req.file", req.file);
   if (!req.body.title || !req.body.authors) {
-    return res.status(400).json({ error: "inputs missing" });
     removeTempFile(req.file);
+    return res.status(400).json({ error: "inputs missing" });
   }
   try {
     let imageUrl = req.body.image;
@@ -85,10 +90,13 @@ const bookUpdate = async (req, res) => {
 
 //! Display by ID API Endpoint
 const deleteBook = async (req, res) => {
-  const doc_id = req.params.id;
-  console.log("doc_id", doc_id);
+  const book_id = req.params.id;
+  console.log("book_id", book_id);
   try {
-    const deleteBook = await BookModel.findByIdAndDelete({ _id: doc_id });
+    const deleteBook = await BookModel.findByIdAndDelete({ _id: book_id });
+    const deleteBookDetails = await BooksDetailsModel.deleteMany({ bookref: book_id });
+    // const deleteComments = await CommentModel.deleteMany({ bookRef: book_id });
+
     res.status(201).json({ error: "Book deleted" });
   } catch (error) {
     console.log("error", error);

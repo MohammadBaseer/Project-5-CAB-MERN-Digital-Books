@@ -1,21 +1,55 @@
 .comment_user {
   display: flex;
   padding-bottom: 15px;
-  .comment_photo_box {
-    .comment_photo {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      border: solid 1px #fff;
-    }
+}
+
+.comment_photo_box {
+  .comment_photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: solid 1px #fff;
   }
+}
+.comment_text_box {
+  text-align: left;
+  text-align: justify;
+  border: solid 1px gray;
+  margin: 10px 10px 0px 10px;
+  border-radius: 0px 60px 0px 30px;
+
+  p {
+    padding: 12px;
+    padding-bottom: 3px !important;
+    margin: 0px !important;
+
+  }
+  .comment_action{
+direction: rtl;      }
+display: block;
+width: 79%;
+padding-bottom: 10px;
+}
+//! test
+
+.exist_user {
+  display: flex;
+  padding-bottom: 15px;
+  flex-direction: row-reverse; // this
+
   .comment_text_box {
-    text-align: left;
-    text-align: justify;
-    p {
-      padding: 12px;
-      padding-bottom: 3px !important;
-      margin: 0px !important;
-    }
+    text-align: right; //this
+    margin: 0px 10px 0px 0px; //this
+    border-radius: 0px 0px 60px 0px; // this
   }
+}
+
+
+
+
+.comment_text{
+  text-align: left;
+}
+.exist_user_action{
+  text-align: left;
 }

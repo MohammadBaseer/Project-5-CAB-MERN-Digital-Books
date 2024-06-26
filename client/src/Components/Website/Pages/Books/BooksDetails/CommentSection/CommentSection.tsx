@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./CommentSection.module.scss";
 import { CommentType, NotOkType } from "../../../../../../@Types/Types";
 import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
 import Comments from "./Comments/Comments";
+import { AuthContext } from "../../../../../../Context/AuthContext";
 // import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
 
 type CommentTypeProps = {
@@ -12,7 +13,8 @@ type CommentTypeProps = {
 };
 
 const CommentSection = ({ id, comment, addComment  }: CommentTypeProps) => {
-
+const {userProfile}= useContext(AuthContext)
+const uid = userProfile?.id as string;
 
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [commentText, setCommentText] = useState<string>("");
@@ -28,7 +30,7 @@ const insertNewComment = async () => {
     const body = new URLSearchParams();
     body.append("comment", commentText);
     body.append("bookRef", id);
-    // body.append("userRef", userId);
+    body.append("userRef", uid);
     const requestOption = {
       method: "POST",
       headers: headers,

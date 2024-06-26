@@ -21,6 +21,7 @@ export type LoginOkResponse = {
 
 //! Books Data Type
 export type CommentType = {
+  id: string;
   createdAt: any;
   comment: string;
   bookRef: string;

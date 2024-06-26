@@ -7,7 +7,7 @@ import { AuthContext } from "../../../Context/AuthContext";
 
 const NavbarHead = () => {
   //! AuthContext to get the User Profile
-  const { UserProfile, setUserProfile, getUserProfile } = useContext(AuthContext);
+  const { userProfile, setUserProfile, getUserProfile } = useContext(AuthContext);
 
 
 // console.log("UserProfile from navbar", UserProfile)
@@ -61,12 +61,12 @@ const NavbarHead = () => {
               <>
                 <div className={styles.user_tab_navbar}>
                   <div className={styles.user_tab_navbar_photo}>
-                    <img className={styles.user_photo} src={UserProfile?.avatar} alt="" onClick={toggle} />
+                    <img className={styles.user_photo} src={userProfile?.avatar} alt="" onClick={toggle} />
                   </div>
                   <div className={styles.user_tab_navbar_element_box} style={profileNavbarToggle === true ? { display: "block" } : { display: "none" }}>
                     <div className={styles.user_tab_navbar_element}>
-                      <img className={styles.user_photo} src={UserProfile?.avatar} alt="" onClick={toggle} />
-                      <p>{UserProfile?.name}</p>
+                      <img className={styles.user_photo} src={userProfile?.avatar} alt="" onClick={toggle} />
+                      <p>{userProfile?.name}</p>
                     </div>
 
                     <div className={styles.user_tab_navbar_element}>

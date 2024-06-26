@@ -1,12 +1,13 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import "primeicons/primeicons.css";
 import { BaseURL } from "../../../../../Utils/URLs/ApiURL";
 import { Link, useParams } from "react-router-dom";
+import { FetchApiContext } from "../../../../../Context/FetchApiContext";
 
 const BookDelete = ({ id }) => {
-  //   console.log("id =======<", id);
+  const { ApiFetchDataFun } = useContext(FetchApiContext);
 
   const [visible, setVisible] = useState(false);
   //   const [itemToDelete, setItemToDelete] = useState(null);
@@ -24,6 +25,8 @@ const BookDelete = ({ id }) => {
       await fetch(`${BaseURL}/api/books/${id}`, { method: "DELETE" });
       //   if (result.status === 200) {
       toastBC.current.show({ severity: "success", summary: "Item deleted successfully!" });
+      ApiFetchDataFun()
+
       //   }
     } catch (error) {
       toastBC.current.show({ severity: "error", summary: "Error deleting item!" });

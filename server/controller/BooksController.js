@@ -28,7 +28,7 @@ const displayBookById = async (req, res) => {
   try {
     const allBooks = await BookModel.findById({ _id: fetchByIdPrams })
       .populate("detail")
-      .populate({ path: "comment", select: ["comment", "bookRef", "userRef"], populate: { path: "users", select: ["name", "avatar"] } });
+      .populate({ path: "comment", select: ["_id", "comment", "bookRef", "userRef"], populate: { path: "users", select: ["name", "avatar"] } });
     res.status(201).json(allBooks);
   } catch (error) {
     console.log("error", error);

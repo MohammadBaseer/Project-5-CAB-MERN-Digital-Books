@@ -1,27 +1,18 @@
 // import "./Login.scss";
-import { ChangeEvent, useContext, useEffect} from "react";
+import { ChangeEvent, useContext, useEffect } from "react";
 import styles from "./Register.module.scss";
 import avatar from "../../../../assets/img/registrationFormAvatar/addAvatar.png";
 import { AuthContext } from "../../../../Context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Register = () => {
-
-const {setNewUser,previewImg, setPreviewImg, errorHandler,newUser,selectedFile, UserRegisterFun} = useContext(AuthContext)
-
-
-
-  
-
-
+  const { setNewUser, previewImg, setPreviewImg, errorHandler, newUser, selectedFile, UserRegisterFun } = useContext(AuthContext);
 
   const getInputValues = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewUser((prev:any) => {
+    setNewUser((prev: any) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
-
-
-
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
@@ -38,8 +29,6 @@ const {setNewUser,previewImg, setPreviewImg, errorHandler,newUser,selectedFile, 
       }
     }
   };
-
-
 
   useEffect(() => {
     return () => {
@@ -81,7 +70,11 @@ const {setNewUser,previewImg, setPreviewImg, errorHandler,newUser,selectedFile, 
           </div>
           {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}
           {/* <div className={styles.error}>{errorHandler}</div> */}
-
+          <div>
+            <p>
+              Do you have already an account? <Link to="/login">Login </Link>
+            </p>
+          </div>
           <div className={styles.sub_btn_box}>
             <button className={styles.form_btn} type="submit">
               Register

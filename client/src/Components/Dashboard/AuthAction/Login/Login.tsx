@@ -1,6 +1,7 @@
 import { ChangeEvent, useContext } from "react";
 import styles from "./Login.module.scss";
 import { AuthContext } from "../../../../Context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const { currentUser, setCurrentUser, userLogin, errorHandler } = useContext(AuthContext);
@@ -27,7 +28,11 @@ const Login = () => {
             <input type="password" id="password" name="password" value={currentUser.password} required onChange={getInputValues} />
             {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}
           </div>
-
+          <div>
+            <p>
+              Create a new account <Link to="/register">Register </Link>
+            </p>
+          </div>
           <div className={styles.sub_btn_box}>
             <button className={styles.form_btn} type="submit">
               Login

@@ -3,6 +3,7 @@ import { removeTempFile } from "../utils/tempFileManagement.js";
 import { imageUpload, removeImage } from "../utils/imageManagement.js";
 // import CommentModel from "../models/commentsModel.js";
 import BooksDetailsModel from "../models/booksDetailsModel.js";
+import CommentModel from "../models/CommentsModel.js";
 
 //! display All Book Data API Endpoint
 const displayBook = async (req, res) => {
@@ -96,7 +97,7 @@ const deleteBook = async (req, res) => {
   try {
     const deleteBook = await BookModel.findByIdAndDelete({ _id: book_id });
     const deleteBookDetails = await BooksDetailsModel.deleteMany({ bookref: book_id });
-    // const deleteComments = await CommentModel.deleteMany({ bookRef: book_id });
+    const deleteComments = await CommentModel.deleteMany({ bookRef: book_id });
     removeImage("books_images", imageUrl);
 
     res.status(200).json({ error: "Book deleted" });

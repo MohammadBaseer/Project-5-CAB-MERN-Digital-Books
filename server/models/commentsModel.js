@@ -21,6 +21,8 @@ CommentSchema.virtual("users", {
 CommentSchema.set("toObject", { virtuals: true });
 CommentSchema.set("toJSON", { virtuals: true });
 
-const CommentModel = mongoose.models.Comment || mongoose.model("Comment", CommentSchema);
+const CommentModel = mongoose.model("comment", CommentSchema);
+
+// const CommentModel = mongoose.models.Comment || mongoose.model("Comment", CommentSchema);
 
 export default CommentModel;

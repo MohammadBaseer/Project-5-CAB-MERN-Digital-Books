@@ -13,6 +13,7 @@ import DashboardLayout from "./Components/Dashboard/DashboardLayout/DashboardLay
 import BooksFromDashboard from "./Components/Dashboard/Pages/Books/Books";
 import User from "./Components/Dashboard/Pages/UserProfile/Users";
 import Dashboard from "./Components/Dashboard/Pages/Home/Dashboard";
+import UserProfile from "./Components/Website/Pages/UserProfile/UserProfile";
 
 function App() {
   const router = createBrowserRouter(
@@ -34,6 +35,7 @@ function App() {
           />
           <Route path="/books/:id" element={<BooksDetails />} />
           <Route path="/read" element={<BookReadMode />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Route>
         //! Dashboard Routs -----------------------------
         <Route path="/" element={<DashboardLayout />}>

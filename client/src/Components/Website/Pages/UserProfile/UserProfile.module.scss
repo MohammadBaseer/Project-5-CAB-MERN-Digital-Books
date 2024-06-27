@@ -1,0 +1,80 @@
+@import "../../../../assets/scss/variables.scss";
+
+body {
+  background-color: #fff;
+}
+.container {
+  width: 95%;
+  margin: auto;
+}
+
+.back_cover {
+  border: solid 1px gray;
+  max-height: 180px;
+  padding-top: 10px;
+  padding-left: 20px;
+
+  .cover {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    .profile_image {
+      background-color: $navBarColor;
+      border: solid 1px gray;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+
+      .image {
+        width: 100%;
+      }
+    }
+    .user_profile_info {
+      .name,
+      .joined_date {
+        padding: 0px !important;
+        margin: 0px !important;
+      }
+    }
+  }
+}
+.user_details {
+  padding: 40px 100px;
+
+  .detail {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    .text {
+      //   border: solid;
+      width: 30%;
+      display: flex;
+      // flex-direction: column-reverse;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
+  }
+}
+
+.text_element {
+  display: flex;
+  .action_buttons {
+    display: flex;
+    align-items: center;
+
+    .edit_button_1,
+    .edit_button_2 {
+      display: flex;
+    }
+  }
+}
+.pi {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+}

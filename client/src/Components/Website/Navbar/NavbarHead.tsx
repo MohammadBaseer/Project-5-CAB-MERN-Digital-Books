@@ -60,7 +60,7 @@ const NavbarHead = () => {
                     </div>
 
                     <div className={styles.user_tab_navbar_element}>
-                      <Link to="/register">
+                      <Link to="/profile">
                         <span className="pi pi-user"> My Profile</span>
                       </Link>
                     </div>

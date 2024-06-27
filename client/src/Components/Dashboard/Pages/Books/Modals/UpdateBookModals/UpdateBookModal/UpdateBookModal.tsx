@@ -16,11 +16,13 @@ const UpdateBookModal = ({ imageUrl, title, authors }: PropsTypes) => {
   const { ApiFetchDataFun } = useContext(FetchApiContext);
   const selectedFileUpdate = useRef<File | null>(null);
 
-  const [imageUpdate, setImageUpdate] = useState<File | null | any>(null);
+  // const [imageUpdate, setImageUpdate] = useState<File | null | any>(null);
+  const [imageUpdate, setImageUpdate] = useState<string | null | any>(null);
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [bookInput, setBookInput] = useState({ title: title, authors: authors });
 
   const updateBookHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     console.log("Funcion");
   };
 
@@ -46,6 +48,7 @@ const UpdateBookModal = ({ imageUrl, title, authors }: PropsTypes) => {
       if (imageUpdate) {
         URL.revokeObjectURL(imageUpdate);
       }
+      setImageUpdate(null); // test
     }
   };
 

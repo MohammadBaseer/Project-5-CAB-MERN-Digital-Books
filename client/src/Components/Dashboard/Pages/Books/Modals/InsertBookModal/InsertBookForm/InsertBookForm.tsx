@@ -13,7 +13,8 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
   const { ApiFetchDataFun } = useContext(FetchApiContext);
   const selectedFile = useRef<File | null>(null);
 
-  const [image, setImage] = useState<File | null | any>(null);
+  // const [image, setImage] = useState<File | null | any>(null);
+  const [image, setImage] = useState<string | null | any>(null);
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [bookInput, setBookInput] = useState({ title: "", authors: "" });
 
@@ -84,6 +85,7 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
       if (image) {
         URL.revokeObjectURL(image);
       }
+      setImage(null); //test
     }
   };
 

@@ -1,9 +1,12 @@
-import { ChangeEvent, useState } from "react";
-import { NotOkType } from "../../../../../../@Types/Types";
+import { ChangeEvent, useContext, useState } from "react";
 import styles from "./InsertBookDetailForm.module.scss";
 import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
+import { NotOkType } from "../../../../../../@Types/Types";
+import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
 
 const InsertBookDetailForm = ({ id }) => {
+  const { ApiFetchDataFun } = useContext(FetchApiContext);
+
   const [formToggle, setFormToggle] = useState<boolean>(false);
 
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
@@ -53,6 +56,7 @@ const InsertBookDetailForm = ({ id }) => {
         await response.json();
         setBookDetailInput({ longDescription: "", categories: "", publishAt: "", bookref: "" });
         setFormToggle(false);
+        ApiFetchDataFun();
       }
       if (!response.ok) {
         const data = (await response.json()) as NotOkType;

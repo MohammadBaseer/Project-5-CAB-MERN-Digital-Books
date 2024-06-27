@@ -2,10 +2,11 @@ import { FetchApiContext } from "../../../../Context/FetchApiContext";
 import DashboardNavbar from "../../DashboardElements/DashboardNavbar/DashboardNavbar";
 import styles from "./Books.module.scss";
 import "primeicons/primeicons.css";
-import InsertBookButtonModal from "./InsertBookButton/InsertBookButtonModal/InsertBookButtonModal";
-import BookDelete from "./BookDelete/BookDelete";
-import ViewBook from "./ViewBook/ViewBook";
 import { useContext } from "react";
+import InsertBookButtonModal from "./Modals/InsertBookModal/InsertBookButtonModal/InsertBookButtonModal";
+import ViewBookModal from "./Modals/ViewBookModal/ViewBookModal";
+import UpdateBookModal from "./Modals/UpdateBookModals/UpdateBookModal/UpdateBookModal";
+import BookDeleteModal from "./Modals/BookDeleteModal/BookDeleteModal";
 
 const Books = () => {
   const { data } = useContext(FetchApiContext);
@@ -45,21 +46,14 @@ const Books = () => {
                       <td>{book.authors}</td>
 
                       <td>
-                        <ViewBook book={book} />
-                        {/* SECTION Table of Content */}
-                        <a href="#">
-                          <span className="pi pi-receipt">&nbsp;</span>
-                        </a>
-                        {/* Add Book Title */}
-                        <a href="#">
-                          <span className="pi pi-external-link">&nbsp;</span>
-                        </a>
+                        {/* View  */}
+                        <ViewBookModal book={book} />
+
                         {/* Edit  */}
-                        <a href="#">
-                          <span className="pi pi-file-edit">&nbsp;</span>
-                        </a>
+                        <UpdateBookModal imageUrl={book.image} title={book.title} authors={book.authors} />
+
                         {/* Delete Confirm Notified */}
-                        <BookDelete id={book._id} imageUrl={book.image} />
+                        <BookDeleteModal id={book._id} imageUrl={book.image} />
                       </td>
                     </tr>
                   );

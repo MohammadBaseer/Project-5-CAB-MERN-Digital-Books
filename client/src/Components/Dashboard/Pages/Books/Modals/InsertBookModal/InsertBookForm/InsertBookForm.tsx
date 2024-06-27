@@ -1,9 +1,9 @@
 import styles from "./InsertBookForm.module.scss";
-import add from "../../../../../../assets/img/dashboard/addbook.png";
+import add from "../../../../../../../assets/img/dashboard/addbook.png";
 import { ChangeEvent, Dispatch, SetStateAction, useContext, useRef, useState } from "react";
-import { NotOkType } from "../../../../../../@Types/Types";
-import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
-import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
+import { FetchApiContext } from "../../../../../../../Context/FetchApiContext";
+import { NotOkType } from "../../../../../../../@Types/Types";
+import { BaseURL } from "../../../../../../../Utils/URLs/ApiURL";
 
 type DisplayToggleProps = {
   setDisplayToggle: Dispatch<SetStateAction<boolean>>;
@@ -17,7 +17,7 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [bookInput, setBookInput] = useState({ title: "", authors: "" });
 
-  const addProductHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  const addBookHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     setErrorHandler("");
     e.preventDefault();
     if (!bookInput.title.trim()) {
@@ -91,7 +91,7 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
   return (
     <>
       <div className={styles.container}>
-        <form className={styles.form} onSubmit={addProductHandler}>
+        <form className={styles.form} onSubmit={addBookHandler}>
           <div className={`${styles.row} ${styles.flex}`}>
             <div className={styles.col_25}>
               <label htmlFor="file" className={styles.file}>

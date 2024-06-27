@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import styles from "./ViewBook.module.scss";
-import { createPortal } from "react-dom";
+import styles from "./ViewBookModal.module.scss";
 import { Link } from "react-router-dom";
-import InsertBookDetailForm from "./InsertBookDetailForm/InsertBookDetailForm";
+import InsertBookDetailForm from "../InsertBookDetailForm/InsertBookDetailForm";
 
-const ViewBook = ({ book }) => {
+const ViewBookModal = ({ book }) => {
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
 
   useEffect(() => {
@@ -84,7 +83,7 @@ const ViewBook = ({ book }) => {
                 Size: 7.25" l x 5.09" w x 0.68" h
               </h3>
             ) : (
-              <InsertBookDetailForm id={book._id}/>
+              <InsertBookDetailForm id={book._id} />
             )}
           </div>
         </div>
@@ -93,4 +92,4 @@ const ViewBook = ({ book }) => {
   );
 };
 
-export default ViewBook;
+export default ViewBookModal;

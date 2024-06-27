@@ -2,16 +2,16 @@ import { useContext, useRef, useState } from "react";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import "primeicons/primeicons.css";
-import { BaseURL } from "../../../../../Utils/URLs/ApiURL";
+import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
 import { Link, useParams } from "react-router-dom";
-import { FetchApiContext } from "../../../../../Context/FetchApiContext";
+import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
 
 type PropsType = {
   id: string;
   imageUrl: string;
 };
 
-const BookDelete = ({ id, imageUrl }: PropsType) => {
+const BookDeleteModal = ({ id, imageUrl }: PropsType) => {
   const { ApiFetchDataFun } = useContext(FetchApiContext);
 
   const [visible, setVisible] = useState(false);
@@ -79,4 +79,4 @@ const BookDelete = ({ id, imageUrl }: PropsType) => {
   );
 };
 
-export default BookDelete;
+export default BookDeleteModal;

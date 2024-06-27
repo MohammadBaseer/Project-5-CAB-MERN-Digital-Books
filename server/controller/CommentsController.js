@@ -1,4 +1,4 @@
-import CommentModel from "../models/CommentsModel.js";
+import CommentModel from "../models/commentsModel.js";
 
 //! Submit Comment APi Endpoint
 const insertComments = async (req, res) => {

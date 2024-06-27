@@ -1,9 +1,8 @@
 import BookModel from "../models/booksModel.js";
 import { removeTempFile } from "../utils/tempFileManagement.js";
 import { imageUpload, removeImage } from "../utils/imageManagement.js";
-// import CommentModel from "../models/commentsModel.js";
 import BooksDetailsModel from "../models/booksDetailsModel.js";
-import CommentModel from "../models/CommentsModel.js";
+import CommentModel from "../models/commentsModel.js";
 
 //! display All Book Data API Endpoint
 const displayBook = async (req, res) => {

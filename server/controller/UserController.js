@@ -5,6 +5,7 @@ import { imageUpload } from "../utils/imageManagement.js";
 import { removeTempFile } from "../utils/tempFileManagement.js";
 import { encryptPassword, verifyPassword } from "../utils/Bcrypt/PasswordService.js";
 import generateToken from "../utils/tokenServices.js";
+import passport from "passport";
 
 const RegisterUser = async (req, res) => {
   if (!req.body.name || !req.body.email || !req.body.password) {
@@ -59,7 +60,8 @@ const RegisterUser = async (req, res) => {
 //! user All data API
 const UsersAllData = async (req, res) => {
   try {
-    const userData = await UserModel.find({}, "name email avatar createdAt");
+    const userData = await UserModel.find({}, "name email avatar surname dob address updatedAt");
+    // const userData = await UserModel.find();
     res.status(200).json(userData);
   } catch (error) {
     res.status(200).json({ error: error });
@@ -100,12 +102,56 @@ const UserLogin = async (req, res) => {
               name: existingUser.name,
               email: existingUser.email,
               avatar: existingUser.avatar,
+              //!
+              surname: existingUser.surname,
+              dob: existingUser.dob,
+              address: existingUser.address,
             },
             token: token,
           });
         }
       }
     }
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+};
+
+//! USer Update
+const userUpdate = async (req, res) => {
+  const uid = req.params.id;
+  if (!req.body) {
+    return res.status(400).json({ error: "inputs missing" });
+  }
+  try {
+    const existUser = await UserModel.findOne({ email: req.body.email });
+    if (existUser) {
+      res.status(400).json({ error: "user already exists" });
+      return;
+    }
+
+    // const encryptedPassword = await encryptPassword(req.body.password);
+    // if (req.body.password) {
+    //      if (!encryptedPassword) {
+    //   res.status(400).json({ error: "Password encrypt error" });
+    //   return;
+    // }
+    // }
+
+    // if (encryptedPassword) {
+    const users = {
+      name: req.body.name,
+      surname: req.body.surname,
+      dob: req.body.dob,
+      email: req.body.email,
+      // passport: encryptedPassword,
+      address: req.body.address,
+    };
+
+    const result = await UserModel.findByIdAndUpdate({ _id: uid }, users, { new: true });
+    res.status(200).json({ error: "Update successful", users });
+
+    // }
   } catch (error) {
     res.status(400).json({ error: error });
   }
@@ -121,9 +167,13 @@ const getUserProfile = async (req, res) => {
         name: req.user.name,
         email: req.user.email,
         avatar: req.user.avatar,
+        //!
+        surname: req.user.surname,
+        dob: req.user.dob,
+        address: req.user.address,
       },
     });
   }
 };
 
-export { RegisterUser, UsersAllData, UserLogin, getUserProfile };
+export { RegisterUser, UsersAllData, UserLogin, getUserProfile, userUpdate };

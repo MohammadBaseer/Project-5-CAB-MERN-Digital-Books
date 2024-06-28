@@ -16,7 +16,7 @@ booksRoute.get("/books/:id", displayBookById);
 booksRoute.post("/books", multerUpload.single("image"), bookInsert);
 
 //! Display by ID and update API Endpoint
-booksRoute.put("/books/:id", bookUpdate);
+booksRoute.put("/books/:id", multerUpload.single("image"), bookUpdate);
 
 //! Delete by ID  API Endpoint
 // booksRoute.delete("/books/:id", deleteBook);

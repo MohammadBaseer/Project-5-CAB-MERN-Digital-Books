@@ -1,5 +1,5 @@
 import express from "express";
-import { RegisterUser, UserLogin, UsersAllData, getUserProfile } from "../controller/UserController.js";
+import { RegisterUser, UserLogin, UsersAllData, getUserProfile, userUpdate } from "../controller/UserController.js";
 import { multerUpload } from "../middleware/multer.js";
 import JWTAuth from "../middleware/JSTAuth.js";
 
@@ -13,7 +13,10 @@ UserRouter.post("/user", multerUpload.single("avatar"), RegisterUser);
 //User Login API
 UserRouter.post("/login", UserLogin);
 
-//User Login API
+//User profile update API
+UserRouter.post("/user/:id", userUpdate);
+
+//User profile API
 UserRouter.get("/profile", JWTAuth ,getUserProfile);
 
 

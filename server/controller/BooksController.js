@@ -70,21 +70,32 @@ const bookInsert = async (req, res) => {
 //REVIEW -  //! Should Add the image update Fun
 const bookUpdate = async (req, res) => {
   const bookId = req.params.id;
-  if (!req.body.title || !req.body.authors) {
-    return res.status(400).json({ error: "inputs missing" });
-    removeTempFile(req.file);
-  }
+
   try {
     const authors = req.body.authors.split(",");
-    const doc = {
-      title: req.body.title,
-      image: req.body.image,
-      authors: authors,
-    };
-    const result = await BookModel.findByIdAndUpdate({ _id: bookId }, doc, { new: true });
-    res.status(200).json({ error: "Update successful" });
+    let imageUrl = req.body.image;
+    if (!req.file) {
+      const doc = {
+        title: req.body.title,
+        authors: authors,
+      };
+      const result = await BookModel.findByIdAndUpdate({ _id: bookId }, doc, { new: true });
+      res.status(200).json({ error: "Update successful" });
+    } else {
+      let imageUrl = await imageUpload(req.file, "books_images");
+
+      const doc = {
+        title: req.body.title,
+        image: imageUrl,
+        authors: authors,
+      };
+      const result = await BookModel.findByIdAndUpdate({ _id: bookId }, doc, { new: true });
+      res.status(200).json({ error: "Update successful" });
+    }
   } catch (error) {
     res.status(400).json({ error: error });
+  } finally {
+    removeTempFile(req.file);
   }
 };
 

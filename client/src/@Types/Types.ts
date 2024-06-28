@@ -9,6 +9,9 @@ export type User = {
   name: string;
   id: string;
   avatar: string;
+  surname: string;
+  dob: any;
+  address: string
 };
 
 export type LoginOkResponse = {

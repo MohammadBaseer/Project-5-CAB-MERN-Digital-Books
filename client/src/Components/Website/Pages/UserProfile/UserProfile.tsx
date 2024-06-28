@@ -4,6 +4,9 @@ import UserProfileInputs from "./UserProfileInputs";
 import { AuthContext } from "../../../../Context/AuthContext";
 const UserProfile = () => {
   const { userProfile } = useContext(AuthContext);
+
+  // console.log("user===>", userProfile);
+
   return (
     <div className={styles.container}>
       <br />
@@ -14,7 +17,7 @@ const UserProfile = () => {
             <img className={styles.image} src={userProfile?.avatar} alt="" />
           </div>
           <div className={styles.user_profile_info}>
-            <h4 className={styles.name}>Name</h4>
+            <h4 className={styles.name}>{userProfile?.name}</h4>
             <h5 className={styles.joined_date}>Joined Date</h5>
           </div>
         </div>
@@ -29,13 +32,16 @@ const UserProfile = () => {
             <h3>Email:</h3>
             <h3>Address:</h3>
           </div>
-          <div className={styles.text}>
-            <UserProfileInputs name={userProfile?.name} />
-            <UserProfileInputs />
-            <UserProfileInputs />
-            <UserProfileInputs email={userProfile?.email} />
-            <UserProfileInputs />
-          </div>
+
+          {userProfile && (
+            <div className={styles.text}>
+              <UserProfileInputs type="text" fieldKey="name" fieldValue={userProfile.name} id={userProfile.id} />
+              <UserProfileInputs type="text" fieldKey="surname" fieldValue={userProfile.surname} id={userProfile.id} />
+              <UserProfileInputs type="date" fieldKey="dob" fieldValue={userProfile.dob} id={userProfile.id} />
+              <UserProfileInputs type="text" fieldKey="email" fieldValue={userProfile.email} id={userProfile.id} />
+              <UserProfileInputs type="text" fieldKey="address" fieldValue={userProfile.address} id={userProfile.id} />
+            </div>
+          )}
         </div>
       </div>
     </div>

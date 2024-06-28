@@ -10,6 +10,7 @@ import { CommentRoute } from "./routes/commentsRoute.js";
 import { bookDetailRoute } from "./routes/bookDetailRoute.js";
 import passport from "passport";
 import passportStrategy from "./config/passportConfig.js";
+import { errorHandler } from "./middleware/multer.js";
 
 dotenv.config();
 const app = express();
@@ -48,6 +49,9 @@ const loadRoots = () => {
   app.use("*", (req, res) => {
     res.status(404).json({ error: "Endpoint doesn't exist" });
   });
+
+  // Use the error-handling middleware
+app.use(errorHandler);
 };
 
 const DBConnection = async () => {

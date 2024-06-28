@@ -3,27 +3,66 @@ import styles from "./UpdateBookModal.module.scss";
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import { FetchApiContext } from "../../../../../../../Context/FetchApiContext";
 import { NotOkType } from "../../../../../../../@Types/Types";
+import { BaseURL } from "../../../../../../../Utils/URLs/ApiURL";
 
 type PropsTypes = {
+  id: string;
   imageUrl: string;
   title: string;
-  authors: Array<string>;
+  authors: string
 };
 
-const UpdateBookModal = ({ imageUrl, title, authors }: PropsTypes) => {
-  const [displayToggle, setDisplayToggle] = useState<boolean>(false);
-
+const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
   const { ApiFetchDataFun } = useContext(FetchApiContext);
+  const [displayToggle, setDisplayToggle] = useState<boolean>(false);
   const selectedFileUpdate = useRef<File | null>(null);
-
-  // const [imageUpdate, setImageUpdate] = useState<File | null | any>(null);
   const [imageUpdate, setImageUpdate] = useState<string | null | any>(null);
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [bookInput, setBookInput] = useState({ title: title, authors: authors });
 
+  //!
   const updateBookHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Funcion");
+ e.preventDefault();
+
+
+    const formdata = new FormData();
+    formdata.append("title",bookInput.title);
+    formdata.append("authors", bookInput.authors);
+   
+    
+    if (selectedFileUpdate.current) {
+      formdata.append("image", selectedFileUpdate.current);
+    }
+    
+
+try {
+  // const response = await  fetch("http://localhost:5000/api/books/667c93317f2d6414668352a1", { method: "POST", body: formdata });
+  const response = await  fetch(`${BaseURL}/api/books/${id}`, { method: "PUT", body: formdata });
+   
+  if (response.ok) {
+    const data = await response.json();
+    console.log("update success");
+    setDisplayToggle(!displayToggle)
+    ApiFetchDataFun();
+
+  } else {
+    const data = (await response.json()) as NotOkType;
+    setErrorHandler(data);
+    console.log(" Error", data);
+  }
+
+
+
+
+} catch (error) {
+  
+}
+
+
+
+
+
+
   };
 
   //! OnChange Function
@@ -52,8 +91,6 @@ const UpdateBookModal = ({ imageUrl, title, authors }: PropsTypes) => {
     }
   };
 
-  console.log("test =========================================?");
-
   return (
     <>
       <Link to="#" onClick={() => setDisplayToggle(true)}>
@@ -62,7 +99,9 @@ const UpdateBookModal = ({ imageUrl, title, authors }: PropsTypes) => {
 
       <div id="myModal" className={styles.modal} style={displayToggle === true ? { display: "block" } : { display: "none" }}>
         <div className={styles.modal_content}>
-          <span className={styles.close} onClick={() => setDisplayToggle(false)}>
+          <span className={styles.close} onClick={() =>{ 
+             setImageUpdate(null);
+            setDisplayToggle(false)}}>
             {" "}
             &times;{" "}
           </span>
@@ -78,34 +117,34 @@ const UpdateBookModal = ({ imageUrl, title, authors }: PropsTypes) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <label htmlFor="file" className={styles.file}>
+                  <label htmlFor="fileUpload" className={styles.file}>
                     <img className={styles.image} src={imageUpdate !== null ? imageUpdate : imageUrl} alt="" />
                     <span>Add an Image</span>
                   </label>
 
-                  <input type="file" id="file" name="image" placeholder="Your last name.." style={{ display: "none" }} onChange={handleFileChange} />
+                  <input type="file" id="fileUpload" name="image" onChange={handleFileChange} />
                 </div>
               </div>
 
               <div className={styles.row}>
                 <div className={styles.col_25}>
-                  <label className={styles.elements_label} htmlFor="title">
+                  <label className={styles.elements_label} htmlFor="titleUpdate">
                     Book Title:
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <input type="text" id="title" name="title" placeholder="Book title.." value={bookInput.title} onChange={getInputValues} />
+                  <input type="text" id="titleUpdate" name="title" placeholder="Book title.." value={bookInput.title} onChange={getInputValues} />
                 </div>
               </div>
 
               <div className={styles.row}>
                 <div className={styles.col_25}>
-                  <label className={styles.elements_label} htmlFor="authors">
+                  <label className={styles.elements_label} htmlFor="authorsUpdate">
                     Book Authors:{" "}
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <textarea id="authors" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
+                  <textarea id="authorsUpdate" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
 
                   <div className={styles.error}>{errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}</div>
                 </div>

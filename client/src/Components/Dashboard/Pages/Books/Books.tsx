@@ -3,10 +3,11 @@ import DashboardNavbar from "../../DashboardElements/DashboardNavbar/DashboardNa
 import styles from "./Books.module.scss";
 import "primeicons/primeicons.css";
 import { useContext } from "react";
-import InsertBookButtonModal from "./Modals/InsertBookModal/InsertBookButtonModal/InsertBookButtonModal";
+import InsertBookButtonModal from "./Modals/InsertBookModal/InsertBookModal";
 import ViewBookModal from "./Modals/ViewBookModal/ViewBookModal";
 import UpdateBookModal from "./Modals/UpdateBookModals/UpdateBookModal/UpdateBookModal";
 import BookDeleteModal from "./Modals/BookDeleteModal/BookDeleteModal";
+import InsertBookModal from "./Modals/InsertBookModal/InsertBookModal";
 
 const Books = () => {
   const { data } = useContext(FetchApiContext);
@@ -20,7 +21,7 @@ const Books = () => {
         </h2>
         <div className={styles.table_box}>
           <div className={styles.button_section}>
-            <InsertBookButtonModal />
+            <InsertBookModal />
           </div>
           <table className={styles.table}>
             <thead>
@@ -50,7 +51,7 @@ const Books = () => {
                         <ViewBookModal book={book} />
 
                         {/* Edit  */}
-                        <UpdateBookModal imageUrl={book.image} title={book.title} authors={book.authors} />
+                        <UpdateBookModal id={book._id} imageUrl={book.image} title={book.title} authors={book.authors} />
 
                         {/* Delete Confirm Notified */}
                         <BookDeleteModal id={book._id} imageUrl={book.image} />

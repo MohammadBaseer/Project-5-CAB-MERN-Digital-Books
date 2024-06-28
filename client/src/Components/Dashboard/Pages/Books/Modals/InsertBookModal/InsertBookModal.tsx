@@ -1,15 +1,15 @@
-import styles from "./InsertBookForm.module.scss";
-import add from "../../../../../../../assets/img/dashboard/addbook.png";
-import { ChangeEvent, Dispatch, SetStateAction, useContext, useRef, useState } from "react";
-import { FetchApiContext } from "../../../../../../../Context/FetchApiContext";
-import { NotOkType } from "../../../../../../../@Types/Types";
-import { BaseURL } from "../../../../../../../Utils/URLs/ApiURL";
+import { ChangeEvent, useContext, useRef, useState } from "react";
+import styles from "./InsertBookModal.module.scss";
 
-type DisplayToggleProps = {
-  setDisplayToggle: Dispatch<SetStateAction<boolean>>;
-};
+import add from "../../../../../../assets/img/dashboard/addbook.png";
+import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
+import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
+import { NotOkType } from "../../../../../../@Types/Types";
 
-const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
+// import AddItemForm from "./AddItemForm";
+
+const InsertBookModal = () => {
+  const [displayToggle, setDisplayToggle] = useState<boolean>(false);
   const { ApiFetchDataFun } = useContext(FetchApiContext);
   const selectedFile = useRef<File | null>(null);
 
@@ -52,6 +52,7 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
         selectedFile.current = null;
         setImage(null);
         setDisplayToggle(false);
+        console.log("=====> success" )
       }
       if (!response.ok) {
         const data = (await response.json()) as NotOkType;
@@ -90,9 +91,30 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
   };
 
   //! ----------------------------------------
+  const formToggle = () => {
+    if (displayToggle) {
+      setDisplayToggle(false);
+    } else {
+      setDisplayToggle(true);
+    }
+  };
+
   return (
     <>
-      <div className={styles.container}>
+      <button onClick={formToggle}>
+        <span className="pi pi-plus"></span> Add New Book{" "}
+      </button>
+      <div id="myModal" className={styles.modal} style={displayToggle === true ? { display: "block" } : { display: "none" }}>
+        <div className={styles.modal_content}>
+          {/* //REVIEW -  //! Run a function to clear  data if close the modal */}
+          <span className={styles.close} onClick={formToggle}>
+            {" "}
+            &times;{" "}
+          </span>
+          <h2>Insert New Book</h2>
+          <hr />
+
+          <div className={styles.container}>
         <form className={styles.form} onSubmit={addBookHandler}>
           <div className={`${styles.row} ${styles.flex}`}>
             <div className={styles.col_25}>
@@ -140,8 +162,13 @@ const InsertBookForm = ({ setDisplayToggle }: DisplayToggleProps) => {
           </div>
         </form>
       </div>
+
+
+      {/* //! */}
+        </div>
+      </div>
     </>
   );
 };
 
-export default InsertBookForm;
+export default InsertBookModal;

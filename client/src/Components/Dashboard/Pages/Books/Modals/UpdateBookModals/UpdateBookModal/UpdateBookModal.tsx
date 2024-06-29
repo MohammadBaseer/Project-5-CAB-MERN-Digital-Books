@@ -4,6 +4,7 @@ import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import { FetchApiContext } from "../../../../../../../Context/FetchApiContext";
 import { NotOkType } from "../../../../../../../@Types/Types";
 import { BaseURL } from "../../../../../../../Utils/URLs/ApiURL";
+import { Toast } from "primereact/toast";
 
 type PropsTypes = {
   id: string;
@@ -19,27 +20,37 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
   const [imageUpdate, setImageUpdate] = useState<string | null | any>(null);
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [bookInput, setBookInput] = useState({ title: title, authors: authors });
+  const toast = useRef<Toast>(null);
 
   //!
   const updateBookHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("url", imageUrl);
+    
+    if (!bookInput.title.trim()) {
+      toast.current?.show({severity:'error', summary: 'Error', detail:'Book Title is missing!', life: 3000});
+      return;
+    }
+
+    const authorsString = typeof bookInput.authors === "string" ? bookInput.authors : bookInput.authors.join(",");
+    if (!authorsString.split(",").map(author => author.trim()).join(",").trim()) {
+      toast.current?.show({ severity: 'error', summary: 'Error', detail: 'Book Author is missing', life: 3000 });
+      return;
+    }
 
     const formdata = new FormData();
     formdata.append("title", bookInput.title);
     formdata.append("authors", bookInput.authors);
-
     if (selectedFileUpdate.current) {
       formdata.append("image", selectedFileUpdate.current);
+
     }
 
     try {
-      // const response = await fetch(`${BaseURL}/api/books/${id}`, { method: "PUT", body: formdata });
       const response = await fetch(`${BaseURL}/api/books?id=${id}&imageUrl=${imageUrl}`, { method: "PUT", body: formdata });
 
       if (response.ok) {
-        const data = await response.json();
+        await response.json();
         console.log("update success");
         setDisplayToggle(!displayToggle);
         selectedFileUpdate.current = null;
@@ -47,7 +58,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
         ApiFetchDataFun();
       } else {
         const data = (await response.json()) as NotOkType;
-        setErrorHandler(data);
+        setErrorHandler(data.error);
         console.log(" Error", data);
       }
     } catch (error) {}
@@ -81,6 +92,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
 
   return (
     <>
+    <Toast ref={toast} />
       <Link to="#" onClick={() => setDisplayToggle(true)}>
         <span className="pi pi-file-edit">&nbsp;</span>
       </Link>

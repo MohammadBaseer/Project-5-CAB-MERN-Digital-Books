@@ -1,10 +1,10 @@
 import { ChangeEvent, useContext, useRef, useState } from "react";
 import styles from "./InsertBookModal.module.scss";
-
 import add from "../../../../../../assets/img/dashboard/addbook.png";
 import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
 import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
 import { NotOkType } from "../../../../../../@Types/Types";
+import { Toast } from "primereact/toast";
 
 // import AddItemForm from "./AddItemForm";
 
@@ -12,6 +12,8 @@ const InsertBookModal = () => {
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
   const { ApiFetchDataFun } = useContext(FetchApiContext);
   const selectedFile = useRef<File | null>(null);
+
+  const toast = useRef<Toast>(null);
 
   // const [image, setImage] = useState<File | null | any>(null);
   const [image, setImage] = useState<string | null | any>(null);
@@ -22,15 +24,15 @@ const InsertBookModal = () => {
     setErrorHandler("");
     e.preventDefault();
     if (!bookInput.title.trim()) {
-      setErrorHandler("Title is missing");
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Book Title is missing!", life: 3000 });
       return;
     }
     if (!bookInput.authors.trim()) {
-      setErrorHandler("Author is missing");
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Book Author is missing", life: 3000 });
       return;
     }
     if (!image) {
-      setErrorHandler("Please select an image");
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Please select an image", life: 3000 });
       return;
     }
 
@@ -52,11 +54,11 @@ const InsertBookModal = () => {
         selectedFile.current = null;
         setImage(null);
         setDisplayToggle(false);
-        console.log("=====> success");
+        toast.current?.show({ severity: "success", summary: "Success", detail: "New Book Inserted", life: 3000 });
       }
       if (!response.ok) {
         const data = (await response.json()) as NotOkType;
-        setErrorHandler(data);
+        toast.current?.show({ severity: "error", summary: "Error", detail: data.error, life: 3000 });
       }
     } catch (error: any) {
       setErrorHandler(error.message || "An unknown error occurred");
@@ -104,6 +106,7 @@ const InsertBookModal = () => {
 
   return (
     <>
+      <Toast ref={toast} />
       <button onClick={formToggle}>
         <span className="pi pi-plus"></span> Add New Book{" "}
       </button>

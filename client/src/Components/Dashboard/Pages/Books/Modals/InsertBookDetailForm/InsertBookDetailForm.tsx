@@ -1,16 +1,16 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useRef, useState } from "react";
 import styles from "./InsertBookDetailForm.module.scss";
 import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
 import { NotOkType } from "../../../../../../@Types/Types";
 import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
+import { Toast } from "primereact/toast";
 
 const InsertBookDetailForm = ({ id }) => {
   const { ApiFetchDataFun } = useContext(FetchApiContext);
-
   const [formToggle, setFormToggle] = useState<boolean>(false);
-
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [bookDetailInput, setBookDetailInput] = useState({ longDescription: "", categories: "", publishAt: "" });
+  const toast = useRef<Toast>(null);
 
   //! OnChange Fun
 
@@ -24,15 +24,16 @@ const InsertBookDetailForm = ({ id }) => {
     setErrorHandler("");
     e.preventDefault();
     if (!bookDetailInput.longDescription) {
-      setErrorHandler("Description is missing");
+
+      toast.current?.show({severity:'error', summary: 'Error', detail:'Book Description is missing!', life: 3000});
       return;
     }
     if (!bookDetailInput.categories.trim()) {
-      setErrorHandler("Category is missing");
+      toast.current?.show({severity:'error', summary: 'Error', detail:'Book Category is missing!', life: 3000});
       return;
     }
     if (!bookDetailInput.publishAt.trim()) {
-      setErrorHandler("Publish Date is missing");
+      toast.current?.show({severity:'error', summary: 'Error', detail:'Book Publish Date is missing!', life: 3000});
       return;
     }
     try {
@@ -55,6 +56,7 @@ const InsertBookDetailForm = ({ id }) => {
       if (response.ok) {
         await response.json();
         setBookDetailInput({ longDescription: "", categories: "", publishAt: "", bookref: "" });
+        toast.current?.show({severity:'success', summary: 'Success', detail:'Book Details updated', life: 3000});
         setFormToggle(false);
         ApiFetchDataFun();
       }
@@ -70,6 +72,7 @@ const InsertBookDetailForm = ({ id }) => {
 
   return (
     <>
+    <Toast ref={toast} />
       <button onClick={() => setFormToggle(true)}>
         <span className="pi pi-plus"></span> Add Detail{" "}
       </button>

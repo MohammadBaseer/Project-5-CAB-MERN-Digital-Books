@@ -1,12 +1,16 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useRef, useState } from "react";
 import styles from "./UserProfile.module.scss";
 import { BaseURL } from "../../../../Utils/URLs/ApiURL";
 import { AuthContext } from "../../../../Context/AuthContext";
+import { Toast } from "primereact/toast";
 
 const UserProfileInputs = ({ type, fieldKey, fieldValue, id }) => {
   const { getUserProfile } = useContext(AuthContext);
   const [editButtons, setEditButtons] = useState(true);
   const [value, setValue] = useState(fieldValue || "");
+  const toast = useRef<Toast>(null);
+
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -33,6 +37,8 @@ const UserProfileInputs = ({ type, fieldKey, fieldValue, id }) => {
         console.log("Success", data);
         setEditButtons(!editButtons);
         getUserProfile();
+        toast.current?.show({severity:'success', summary: 'Success', detail:'Profile Updated', life: 3000});
+
       } else {
         const data = await response.json();
         console.log(" Error", data);
@@ -48,6 +54,7 @@ const UserProfileInputs = ({ type, fieldKey, fieldValue, id }) => {
 
   return (
     <div className={styles.text_element}>
+      <Toast ref={toast} />
       <input type={type} disabled={editButtons} name={fieldKey} value={value} onChange={handleChange} />
 
       <div className={styles.action_buttons}>

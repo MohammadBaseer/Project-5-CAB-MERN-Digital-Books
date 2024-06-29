@@ -29,6 +29,7 @@ const displayBookById = async (req, res) => {
     const allBooks = await BookModel.findById({ _id: fetchByIdPrams })
       .populate("detail")
       .populate({ path: "comment", select: ["_id", "comment", "bookRef", "userRef"], populate: { path: "users", select: ["name", "avatar"] } });
+
     res.status(200).json(allBooks);
   } catch (error) {
     console.log("error", error);
@@ -67,35 +68,55 @@ const bookInsert = async (req, res) => {
 };
 
 //! Display by ID and update API Endpoint
-//REVIEW -  //! Should Add the image update Fun
+
 const bookUpdate = async (req, res) => {
-  const bookId = req.params.id;
+  const bookId = req.query.id;
+  const imageUrl = req.query.imageUrl;
 
+  console.log("id", bookId);
+  console.log("imageUrl", imageUrl);
   try {
-    const authors = req.body.authors.split(",");
-    let imageUrl = req.body.image;
-    if (!req.file) {
-      const doc = {
-        title: req.body.title,
-        authors: authors,
-      };
-      const result = await BookModel.findByIdAndUpdate({ _id: bookId }, doc, { new: true });
-      res.status(200).json({ error: "Update successful" });
-    } else {
-      let imageUrl = await imageUpload(req.file, "books_images");
+    const updateFields = {};
 
-      const doc = {
-        title: req.body.title,
-        image: imageUrl,
-        authors: authors,
-      };
-      const result = await BookModel.findByIdAndUpdate({ _id: bookId }, doc, { new: true });
-      res.status(200).json({ error: "Update successful" });
+    const bookExist = await BookModel.findById({ _id: bookId });
+    if (!bookExist) {
+      res.status(200).json({ error: "Book Not Found" });
+      return;
     }
+    if (req.body.title) {
+      updateFields.title = req.body.title;
+    }
+    if (req.body.description) {
+      updateFields.description = req.body.description;
+    }
+    if (req.body.authors) {
+      updateFields.authors = req.body.authors.split(",");
+    }
+    if (req.file) {
+      const imageUploadToCloud = await imageUpload(req.file, "books_images");
+      updateFields.image = imageUploadToCloud;
+
+      removeImage("books_images", imageUrl);
+    }
+    if (req.body.longDescription) {
+      updateFields.longDescription = req.body.longDescription;
+    }
+    if (req.body.categories) {
+      updateFields.categories = req.body.categories.split(",");
+    }
+    if (req.body.publishAt) {
+      updateFields.publishAt = req.body.publishAt;
+    }
+
+    const result = await BookModel.findByIdAndUpdate(bookId, updateFields, { new: true });
+    const result1 = await BooksDetailsModel.findOneAndUpdate({ bookref: bookId }, updateFields, { new: true });
+    res.status(200).json({ error: "Book updated" });
   } catch (error) {
     res.status(400).json({ error: error });
   } finally {
-    removeTempFile(req.file);
+    if (req.file) {
+      removeTempFile(req.file);
+    }
   }
 };
 

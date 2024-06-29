@@ -14,10 +14,9 @@ UserRouter.post("/user", multerUpload.single("avatar"), RegisterUser);
 UserRouter.post("/login", UserLogin);
 
 //User profile update API
-UserRouter.post("/user/:id", userUpdate);
+UserRouter.put("/user/:id", userUpdate);
 
 //User profile API
-UserRouter.get("/profile", JWTAuth ,getUserProfile);
-
+UserRouter.get("/profile", JWTAuth, getUserProfile);
 
 export default UserRouter;

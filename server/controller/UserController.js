@@ -124,34 +124,44 @@ const userUpdate = async (req, res) => {
     return res.status(400).json({ error: "inputs missing" });
   }
   try {
-    const existUser = await UserModel.findOne({ email: req.body.email });
-    if (existUser) {
-      res.status(400).json({ error: "user already exists" });
-      return;
-    }
+    const updateFields = {};
 
-    // const encryptedPassword = await encryptPassword(req.body.password);
-    // if (req.body.password) {
-    //      if (!encryptedPassword) {
-    //   res.status(400).json({ error: "Password encrypt error" });
+    // const bookExist = await UserModel.findOne({ email: req.body.email });
+    // if (!bookExist) {
+    //   res.status(200).json({ error: "User Not Found" });
     //   return;
     // }
+
+    if (req.body.name) {
+      updateFields.name = req.body.name;
+    }
+    if (req.body.surname) {
+      updateFields.surname = req.body.surname;
+    }
+    if (req.body.dob) {
+      updateFields.dob = req.body.dob;
+    }
+    // if (req.body.email) {
+    //   updateFields.email = req.body.email;
     // }
+    if (req.body.address) {
+      updateFields.address = req.body.address;
+    }
+    if (req.body.passport) {
+      const encryptedPassword = await encryptPassword(req.body.password);
+      updateFields.passport = encryptedPassword;
+    }
+    if (req.file) {
+      const imageUploadToCloud = await imageUpload(req.file, "books_images");
+      updateFields.image = imageUploadToCloud;
+      removeImage("books_images", imageUrl);
+    }
 
-    // if (encryptedPassword) {
-    const users = {
-      name: req.body.name,
-      surname: req.body.surname,
-      dob: req.body.dob,
-      email: req.body.email,
-      // passport: encryptedPassword,
-      address: req.body.address,
-    };
+    const result = await UserModel.findByIdAndUpdate({ _id: uid }, updateFields, { new: true });
 
-    const result = await UserModel.findByIdAndUpdate({ _id: uid }, users, { new: true });
-    res.status(200).json({ error: "Update successful", users });
+    res.status(200).json({ error: "Update successful" });
 
-    // }
+    console.log("updateFields ====> ", updateFields);
   } catch (error) {
     res.status(400).json({ error: error });
   }

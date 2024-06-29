@@ -36,25 +36,25 @@ const Books = () => {
             </thead>
             <tbody>
               {data &&
-                data.map((book, index) => {
+                data.map((bookData, index) => {
                   return (
                     <tr key={index}>
                       <td>{index}</td>
                       <td>
-                        <img className={styles.image} src={book.image} alt="" />
+                        <img className={styles.image} src={bookData.image} alt="" />
                       </td>
-                      <td>{book.title}</td>
-                      <td>{book.authors}</td>
+                      <td>{bookData.title}</td>
+                      <td>{bookData.authors}</td>
 
                       <td>
                         {/* View  */}
-                        <ViewBookModal book={book} />
+                        <ViewBookModal bookData={bookData} />
 
                         {/* Edit  */}
-                        <UpdateBookModal id={book._id} imageUrl={book.image} title={book.title} authors={book.authors} />
+                        <UpdateBookModal id={bookData._id} imageUrl={bookData.image} title={bookData.title} authors={bookData.authors} />
 
                         {/* Delete Confirm Notified */}
-                        <BookDeleteModal id={book._id} imageUrl={book.image} />
+                        <BookDeleteModal id={bookData._id} imageUrl={bookData.image} />
                       </td>
                     </tr>
                   );

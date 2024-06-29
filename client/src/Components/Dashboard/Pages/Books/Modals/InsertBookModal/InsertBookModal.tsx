@@ -52,7 +52,7 @@ const InsertBookModal = () => {
         selectedFile.current = null;
         setImage(null);
         setDisplayToggle(false);
-        console.log("=====> success" )
+        console.log("=====> success");
       }
       if (!response.ok) {
         const data = (await response.json()) as NotOkType;
@@ -94,6 +94,9 @@ const InsertBookModal = () => {
   const formToggle = () => {
     if (displayToggle) {
       setDisplayToggle(false);
+      setBookInput({ title: "", authors: "" });
+      selectedFile.current = null;
+      setImage(null);
     } else {
       setDisplayToggle(true);
     }
@@ -106,7 +109,6 @@ const InsertBookModal = () => {
       </button>
       <div id="myModal" className={styles.modal} style={displayToggle === true ? { display: "block" } : { display: "none" }}>
         <div className={styles.modal_content}>
-          {/* //REVIEW -  //! Run a function to clear  data if close the modal */}
           <span className={styles.close} onClick={formToggle}>
             {" "}
             &times;{" "}
@@ -115,56 +117,55 @@ const InsertBookModal = () => {
           <hr />
 
           <div className={styles.container}>
-        <form className={styles.form} onSubmit={addBookHandler}>
-          <div className={`${styles.row} ${styles.flex}`}>
-            <div className={styles.col_25}>
-              <label htmlFor="file" className={styles.file}>
-                Book Photo:
-              </label>
-            </div>
-            <div className={styles.col_75}>
-              <label htmlFor="file" className={styles.file}>
-                <img className={styles.image} src={image !== null ? image : add} alt="" />
-                <span>Add an Image</span>
-              </label>
+            <form className={styles.form} onSubmit={addBookHandler}>
+              <div className={`${styles.row} ${styles.flex}`}>
+                <div className={styles.col_25}>
+                  <label htmlFor="file" className={styles.file}>
+                    Book Photo:
+                  </label>
+                </div>
+                <div className={styles.col_75}>
+                  <label htmlFor="file" className={styles.file}>
+                    <img className={styles.image} src={image !== null ? image : add} alt="" />
+                    <span>Add an Image</span>
+                  </label>
 
-              <input type="file" id="file" name="image" placeholder="Your last name.." style={{ display: "none" }} onChange={handleFileChange} />
-            </div>
+                  <input type="file" id="file" name="image" placeholder="Your last name.." style={{ display: "none" }} onChange={handleFileChange} />
+                </div>
+              </div>
+
+              <div className={styles.row}>
+                <div className={styles.col_25}>
+                  <label className={styles.elements_label} htmlFor="title">
+                    Book Title:
+                  </label>
+                </div>
+                <div className={styles.col_75}>
+                  <input type="text" id="title" name="title" placeholder="Book title.." value={bookInput.title} onChange={getInputValues} />
+                </div>
+              </div>
+
+              <div className={styles.row}>
+                <div className={styles.col_25}>
+                  <label className={styles.elements_label} htmlFor="authors">
+                    Book Authors:{" "}
+                  </label>
+                </div>
+                <div className={styles.col_75}>
+                  <textarea id="authors" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
+
+                  <div className={styles.error}>{errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}</div>
+                </div>
+              </div>
+
+              <br />
+              <div className={styles.row}>
+                <input className={styles.submit_btn} type="submit" value="Submit" />
+              </div>
+            </form>
           </div>
 
-          <div className={styles.row}>
-            <div className={styles.col_25}>
-              <label className={styles.elements_label} htmlFor="title">
-                Book Title:
-              </label>
-            </div>
-            <div className={styles.col_75}>
-              <input type="text" id="title" name="title" placeholder="Book title.." value={bookInput.title} onChange={getInputValues} />
-            </div>
-          </div>
-
-          <div className={styles.row}>
-            <div className={styles.col_25}>
-              <label className={styles.elements_label} htmlFor="authors">
-                Book Authors:{" "}
-              </label>
-            </div>
-            <div className={styles.col_75}>
-              <textarea id="authors" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
-
-              <div className={styles.error}>{errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}</div>
-            </div>
-          </div>
-
-          <br />
-          <div className={styles.row}>
-            <input className={styles.submit_btn} type="submit" value="Submit" />
-          </div>
-        </form>
-      </div>
-
-
-      {/* //! */}
+          {/* //! */}
         </div>
       </div>
     </>

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import styles from "./ViewBookModal.module.scss";
 import { Link } from "react-router-dom";
 import InsertBookDetailForm from "../InsertBookDetailForm/InsertBookDetailForm";
+import UpdateBookDetailsModal from "../UpdateBookModals/UpdateBookDetailsModal/UpdateBookDetailsModal";
 
-const ViewBookModal = ({ book }) => {
+const ViewBookModal = ({ bookData }) => {
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
 
   useEffect(() => {
@@ -32,18 +33,18 @@ const ViewBookModal = ({ book }) => {
 
           <div className={styles.books_details_container}>
             <div className={styles.details_image}>
-              <img className={styles.image} src={book.image} alt="" />
+              <img className={styles.image} src={bookData.image} alt="" />
             </div>
 
             <div className={styles.details_elements}>
               <div className={styles.details_title}>
-                <h3 className={styles.h3}>{book.title}</h3>
+                <h3 className={styles.h3}>{bookData.title}</h3>
               </div>
               <div className={styles.details_author}>
-                <h3>{book.authors}</h3>
+                <h3>{bookData.authors}</h3>
               </div>
               <div className={styles.details_publish_date}>
-                <h3>{book?.detail?.date}</h3>
+                <h3>{bookData?.detail?.date}</h3>
               </div>
               <div className={styles.pages}>
                 <h3>
@@ -67,25 +68,26 @@ const ViewBookModal = ({ book }) => {
           <div className="styles.toc_Container">
             <div className="styles Overview">
               <h2>Overview</h2>
-              {book.detail ? <h3>{book?.detail?.longDescription}</h3> : ""}
+              {bookData.detail ? <h3>{bookData?.detail?.longDescription}</h3> : ""}
             </div>
             <hr />
             <h3>Additional Info</h3>
             <hr />
             <h3>Info</h3>{" "}
-            {book.detail ? (
+            {bookData.detail ? (
               <h3>
-                ISBN: {book?.detail?.isbn} <br />
-                Published Date: {book?.detail?.date} <br />
+                ISBN: {bookData?.detail?.isbn} <br />
+                Published Date: {bookData?.detail?.date} <br />
                 Publisher: Grand Central Publishing <br />
                 Language: English <br />
-                Page Count: {book?.detail?.pageCount} <br />
+                Page Count: {bookData?.detail?.pageCount} <br />
                 Size: 7.25" l x 5.09" w x 0.68" h
               </h3>
             ) : (
-              <InsertBookDetailForm id={book._id} />
+              <InsertBookDetailForm id={bookData._id} />
             )}
           </div>
+          {bookData.detail && <UpdateBookDetailsModal bookDate={bookData} />}
         </div>
       </div>
     </>

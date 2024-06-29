@@ -9,7 +9,7 @@ type PropsTypes = {
   id: string;
   imageUrl: string;
   title: string;
-  authors: string
+  authors: string;
 };
 
 const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
@@ -22,47 +22,35 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
 
   //!
   const updateBookHandler = async (e: React.FormEvent<HTMLFormElement>) => {
- e.preventDefault();
+    e.preventDefault();
 
+    console.log("url", imageUrl);
 
     const formdata = new FormData();
-    formdata.append("title",bookInput.title);
+    formdata.append("title", bookInput.title);
     formdata.append("authors", bookInput.authors);
-   
-    
+
     if (selectedFileUpdate.current) {
       formdata.append("image", selectedFileUpdate.current);
     }
-    
 
-try {
-  // const response = await  fetch("http://localhost:5000/api/books/667c93317f2d6414668352a1", { method: "POST", body: formdata });
-  const response = await  fetch(`${BaseURL}/api/books/${id}`, { method: "PUT", body: formdata });
-   
-  if (response.ok) {
-    const data = await response.json();
-    console.log("update success");
-    setDisplayToggle(!displayToggle)
-    ApiFetchDataFun();
+    try {
+      // const response = await fetch(`${BaseURL}/api/books/${id}`, { method: "PUT", body: formdata });
+      const response = await fetch(`${BaseURL}/api/books?id=${id}&imageUrl=${imageUrl}`, { method: "PUT", body: formdata });
 
-  } else {
-    const data = (await response.json()) as NotOkType;
-    setErrorHandler(data);
-    console.log(" Error", data);
-  }
-
-
-
-
-} catch (error) {
-  
-}
-
-
-
-
-
-
+      if (response.ok) {
+        const data = await response.json();
+        console.log("update success");
+        setDisplayToggle(!displayToggle);
+        selectedFileUpdate.current = null;
+        setImageUpdate(null);
+        ApiFetchDataFun();
+      } else {
+        const data = (await response.json()) as NotOkType;
+        setErrorHandler(data);
+        console.log(" Error", data);
+      }
+    } catch (error) {}
   };
 
   //! OnChange Function
@@ -99,9 +87,15 @@ try {
 
       <div id="myModal" className={styles.modal} style={displayToggle === true ? { display: "block" } : { display: "none" }}>
         <div className={styles.modal_content}>
-          <span className={styles.close} onClick={() =>{ 
-             setImageUpdate(null);
-            setDisplayToggle(false)}}>
+          <span
+            className={styles.close}
+            onClick={() => {
+              selectedFileUpdate.current = null;
+              setImageUpdate(null);
+
+              setDisplayToggle(false);
+            }}
+          >
             {" "}
             &times;{" "}
           </span>

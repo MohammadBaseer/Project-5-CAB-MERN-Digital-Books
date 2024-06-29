@@ -1,8 +1,10 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import styles from "./UserProfile.module.scss";
 import { BaseURL } from "../../../../Utils/URLs/ApiURL";
+import { AuthContext } from "../../../../Context/AuthContext";
 
 const UserProfileInputs = ({ type, fieldKey, fieldValue, id }) => {
+  const { getUserProfile } = useContext(AuthContext);
   const [editButtons, setEditButtons] = useState(true);
   const [value, setValue] = useState(fieldValue || "");
 
@@ -11,20 +13,26 @@ const UserProfileInputs = ({ type, fieldKey, fieldValue, id }) => {
   };
 
   const userUpdate = async () => {
-    // e.preventDefault();
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    const formdata = new FormData();
-    formdata.append(fieldKey, value);
+    const urlencoded = new URLSearchParams();
+    urlencoded.append(fieldKey, value);
 
-    console.log("value====>", fieldKey, value);
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: urlencoded,
+    };
 
     try {
-      const response = await fetch(`${BaseURL}/auth/user/${id}`, { method: "POST", body: formdata });
+      const response = await fetch(`${BaseURL}/auth/user/${id}`, requestOptions);
 
       if (response.ok) {
         const data = await response.json();
         console.log("Success", data);
-        // setEditButtons(!editButtons);
+        setEditButtons(!editButtons);
+        getUserProfile();
       } else {
         const data = await response.json();
         console.log(" Error", data);

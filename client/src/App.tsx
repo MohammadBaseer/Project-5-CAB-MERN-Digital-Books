@@ -14,6 +14,7 @@ import BooksFromDashboard from "./Components/Dashboard/Pages/Books/Books";
 import User from "./Components/Dashboard/Pages/UserProfile/Users";
 import Dashboard from "./Components/Dashboard/Pages/Home/Dashboard";
 import UserProfile from "./Components/Website/Pages/UserProfile/UserProfile";
+import ProtectedRoute from "./Components/Dashboard/AuthAction/ProtectedRouts/ProtectedRouts";
 
 function App() {
   const router = createBrowserRouter(
@@ -28,9 +29,11 @@ function App() {
           <Route
             path="books"
             element={
-              <FetchApiContextProvider>
-                <Books />
-              </FetchApiContextProvider>
+              <ProtectedRoute>
+                <FetchApiContextProvider>
+                  <Books />
+                </FetchApiContextProvider>
+              </ProtectedRoute>
             }
           />
           <Route path="/books/:id" element={<BooksDetails />} />
@@ -38,7 +41,14 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
         </Route>
         //! Dashboard Routs -----------------------------
-        <Route path="/" element={<DashboardLayout />}>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/users" element={<User />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route
@@ -53,15 +63,6 @@ function App() {
       </>
     )
   );
-
-  // useEffect(() => {
-  //   const isUserLogged = isToken();
-  //   if (isUserLogged) {
-  //     console.log("user is LOGGED IN", isUserLogged);
-  //   } else {
-  //     console.log("user is NOT LOGGED IN", isUserLogged);
-  //   }
-  // }, []);
 
   return (
     <>

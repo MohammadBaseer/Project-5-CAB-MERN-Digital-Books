@@ -29,11 +29,9 @@ function App() {
           <Route
             path="books"
             element={
-              <ProtectedRoute>
                 <FetchApiContextProvider>
                   <Books />
                 </FetchApiContextProvider>
-              </ProtectedRoute>
             }
           />
           <Route path="/books/:id" element={<BooksDetails />} />

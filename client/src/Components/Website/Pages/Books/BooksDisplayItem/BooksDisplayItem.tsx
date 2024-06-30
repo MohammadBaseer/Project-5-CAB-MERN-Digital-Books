@@ -1,51 +1,68 @@
 import "primeicons/primeicons.css";
 import styles from "./BooksDisplayItem.module.scss";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FetchApiContext } from "../../../../../Context/FetchApiContext";
 import { Link } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Loading from "../../../../../Utils/Loading/Loading";
 
 const BooksDisplayItem = () => {
   //! FetchApiContext
   const { data } = useContext(FetchApiContext);
-  //! ------------------------------------------------
+
+  const [bookData, setBookData] = useState<any>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 21;
+
+  useEffect(() => {
+    if (data) {
+      setBookData(data.slice(0, itemsPerPage));
+    }
+  }, [data]);
+
+  const fetchMoreData = () => {
+    setTimeout(() => {
+      if (currentPage * itemsPerPage < data.length) {
+        const nextPageData = data && data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+        setBookData((prevItems) => [...prevItems, ...nextPageData]);
+        setCurrentPage((prevPage) => prevPage + 1);
+      }
+    }, 1500);
+  };
+
+  const dLength = data && (data.length as any);
   return (
     <>
       <h1>This is books Page</h1>
-      <div className={styles.books_list}>
-        {/* ------------------------------------------ */}
-        {data &&
-          data.map((displayItem, index) => {
-            return (
-              <div className={styles.books} key={index}>
-                <div className={styles.books_elements}>
-                  <div className={styles.book_image}>
-                    <img src={displayItem.image} alt="" />
-                  </div>
-                  <div className={styles.book_title}>
-                    <p className={styles.title}>
-                      <strong>{displayItem.title}</strong>
-                    </p>
-                    <p className={styles.author}>{displayItem?.detail?.publishAt}</p>
-                    <p className={styles.author}>{displayItem.authors[0]}</p>
-                    <p className={styles.star}></p>
-                    <a href="/read" className={styles.read}>
-                      <i className="pi pi-book"> Read</i>
-                    </a>
-                    {/* {const bookID = displayItem.id} */}
-
-                    {displayItem.detail ? (
-                      <Link to={`${displayItem._id}`} className={styles.content}>
-                        <i className="pi pi-file"> Details</i>
-                      </Link>
-                    ) : (
-                      ""
-                    )}
-                  </div>
+      <InfiniteScroll dataLength={bookData.length} next={fetchMoreData} hasMore={currentPage * itemsPerPage < dLength} loader={<Loading />}>
+        <div className={styles.books_list}>
+          {bookData.map((displayItem, index) => (
+            <div className={styles.books} key={index}>
+              <div className={styles.books_elements}>
+                <div className={styles.book_image}>
+                  <img src={displayItem.image} alt="" />
+                </div>
+                <div className={styles.book_title}>
+                  <p className={styles.title}>
+                    <strong>{displayItem.title}</strong>
+                  </p>
+                  <p className={styles.author}>{displayItem?.detail?.publishAt}</p>
+                  <p className={styles.author}>{displayItem.authors[0]}</p>
+                  <p className={styles.star}></p>
+                  <a href="/read" className={styles.read}>
+                    <i className="pi pi-book"> Read</i>
+                  </a>
+                  {displayItem.detail && (
+                    <Link to={`${displayItem._id}`} className={styles.content}>
+                      <i className="pi pi-file"> Details</i>
+                    </Link>
+                  )}
                 </div>
               </div>
-            );
-          })}
-      </div>
+            </div>
+          ))}
+        </div>
+      </InfiniteScroll>
     </>
   );
 };

@@ -32,12 +32,19 @@ export type CommentType = {
   users: User[];
 };
 export declare type BooksDataType = {
-  _id: string;
-  title: string;
-  image: string;
-  authors: Array<string>;
-  detail: { publishAt: any; longDescription: string; categories: Array<string> };
-  comment: CommentType[];
+  totalResult: number;
+  allBooks: Array<{
+    _id: string;
+    title: string;
+    image: string;
+    authors: string[];
+    detail: {
+      publishAt: any;
+      longDescription: string;
+      categories: string[];
+    };
+    comment: CommentType[];
+  }>;
 };
 
 //! Comments Data Type

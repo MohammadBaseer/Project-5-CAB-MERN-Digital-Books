@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import styles from "./CommentSection.module.scss";
 import { CommentType, NotOkType } from "../../../../../../@Types/Types";
 import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
 import Comments from "./Comments/Comments";
 import { AuthContext } from "../../../../../../Context/AuthContext";
 import { isToken } from "../../../../../../Utils/tokenServices";
+import { Toast } from "primereact/toast";
 
 type CommentTypeProps = {
   id: string;
@@ -13,19 +14,17 @@ type CommentTypeProps = {
 };
 
 const CommentSection = ({ id, comment, addComment }: CommentTypeProps) => {
+  const toast = useRef<Toast>(null);
   const { userProfile } = useContext(AuthContext);
   const uid = userProfile?.id as string;
   const isUserLogged = isToken();
 
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
-
   const [commentText, setCommentText] = useState<string>("");
 
+
   const insertNewComment = async () => {
-    if (!commentText.trim()) {
-      setErrorHandler("empty comment");
-      return;
-    }
+
     try {
       const headers = new Headers();
       headers.append("Content-Type", "application/x-www-form-urlencoded");
@@ -41,9 +40,14 @@ const CommentSection = ({ id, comment, addComment }: CommentTypeProps) => {
       const response = await fetch(`${BaseURL}/api/comments`, requestOption);
 
       if (!isUserLogged) {
-        console.log(" Please Login first");
+        toast.current?.show({severity:'error', summary: 'Error', detail:'Please Login first', life: 3000});
         return;
       }
+      if (!commentText.trim()) {
+        toast.current?.show({severity:'error', summary: 'Error', detail:'empty*', life: 3000});
+        return;
+      }
+      
       if (response.ok) {
         await response.json();
         setCommentText("");
@@ -67,6 +71,8 @@ const CommentSection = ({ id, comment, addComment }: CommentTypeProps) => {
   };
 
   return (
+    <>
+      <Toast ref={toast} />
     <div className={styles.comment_section}>
       <div className={styles.comment_container}>
         <form onSubmit={AddCommentHandler}>
@@ -85,6 +91,7 @@ const CommentSection = ({ id, comment, addComment }: CommentTypeProps) => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

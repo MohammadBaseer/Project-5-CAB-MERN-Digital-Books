@@ -1,14 +1,17 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./Comments.module.scss";
 import { CommentType } from "../../../../../../../@Types/Types";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../../../../../Context/AuthContext";
 import { BaseURL } from "../../../../../../../Utils/URLs/ApiURL";
+import { Toast } from "primereact/toast";
 type CommentTypeProps = {
   comment: CommentType[];
   addComment: any;
 };
 const Comments = ({ comment, addComment }: CommentTypeProps) => {
+  const toast = useRef<Toast>(null);
+
   const { userProfile } = useContext(AuthContext);
 
 
@@ -21,6 +24,7 @@ const Comments = ({ comment, addComment }: CommentTypeProps) => {
           return;
         }
         addComment();
+        toast.current?.show({severity:'success', summary: 'Error', detail:'Deleted', life: 3000});
       }
     } catch (error) {
       console.log(error);
@@ -29,6 +33,9 @@ const Comments = ({ comment, addComment }: CommentTypeProps) => {
 
   return (
     <>
+<div className={styles.Notification}>
+     <Toast ref={toast} />
+</div>
       {comment &&
         comment.map((singleComment, index) => {
           return (

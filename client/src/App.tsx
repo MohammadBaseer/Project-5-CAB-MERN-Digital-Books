@@ -29,14 +29,21 @@ function App() {
           <Route
             path="books"
             element={
-                <FetchApiContextProvider>
-                  <Books />
-                </FetchApiContextProvider>
+              <FetchApiContextProvider>
+                <Books />
+              </FetchApiContextProvider>
             }
           />
           <Route path="/books/:id" element={<BooksDetails />} />
           <Route path="/read" element={<BookReadMode />} />
-          <Route path="/profile" element={<UserProfile />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
         </Route>
         //! Dashboard Routs -----------------------------
         <Route

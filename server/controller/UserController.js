@@ -8,13 +8,15 @@ import generateToken from "../utils/tokenServices.js";
 import passport from "passport";
 
 const RegisterUser = async (req, res) => {
-  if (!req.body.name || !req.body.email || !req.body.password) {
+  const name = req.body.name.trim();
+  const email = req.body.email.toLowerCase().trim();
+  if (!name || !email || !req.body.password) {
     removeTempFile(req.file);
     res.status(400).json({ error: "Credentials missing" });
     return;
   }
   try {
-    const existUser = await UserModel.findOne({ email: req.body.email });
+    const existUser = await UserModel.findOne({ email: email });
     if (existUser) {
       removeTempFile(req.file);
       res.status(400).json({ error: "user already exists" });
@@ -28,9 +30,9 @@ const RegisterUser = async (req, res) => {
       }
       if (encryptedPassword) {
         const newUser = new UserModel({
-          email: req.body.email,
+          email: email,
           password: encryptedPassword,
-          name: req.body.name,
+          name: name,
         });
 
         if (!req.file) {
@@ -41,6 +43,7 @@ const RegisterUser = async (req, res) => {
           newUser.avatar = avatarURL;
         }
         await newUser.save();
+
         const userForFront = {
           _id: newUser._id,
           name: newUser.name,
@@ -52,6 +55,7 @@ const RegisterUser = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({ error: error });
+    console.log("Err==>", error);
   } finally {
     removeTempFile(req.file);
   }
@@ -61,7 +65,6 @@ const RegisterUser = async (req, res) => {
 const UsersAllData = async (req, res) => {
   try {
     const userData = await UserModel.find({}, "name email avatar surname dob address updatedAt");
-    // const userData = await UserModel.find();
     res.status(200).json(userData);
   } catch (error) {
     res.status(200).json({ error: error });
@@ -70,12 +73,13 @@ const UsersAllData = async (req, res) => {
 
 //! User Login
 const UserLogin = async (req, res) => {
-  if (!req.body.email || !req.body.password) {
+  const email = req.body.email.toLowerCase().trim();
+  if (!email || !req.body.password) {
     res.status(400).json({ error: "Credentials missing" });
     return;
   }
   try {
-    const existingUser = await UserModel.findOne({ email: req.body.email });
+    const existingUser = await UserModel.findOne({ email: email });
     if (!existingUser) {
       res.status(400).json({ error: "Email is not registered" });
       return;
@@ -133,19 +137,19 @@ const userUpdate = async (req, res) => {
     // }
 
     if (req.body.name) {
-      updateFields.name = req.body.name;
+      updateFields.name = req.body.name.trim();
     }
     if (req.body.surname) {
-      updateFields.surname = req.body.surname;
+      updateFields.surname = req.body.surname.trim();
     }
     if (req.body.dob) {
       updateFields.dob = req.body.dob;
     }
     // if (req.body.email) {
-    //   updateFields.email = req.body.email;
+    //   updateFields.email = req.body.email..trim();
     // }
     if (req.body.address) {
-      updateFields.address = req.body.address;
+      updateFields.address = req.body.address.trim();
     }
     if (req.body.passport) {
       const encryptedPassword = await encryptPassword(req.body.password);

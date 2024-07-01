@@ -1,14 +1,21 @@
 import { ChangeEvent, useContext } from "react";
 import styles from "./Login.module.scss";
 import { AuthContext } from "../../../../Context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { isToken } from "../../../../Utils/tokenServices";
 
 const Login = () => {
+  const toNavigate = useNavigate();
   const { currentUser, setCurrentUser, userLogin, errorHandler } = useContext(AuthContext);
 
   const getInputValues = (e: ChangeEvent<HTMLInputElement>) => {
     setCurrentUser({ ...currentUser, [e.target.name]: e.target.value });
   };
+
+  const isUserLogged = isToken();
+  if (isUserLogged) {
+    toNavigate("/");
+  }
 
   return (
     <div className={styles.container}>

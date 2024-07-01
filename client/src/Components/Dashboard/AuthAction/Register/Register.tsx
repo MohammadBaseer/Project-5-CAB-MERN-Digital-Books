@@ -3,9 +3,11 @@ import { ChangeEvent, useContext, useEffect } from "react";
 import styles from "./Register.module.scss";
 import avatar from "../../../../assets/img/registrationFormAvatar/addAvatar.png";
 import { AuthContext } from "../../../../Context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { isToken } from "../../../../Utils/tokenServices";
 
 const Register = () => {
+  const toNavigate = useNavigate();
   const { setNewUser, previewImg, setPreviewImg, errorHandler, newUser, selectedFile, UserRegisterFun } = useContext(AuthContext);
 
   const getInputValues = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +39,11 @@ const Register = () => {
       }
     };
   }, []);
+
+  const isUserLogged = isToken();
+  if (isUserLogged) {
+    toNavigate("/");
+  }
 
   return (
     <div className={styles.container}>

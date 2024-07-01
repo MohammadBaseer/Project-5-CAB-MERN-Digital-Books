@@ -7,12 +7,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Loading from "../../../../../Utils/Loading/Loading";
 
 const BooksDisplayItem = () => {
-  //! FetchApiContext
-  const { data } = useContext(FetchApiContext);
-
+  const { data, loading, errorHandle } = useContext(FetchApiContext);
   const [bookData, setBookData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 21;
+  const itemsPerPage = 27;
 
   useEffect(() => {
     if (data) {
@@ -63,6 +61,12 @@ const BooksDisplayItem = () => {
           ))}
         </div>
       </InfiniteScroll>
+      {
+        <div className={styles.error}>
+          <h2>{errorHandle}</h2>
+        </div>
+      }
+      {loading && <Loading />}
     </>
   );
 };

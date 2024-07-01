@@ -4,6 +4,8 @@ import { BooksDataType } from "../@Types/Types";
 type FetchApiContextType = {
   data: BooksDataType[] | null;
   ApiFetchDataFun: () => void;
+  loading: boolean;
+  errorHandle: string;
 };
 
 const initFetchApiContext = {
@@ -11,6 +13,8 @@ const initFetchApiContext = {
   ApiFetchDataFun: () => {
     throw new Error("The ApiFetchDataFun Error");
   },
+  loading: true,
+  errorHandle: "",
 };
 
 export const FetchApiContext = createContext<FetchApiContextType>(initFetchApiContext);
@@ -19,6 +23,8 @@ type FetchApiContextProvider = {
 };
 const FetchApiContextProvider = ({ children }: FetchApiContextProvider) => {
   const [data, setData] = useState<BooksDataType[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [errorHandle, setErrorHandle] = useState("");
 
   const ApiURL = "http://localhost:5000/api/books";
   const ApiFetchDataFun = async () => {
@@ -26,14 +32,19 @@ const FetchApiContextProvider = ({ children }: FetchApiContextProvider) => {
       const url = await fetch(ApiURL);
       const result = (await url.json()) as BooksDataType[];
       setData(result);
-    } catch (error) {}
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch data ===>", error);
+      setLoading(false);
+      setErrorHandle(error.message);
+    }
   };
-
+  console.log("errorHandle    =::::>", errorHandle);
   useEffect(() => {
     ApiFetchDataFun();
   }, []);
 
-  return <FetchApiContext.Provider value={{ data, ApiFetchDataFun }}> {children}</FetchApiContext.Provider>;
+  return <FetchApiContext.Provider value={{ data, ApiFetchDataFun, loading, errorHandle }}> {children}</FetchApiContext.Provider>;
 };
 
 export default FetchApiContextProvider;

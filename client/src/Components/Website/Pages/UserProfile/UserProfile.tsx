@@ -35,11 +35,11 @@ const UserProfile = () => {
 
           {userProfile && (
             <div className={styles.text}>
-              <UserProfileInputs type="text" fieldKey="name" fieldValue={userProfile.name} id={userProfile.id} />
-              <UserProfileInputs type="text" fieldKey="surname" fieldValue={userProfile.surname} id={userProfile.id} />
-              <UserProfileInputs type="date" fieldKey="dob" fieldValue={userProfile.dob} id={userProfile.id} />
-              <UserProfileInputs type="text" fieldKey="email" fieldValue={userProfile.email} id={userProfile.id} />
-              <UserProfileInputs type="text" fieldKey="address" fieldValue={userProfile.address} id={userProfile.id} />
+              <UserProfileInputs type="text" fieldKey="name" fieldValue={userProfile.name} id={userProfile.id} readOnly={false} />
+              <UserProfileInputs type="text" fieldKey="surname" fieldValue={userProfile.surname} id={userProfile.id} readOnly={false} />
+              <UserProfileInputs type="date" fieldKey="dob" fieldValue={userProfile.dob} id={userProfile.id} readOnly={false} />
+              <UserProfileInputs type="text" fieldKey="email" fieldValue={userProfile.email} id={userProfile.id} readOnly={true} />
+              <UserProfileInputs type="text" fieldKey="address" fieldValue={userProfile.address} id={userProfile.id} readOnly={false} />
             </div>
           )}
         </div>

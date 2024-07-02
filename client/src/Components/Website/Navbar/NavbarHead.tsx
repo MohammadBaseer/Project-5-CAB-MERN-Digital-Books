@@ -65,12 +65,6 @@ const NavbarHead = () => {
                       </Link>
                     </div>
                     <div className={styles.user_tab_navbar_element}>
-                      <Link to="/chat">
-                        {" "}
-                        <span className="pi pi-comment"> Messages</span>{" "}
-                      </Link>
-                    </div>
-                    <div className={styles.user_tab_navbar_element}>
                       <Link to="/dashboard">
                         {" "}
                         <span className="pi pi-shop"> Admin Panel</span>{" "}

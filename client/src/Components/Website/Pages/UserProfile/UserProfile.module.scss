@@ -60,6 +60,17 @@ body {
 
 .text_element {
   display: flex;
+
+  .inputs[type="text"],
+  .inputs[type="email"],
+  .inputs[type="date"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+
   .action_buttons {
     display: flex;
     align-items: center;

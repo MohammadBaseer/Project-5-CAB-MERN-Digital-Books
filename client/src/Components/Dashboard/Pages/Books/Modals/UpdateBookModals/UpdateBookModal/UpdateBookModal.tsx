@@ -26,15 +26,20 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
   const updateBookHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    
     if (!bookInput.title.trim()) {
-      toast.current?.show({severity:'error', summary: 'Error', detail:'Book Title is missing!', life: 3000});
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Book Title is missing!", life: 3000 });
       return;
     }
 
     const authorsString = typeof bookInput.authors === "string" ? bookInput.authors : bookInput.authors.join(",");
-    if (!authorsString.split(",").map(author => author.trim()).join(",").trim()) {
-      toast.current?.show({ severity: 'error', summary: 'Error', detail: 'Book Author is missing', life: 3000 });
+    if (
+      !authorsString
+        .split(",")
+        .map((author) => author.trim())
+        .join(",")
+        .trim()
+    ) {
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Book Author is missing", life: 3000 });
       return;
     }
 
@@ -43,7 +48,6 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
     formdata.append("authors", bookInput.authors);
     if (selectedFileUpdate.current) {
       formdata.append("image", selectedFileUpdate.current);
-
     }
 
     try {
@@ -92,7 +96,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
 
   return (
     <>
-    <Toast ref={toast} />
+      <Toast ref={toast} />
       <Link to="#" onClick={() => setDisplayToggle(true)}>
         <span className="pi pi-file-edit">&nbsp;</span>
       </Link>
@@ -128,7 +132,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
                     <span>Add an Image</span>
                   </label>
 
-                  <input type="file" id="fileUpload" name="image" onChange={handleFileChange} />
+                  <input type="file" id="fileUpload" name="image" onChange={handleFileChange} style={{ display: "none" }} />
                 </div>
               </div>
 
@@ -139,7 +143,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <input type="text" id="titleUpdate" name="title" placeholder="Book title.." value={bookInput.title} onChange={getInputValues} />
+                  <input className={styles.inputs} type="text" id="titleUpdate" name="title" placeholder="Book title.." value={bookInput.title} onChange={getInputValues} />
                 </div>
               </div>
 
@@ -150,7 +154,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <textarea id="authorsUpdate" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
+                  <textarea className={styles.text_area} id="authorsUpdate" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
 
                   <div className={styles.error}>{errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}</div>
                 </div>

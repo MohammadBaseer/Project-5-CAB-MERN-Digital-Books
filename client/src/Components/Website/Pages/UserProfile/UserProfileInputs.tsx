@@ -52,7 +52,7 @@ const UserProfileInputs = ({ type, fieldKey, fieldValue, id, readOnly }) => {
   return (
     <div className={styles.text_element}>
       <Toast ref={toast} />
-      <input type={type} disabled={editButtons} name={fieldKey} value={value} onChange={handleChange} readOnly={readOnly} />
+      <input className={styles.inputs} type={type} disabled={editButtons} name={fieldKey} value={value} onChange={handleChange} readOnly={readOnly} />
 
       <div className={styles.action_buttons}>
         <div className={styles.edit_button_1} style={editButtons ? { display: "contents" } : { display: "none" }}>

@@ -65,10 +65,10 @@
     }
   }
 }
-input[type="text"],
-input[type="number"],
-select,
-textarea {
+
+.inputs[type="text"],
+.inputs[type="date"],
+.text_area {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;

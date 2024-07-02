@@ -144,7 +144,7 @@ const InsertBookModal = () => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <input type="text" id="title" name="title" placeholder="Book title.." value={bookInput.title} onChange={getInputValues} />
+                  <input className={styles.inputs} type="text" id="title" name="title" placeholder="Book title.." value={bookInput.title} onChange={getInputValues} />
                 </div>
               </div>
 
@@ -155,7 +155,7 @@ const InsertBookModal = () => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <textarea id="authors" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
+                  <textarea className={styles.text_area} id="authors" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
 
                   <div className={styles.error}>{errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}</div>
                 </div>

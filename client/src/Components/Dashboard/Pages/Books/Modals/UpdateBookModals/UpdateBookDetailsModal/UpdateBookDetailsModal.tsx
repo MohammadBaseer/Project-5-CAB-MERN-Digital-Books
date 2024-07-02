@@ -89,7 +89,7 @@ const UpdateBookDetailsModal = ({ bookDate }) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <textarea id="description" name="longDescription" rows={20} value={bookInput.longDescription} onChange={getInputValues} />
+                  <textarea className={styles.text_area} id="description" name="longDescription" rows={20} value={bookInput.longDescription} onChange={getInputValues} />
                 </div>
               </div>
 
@@ -100,7 +100,7 @@ const UpdateBookDetailsModal = ({ bookDate }) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <input type="text" id="categories" name="categories" value={bookInput.categories} onChange={getInputValues} />
+                  <input className={styles.inputs} type="text" id="categories" name="categories" value={bookInput.categories} onChange={getInputValues} />
                 </div>
               </div>
 
@@ -111,7 +111,7 @@ const UpdateBookDetailsModal = ({ bookDate }) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <input type="date" id="publishAt" name="publishAt" value={bookInput.date} onChange={getInputValues} />
+                  <input className={styles.inputs} type="date" id="publishAt" name="publishAt" value={bookInput.date} onChange={getInputValues} />
 
                   <div className={styles.error}>{errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}</div>
                 </div>

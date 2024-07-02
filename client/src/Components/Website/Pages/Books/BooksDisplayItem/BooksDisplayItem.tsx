@@ -31,7 +31,6 @@ const BooksDisplayItem = () => {
   const dLength = data && (data.length as any);
   return (
     <>
-      <h1>This is books Page</h1>
       <InfiniteScroll dataLength={bookData.length} next={fetchMoreData} hasMore={currentPage * itemsPerPage < dLength} loader={<Loading />}>
         <div className={styles.books_list}>
           {bookData.map((displayItem, index) => (

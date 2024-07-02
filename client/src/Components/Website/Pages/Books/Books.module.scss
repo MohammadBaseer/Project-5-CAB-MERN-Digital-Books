@@ -1,7 +1,39 @@
+@import "../../../../assets/scss/variables.scss";
+
 body {
   background-color: #fff;
 }
 .container {
   width: 95%;
   margin: auto;
+}
+.items_container {
+  border: solid;
+  padding: 15px;
+}
+.items {
+  border: solid red;
+  display: inline-block;
+  padding: 5px;
+  width: 250px;
+  .img {
+    width: 235px;
+    height: 300px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px 1px #787b7c;
+  }
+}
+.book_title {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px 12px;
+  justify-content: space-between;
+  color: $fontColor !important;
+
+  .title {
+    font-size: 13px;
+    padding: 4px;
+    margin: 0px;
+  }
 }

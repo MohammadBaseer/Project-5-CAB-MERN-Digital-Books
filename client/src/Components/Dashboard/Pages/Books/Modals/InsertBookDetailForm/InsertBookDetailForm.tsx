@@ -24,16 +24,15 @@ const InsertBookDetailForm = ({ id }) => {
     setErrorHandler("");
     e.preventDefault();
     if (!bookDetailInput.longDescription) {
-
-      toast.current?.show({severity:'error', summary: 'Error', detail:'Book Description is missing!', life: 3000});
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Book Description is missing!", life: 3000 });
       return;
     }
     if (!bookDetailInput.categories.trim()) {
-      toast.current?.show({severity:'error', summary: 'Error', detail:'Book Category is missing!', life: 3000});
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Book Category is missing!", life: 3000 });
       return;
     }
     if (!bookDetailInput.publishAt.trim()) {
-      toast.current?.show({severity:'error', summary: 'Error', detail:'Book Publish Date is missing!', life: 3000});
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Book Publish Date is missing!", life: 3000 });
       return;
     }
     try {
@@ -56,7 +55,7 @@ const InsertBookDetailForm = ({ id }) => {
       if (response.ok) {
         await response.json();
         setBookDetailInput({ longDescription: "", categories: "", publishAt: "", bookref: "" });
-        toast.current?.show({severity:'success', summary: 'Success', detail:'Book Details updated', life: 3000});
+        toast.current?.show({ severity: "success", summary: "Success", detail: "Book Details updated", life: 3000 });
         setFormToggle(false);
         ApiFetchDataFun();
       }
@@ -72,7 +71,7 @@ const InsertBookDetailForm = ({ id }) => {
 
   return (
     <>
-    <Toast ref={toast} />
+      <Toast ref={toast} />
       <button onClick={() => setFormToggle(true)}>
         <span className="pi pi-plus"></span> Add Detail{" "}
       </button>
@@ -94,7 +93,7 @@ const InsertBookDetailForm = ({ id }) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <textarea id="description" name="longDescription" placeholder="Description" rows={20} value={bookDetailInput.longDescription} onChange={getInputValues} />
+                  <textarea className={styles.text_area} id="description" name="longDescription" placeholder="Description" rows={20} value={bookDetailInput.longDescription} onChange={getInputValues} />
                 </div>
               </div>
 
@@ -105,7 +104,7 @@ const InsertBookDetailForm = ({ id }) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <input type="text" id="categories" name="categories" placeholder="Category1, Category2, Category3 .." value={bookDetailInput.categories} onChange={getInputValues} />
+                  <input className={styles.inputs} type="text" id="categories" name="categories" placeholder="Category1, Category2, Category3 .." value={bookDetailInput.categories} onChange={getInputValues} />
                 </div>
               </div>
 
@@ -116,7 +115,7 @@ const InsertBookDetailForm = ({ id }) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <input type="date" id="publishAt" name="publishAt" placeholder="Your last name.." value={bookDetailInput.publishAt} onChange={getInputValues} />
+                  <input className={styles.inputs} type="date" id="publishAt" name="publishAt" placeholder="Your last name.." value={bookDetailInput.publishAt} onChange={getInputValues} />
                   <div className={styles.error}>{errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}</div>
                 </div>
               </div>

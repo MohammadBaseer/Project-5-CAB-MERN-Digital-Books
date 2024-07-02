@@ -10,7 +10,8 @@ const displayBook = async (req, res) => {
     // const allBooks = await BookModel.find().populate("detail").populate("comment");
     const allBooks = await BookModel.find()
       .populate("detail")
-      .populate({ path: "comment", populate: { path: "users", select: ["name", "avatar"] } });
+      .populate({ path: "comment", populate: { path: "users", select: ["name", "avatar"] } })
+      .sort({ createdAt: -1 });
 
     res.status(200).json(allBooks);
   } catch (error) {
@@ -53,7 +54,7 @@ const bookInsert = async (req, res) => {
     } else {
       let imageUrl = await imageUpload(req.file, "books_images");
       const insertNewData = new BookModel({
-        title: req.body.title,
+        title: req.body.title.trim(),
         image: imageUrl,
         authors: req.body.authors.split(","),
       });
@@ -84,7 +85,7 @@ const bookUpdate = async (req, res) => {
       return;
     }
     if (req.body.title) {
-      updateFields.title = req.body.title;
+      updateFields.title = req.body.title.trim();
     }
     if (req.body.description) {
       updateFields.description = req.body.description;
@@ -99,7 +100,7 @@ const bookUpdate = async (req, res) => {
       removeImage("books_images", imageUrl);
     }
     if (req.body.longDescription) {
-      updateFields.longDescription = req.body.longDescription;
+      updateFields.longDescription = req.body.longDescription.trim();
     }
     if (req.body.categories) {
       updateFields.categories = req.body.categories.split(",");

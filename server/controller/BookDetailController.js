@@ -16,7 +16,7 @@ const insertBookDetails = async (req, res) => {
 
   try {
     const insertNewDetails = new BooksDetailsModel({
-      longDescription: req.body.longDescription,
+      longDescription: req.body.longDescription.trim(),
       categories: req.body.categories.split(","),
       bookref: req.body.bookref,
       publishAt: req.body.publishAt,

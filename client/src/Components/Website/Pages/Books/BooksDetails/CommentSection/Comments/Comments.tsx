@@ -1,41 +1,20 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext } from "react";
 import styles from "./Comments.module.scss";
 import { CommentType } from "../../../../../../../@Types/Types";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../../../../../../Context/AuthContext";
-import { BaseURL } from "../../../../../../../Utils/URLs/ApiURL";
-import { Toast } from "primereact/toast";
+import UpdateCommentModal from "./CommentModal/UpdateCommentModal";
 type CommentTypeProps = {
   comment: CommentType[];
   addComment: any;
 };
 const Comments = ({ comment, addComment }: CommentTypeProps) => {
-  const toast = useRef<Toast>(null);
+  console.log("comments======>", comment);
 
   const { userProfile } = useContext(AuthContext);
 
-
-  const deleteComments = async (commentId: string) => {
-    try {
-      const result = await fetch(`${BaseURL}/api/comments/${commentId}`, { method: "DELETE" });
-      if (result.status === 200) {
-        if (!userProfile) {
-          alert("Please Login first")
-          return;
-        }
-        addComment();
-        toast.current?.show({severity:'success', summary: 'Error', detail:'Deleted', life: 3000});
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <>
-<div className={styles.Notification}>
-     <Toast ref={toast} />
-</div>
+      <div className={styles.Notification}></div>
       {comment &&
         comment.map((singleComment, index) => {
           return (
@@ -48,20 +27,9 @@ const Comments = ({ comment, addComment }: CommentTypeProps) => {
                 <p className={styles.comment_text}>{singleComment.comment}</p>
 
                 {singleComment.userRef === userProfile?.id && (
-                  <p className={styles.exist_user_action}>
-                    <Link to="#">
-                      <span className="pi pi-file-edit">&nbsp;</span>
-                    </Link>
-                    <Link
-                      to="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        deleteComments(singleComment.id);
-                      }}
-                    >
-                      <span className="pi pi-trash"> </span>
-                    </Link>
-                  </p>
+                  <>
+                    <UpdateCommentModal id={singleComment.id} addComment={addComment} />
+                  </>
                 )}
               </div>
             </div>

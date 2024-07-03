@@ -22,9 +22,7 @@ const CommentSection = ({ id, comment, addComment }: CommentTypeProps) => {
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [commentText, setCommentText] = useState<string>("");
 
-
   const insertNewComment = async () => {
-
     try {
       const headers = new Headers();
       headers.append("Content-Type", "application/x-www-form-urlencoded");
@@ -40,14 +38,14 @@ const CommentSection = ({ id, comment, addComment }: CommentTypeProps) => {
       const response = await fetch(`${BaseURL}/api/comments`, requestOption);
 
       if (!isUserLogged) {
-        toast.current?.show({severity:'error', summary: 'Error', detail:'Please Login first', life: 3000});
+        toast.current?.show({ severity: "error", summary: "Error", detail: "Please Login first", life: 3000 });
         return;
       }
       if (!commentText.trim()) {
-        toast.current?.show({severity:'error', summary: 'Error', detail:'empty*', life: 3000});
+        toast.current?.show({ severity: "error", summary: "Error", detail: "empty*", life: 3000 });
         return;
       }
-      
+
       if (response.ok) {
         await response.json();
         setCommentText("");
@@ -73,24 +71,24 @@ const CommentSection = ({ id, comment, addComment }: CommentTypeProps) => {
   return (
     <>
       <Toast ref={toast} />
-    <div className={styles.comment_section}>
-      <div className={styles.comment_container}>
-        <form onSubmit={AddCommentHandler}>
-          <div className={styles.comment_box}>
-            <textarea className={styles.comments} rows={10} placeholder="Aa" name="comment" value={commentText} onChange={(e) => setCommentText(e.target.value)}></textarea>
-            {/* {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>} */}
-          </div>
+      <div className={styles.comment_section}>
+        <div className={styles.comment_container}>
+          <form onSubmit={AddCommentHandler}>
+            <div className={styles.comment_box}>
+              <textarea className={styles.comments} rows={10} placeholder="Aa" name="comment" value={commentText} onChange={(e) => setCommentText(e.target.value)}></textarea>
+              {/* {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>} */}
+            </div>
 
-          <div className={styles.comment_button}>
-            <button>Comment</button>
-          </div>
-          <br />
-          <br />
+            <div className={styles.comment_button}>
+              <button>Comment</button>
+            </div>
+            <br />
+            <br />
 
-          <Comments comment={comment} addComment={addComment} />
-        </form>
+            <Comments comment={comment} addComment={addComment} />
+          </form>
+        </div>
       </div>
-    </div>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import express from "express";
-import { deleteComments, fetchComments, insertComments } from "../controller/CommentsController.js";
+import { deleteComments, fetchComments, insertComments, updateComments } from "../controller/CommentsController.js";
 
 const CommentRoute = express.Router();
 
@@ -11,5 +11,8 @@ CommentRoute.get("/comments", fetchComments);
 
 //! Insert comment Route API
 CommentRoute.delete("/comments/:id", deleteComments);
+
+//! Insert comment Route API
+CommentRoute.put("/comments/:id", updateComments);
 
 export { CommentRoute };

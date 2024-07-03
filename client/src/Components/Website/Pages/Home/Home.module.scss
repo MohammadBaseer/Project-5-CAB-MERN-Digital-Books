@@ -1,0 +1,118 @@
+@import "../../../../assets/scss/variables.scss";
+
+body {
+  background-color: #fff;
+}
+
+.container {
+  width: 95%;
+  margin: auto;
+}
+.slider {
+  .slider_image {
+    width: 100%;
+    max-height: 300px;
+  }
+  padding: 20px;
+}
+.random_items_box {
+  position: relative;
+  .random_items_box_a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 25px;
+    position: absolute;
+    width: 100%;
+    top: -6rem;
+
+  }
+}
+.hr_line {
+  height: 180px;
+}
+
+
+.books_list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  align-items: stretch;
+  gap: 10px;
+
+  .books {
+    border: solid 1px #686767;
+    width: 182px;
+    min-width: 182px;
+    border-radius: 5px;
+    background-color: $cardColor;
+
+    .books_elements {
+      // margin: 13px;
+      margin-top: 7px;
+      margin-bottom: 0px;
+
+      .book_image {
+        width: 100% !important;
+        text-align: center;
+        border-radius: 5px;
+
+        img {
+          width: 135px;
+          height: 150px;
+          border-radius: 5px;
+          box-shadow: 0px 0px 2px 1px #787b7c;
+
+          // filter: grayscale(100%) !important;
+        }
+      }
+
+      .book_title {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0 2px;
+        justify-content: space-between;
+        color: $fontColor !important;
+
+        .title {
+          font-size: 13px;
+          padding: 4px;
+          margin: 0px;
+        }
+        .author {
+          font-size: 12px;
+          padding: 4px;
+          margin: 0px;
+        }
+        .star {
+          font-size: 12px;
+          padding: 4px;
+          margin: 0px;
+          color: $fontColor !important;
+        }
+        .read {
+          font-size: 12px;
+          padding: 4px;
+          margin: 0px;
+          color: $fontColor !important;
+        }
+        .content {
+          font-size: 12px;
+          padding: 4px;
+          margin: 0px;
+          color: $fontColor !important;
+        }
+      }
+    }
+  }
+}
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: red;
+}

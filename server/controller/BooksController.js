@@ -57,12 +57,14 @@ const bookInsert = async (req, res) => {
         title: req.body.title.trim(),
         image: imageUrl,
         authors: req.body.authors.split(","),
+        userRef: req.body.userRef,
       });
       await insertNewData.save();
       res.status(200).json({ error: "New book inserted" });
     }
   } catch (error) {
     res.status(400).json({ error: error });
+    console.log("error==== >", error);
   } finally {
     removeTempFile(req.file);
   }

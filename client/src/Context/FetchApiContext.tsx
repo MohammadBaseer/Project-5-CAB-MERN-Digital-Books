@@ -39,7 +39,6 @@ const FetchApiContextProvider = ({ children }: FetchApiContextProvider) => {
       setErrorHandle(error.message);
     }
   };
-  console.log("errorHandle    =::::>", errorHandle);
   useEffect(() => {
     ApiFetchDataFun();
   }, []);

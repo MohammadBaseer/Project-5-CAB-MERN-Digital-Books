@@ -5,12 +5,14 @@ import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
 import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
 import { NotOkType } from "../../../../../../@Types/Types";
 import { Toast } from "primereact/toast";
+import { AuthContext } from "../../../../../../Context/AuthContext";
 
 // import AddItemForm from "./AddItemForm";
 
 const InsertBookModal = () => {
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
   const { ApiFetchDataFun } = useContext(FetchApiContext);
+  const { userProfile } = useContext(AuthContext);
   const selectedFile = useRef<File | null>(null);
 
   const toast = useRef<Toast>(null);
@@ -39,6 +41,7 @@ const InsertBookModal = () => {
     const formdata = new FormData();
     formdata.append("title", bookInput.title);
     formdata.append("authors", bookInput.authors);
+    formdata.append("userRef", userProfile.id);
     if (selectedFile.current) {
       formdata.append("image", selectedFile.current);
     }

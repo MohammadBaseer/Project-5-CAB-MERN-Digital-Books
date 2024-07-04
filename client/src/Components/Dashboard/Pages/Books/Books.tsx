@@ -10,87 +10,95 @@ import BookDeleteModal from "./Modals/BookDeleteModal/BookDeleteModal";
 import InsertBookModal from "./Modals/InsertBookModal/InsertBookModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loading from "../../../../Utils/Loading/Loading";
+import { AuthContext } from "../../../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Books = () => {
-  // const { data, loading, errorHandle } = useContext(FetchApiContext);
-
   const { data, loading, errorHandle } = useContext(FetchApiContext);
-  const [bookData, setBookData] = useState<any>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 21;
+  const { userProfile } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (data) {
-      setBookData(data.slice(0, itemsPerPage));
-    }
-  }, [data]);
+  // if (data.userRef) {
 
-  const fetchMoreData = () => {
-    setTimeout(() => {
-      if (currentPage * itemsPerPage < data.length) {
-        const nextPageData = data && data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
-        setBookData((prevItems) => [...prevItems, ...nextPageData]);
-        setCurrentPage((prevPage) => prevPage + 1);
-      }
-    }, 1500);
-  };
+  // }
 
-  const dLength = data && (data.length as any);
+  // const [bookData, setBookData] = useState<any>([]);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const itemsPerPage = 21;
+
+  // useEffect(() => {
+  //   if (data) {
+  //     setBookData(data.slice(0, itemsPerPage));
+  //   }
+  // }, [data]);
+
+  // const fetchMoreData = () => {
+  //   setTimeout(() => {
+  //     if (currentPage * itemsPerPage < data.length) {
+  //       const nextPageData = data && data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+  //       setBookData((prevItems) => [...prevItems, ...nextPageData]);
+  //       setCurrentPage((prevPage) => prevPage + 1);
+  //     }
+  //   }, 1500);
+  // };
+
+  // const dLength = data && (data.length as any);
 
   return (
     <>
       <div className={styles.main_container}>
-        <InfiniteScroll dataLength={bookData.length} next={fetchMoreData} hasMore={currentPage * itemsPerPage < dLength} loader={<Loading />}>
-          <DashboardNavbar />
-          <div className={styles.container}>
-            <h2>
-              <span className="pi pi-home">&nbsp;Dashboard\Books List</span>
-            </h2>
-            <div className={styles.table_box}>
-              <div className={styles.button_section}>
-                <InsertBookModal />
-              </div>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Photo</th>
-                    <th>Book Name</th>
-                    <th>Author</th>
-
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookData &&
-                    bookData.map((bookData, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{index}</td>
-                          <td>
-                            <img className={styles.image} src={bookData.image} alt="" />
-                          </td>
-                          <td>{bookData.title}</td>
-                          <td>{bookData.authors}</td>
-
-                          <td>
-                            {/* View  */}
-                            <ViewBookModal bookData={bookData} />
-
-                            {/* Edit  */}
-                            <UpdateBookModal id={bookData._id} imageUrl={bookData.image} title={bookData.title} authors={bookData.authors} />
-
-                            {/* Delete Confirm Notified */}
-                            <BookDeleteModal id={bookData._id} imageUrl={bookData.image} />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
+        {/* <InfiniteScroll dataLength={bookData.length} next={fetchMoreData} hasMore={currentPage * itemsPerPage < dLength} loader={<Loading />}> */}
+        <DashboardNavbar />
+        <div className={styles.container}>
+          <h2>
+            <span className="pi pi-home">&nbsp;Dashboard\Books List</span>
+          </h2>
+          <div className={styles.table_box}>
+            <div className={styles.button_section}>
+              <InsertBookModal />
             </div>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Photo</th>
+                  <th>Book Name</th>
+                  <th>Author</th>
+
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data &&
+                  data.map((bookData, index) => {
+                    return bookData.userRef === userProfile?.id ? (
+                      <tr key={index}>
+                        <td>{index}</td>
+                        <td>
+                          <img className={styles.image} src={bookData.image} alt="" />
+                        </td>
+                        <td>{bookData.title}</td>
+                        <td>{bookData.authors}</td>
+
+                        <td>
+                          {/* View  */}
+                          <ViewBookModal bookData={bookData} />
+
+                          {/* Edit  */}
+                          <UpdateBookModal id={bookData._id} imageUrl={bookData.image} title={bookData.title} authors={bookData.authors} />
+
+                          {/* Delete Confirm Notified */}
+                          <BookDeleteModal id={bookData._id} imageUrl={bookData.image} />
+                        </td>
+                      </tr>
+                    ) : (
+                      ""
+                    );
+                  })}
+              </tbody>
+            </table>
           </div>
-        </InfiniteScroll>
+        </div>
+        {/* </InfiniteScroll> */}
         {loading && <Loading />}
         {
           <div className={styles.error}>

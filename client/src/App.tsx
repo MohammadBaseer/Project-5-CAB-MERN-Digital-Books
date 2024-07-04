@@ -15,6 +15,7 @@ import User from "./Components/Dashboard/Pages/UserProfile/Users";
 import Dashboard from "./Components/Dashboard/Pages/Home/Dashboard";
 import UserProfile from "./Components/Website/Pages/UserProfile/UserProfile";
 import ProtectedRoute from "./Components/Dashboard/AuthAction/ProtectedRouts/ProtectedRouts";
+import NotFound from "./Components/Website/Pages/NotFound";
 
 function App() {
   const router = createBrowserRouter(
@@ -22,6 +23,7 @@ function App() {
       <>
         //! Website Routs -----------------------------
         <Route path="/" element={<Layout />}>
+          <Route path="*" element={<NotFound />} />
           <Route
             index
             element={

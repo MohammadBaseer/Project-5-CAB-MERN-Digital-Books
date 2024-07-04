@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext } from "react";
+import { ChangeEvent, useContext, useEffect } from "react";
 import styles from "./Login.module.scss";
 import { AuthContext } from "../../../../Context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,9 +13,11 @@ const Login = () => {
   };
 
   const isUserLogged = isToken();
-  if (isUserLogged) {
-    toNavigate("/");
-  }
+  useEffect(() => {
+    if (isUserLogged) {
+      toNavigate("/");
+    }
+  }, [isUserLogged]);
 
   return (
     <div className={styles.container}>

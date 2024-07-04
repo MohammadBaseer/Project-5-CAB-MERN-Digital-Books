@@ -41,9 +41,11 @@ const Register = () => {
   }, []);
 
   const isUserLogged = isToken();
-  if (isUserLogged) {
-    toNavigate("/");
-  }
+  useEffect(() => {
+    if (isUserLogged) {
+      toNavigate("/");
+    }
+  }, [isUserLogged]);
 
   return (
     <div className={styles.container}>

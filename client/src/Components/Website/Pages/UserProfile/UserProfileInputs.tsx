@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useRef, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import styles from "./UserProfile.module.scss";
 import { BaseURL } from "../../../../Utils/URLs/ApiURL";
 import { AuthContext } from "../../../../Context/AuthContext";
@@ -17,19 +17,15 @@ const UserProfileInputs = ({ type, fieldKey, fieldValue, id, readOnly }) => {
   const userUpdate = async () => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
     const urlencoded = new URLSearchParams();
     urlencoded.append(fieldKey, value);
-
     const requestOptions = {
       method: "PUT",
       headers: myHeaders,
       body: urlencoded,
     };
-
     try {
       const response = await fetch(`${BaseURL}/auth/user/${id}`, requestOptions);
-
       if (response.ok) {
         const data = await response.json();
         console.log("Success", data);

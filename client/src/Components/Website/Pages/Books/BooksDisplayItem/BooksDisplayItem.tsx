@@ -46,14 +46,19 @@ const BooksDisplayItem = () => {
                   <p className={styles.author}>{displayItem?.detail?.publishAt}</p>
                   <p className={styles.author}>{displayItem.authors[0]}</p>
                   <p className={styles.star}></p>
-                  <a href="/read" className={styles.read}>
+                  {/* <a href="/read" className={styles.read}>
                     <i className="pi pi-book"> Read</i>
-                  </a>
-                  {displayItem.detail && (
-                    <Link to={`${displayItem._id}`} className={styles.content}>
-                      <i className="pi pi-file"> Details</i>
+                  </a> */}
+                  <div className={styles.item_footer}>
+                    {displayItem.detail && (
+                      <Link to={`${displayItem._id}`} className={styles.content}>
+                        <i className="pi pi-file"> Details</i>
+                      </Link>
+                    )}
+                    <Link to={""}>
+                      <span className={`pi pi-heart ${styles.like}`}> </span>
                     </Link>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>

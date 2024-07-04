@@ -1,7 +1,7 @@
-import { FormEvent, ReactNode, SetStateAction, createContext, useRef, useState } from "react";
+import { FormEvent, ReactNode, SetStateAction, createContext, useEffect, useRef, useState } from "react";
 import { GetProfileResponse, LoginOkResponse, NotOkType, User } from "../@Types/Types";
 import { BaseURL } from "../Utils/URLs/ApiURL";
-import { getToken } from "../Utils/tokenServices";
+import { getToken, isToken } from "../Utils/tokenServices";
 
 type AuthContextType = {
   newUser: { name: string; email: string; password: string };
@@ -10,6 +10,7 @@ type AuthContextType = {
   selectedFile: File | null;
   currentUser: { email: string; password: string };
   userProfile: User | null;
+  isLoading: boolean;
   setCurrentUser: (prev: any) => any;
   setNewUser: (prev: any) => any;
   setPreviewImg: (previewImg: string | null) => void;
@@ -26,6 +27,7 @@ const AuthContextInitialValue: AuthContextType = {
   selectedFile: null,
   currentUser: { email: "", password: "" },
   userProfile: { email: "", name: "", id: "", avatar: "" },
+  isLoading: true,
   setCurrentUser: () => {
     throw new Error("The setCurrentUser Error");
   },
@@ -64,6 +66,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [newUser, setNewUser] = useState({ name: "", email: "", password: "" });
   const [previewImg, setPreviewImg] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const selectedFile = useRef<File | null>(null);
 
   //! Registration Function
@@ -185,17 +188,27 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         if (response.ok) {
           const result = (await response.json()) as GetProfileResponse;
           setUserProfile(result.user);
+          setIsLoading(false);
           // console.log("User Profile Result ====>", result);
         }
       } catch (error) {
         console.log("User Profile -----<", error);
+        setIsLoading(false);
       }
     }
   };
+  // useEffect(() => {
+  //   const isUserLogged = isToken();
+
+  //   if (isUserLogged) {
+  //     setUserProfile
+  //   }
+
+  // }, [userProfile])
 
   //!--------------------------------------------------------
 
-  return <AuthContext.Provider value={{ newUser, errorHandler, previewImg, setNewUser, setPreviewImg, selectedFile, UserRegisterFun, getUserProfile, currentUser, setCurrentUser, userLogin, userProfile, setUserProfile }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ newUser, errorHandler, previewImg, setNewUser, setPreviewImg, selectedFile, UserRegisterFun, getUserProfile, currentUser, setCurrentUser, userLogin, userProfile, setUserProfile, isLoading }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContextProvider;

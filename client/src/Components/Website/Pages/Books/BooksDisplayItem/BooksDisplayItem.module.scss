@@ -75,6 +75,21 @@
     }
   }
 }
+
+.item_footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 5px;
+  .like {
+    position: absolute;
+    cursor: pointer;
+    color: red;
+    right: 6px;
+    bottom: 6px;
+  }
+}
 .error {
   position: absolute;
   top: 50%;

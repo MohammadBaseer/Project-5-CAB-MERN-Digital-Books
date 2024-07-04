@@ -43,6 +43,7 @@ const UserProfileInputs = ({ type, fieldKey, fieldValue, id, readOnly }) => {
 
   const action = () => {
     setEditButtons(!editButtons);
+    setValue(fieldValue);
   };
 
   return (

@@ -1,5 +1,5 @@
 import express from "express";
-import { displayBook, displayBookById, bookUpdate, bookInsert, deleteBook } from "../controller/BooksController.js";
+import { displayBook, displayBookById, bookUpdate, bookInsert, deleteBook, like } from "../controller/BooksController.js";
 import { multerUpload } from "../middleware/multer.js";
 // import BooksDetailsModel from "../models/booksDetailsModel.js";
 // import BookModel from "../models/booksModel.js";
@@ -21,5 +21,8 @@ booksRoute.put("/books/", multerUpload.single("image"), bookUpdate);
 //! Delete by ID  API Endpoint
 // booksRoute.delete("/books/:id", deleteBook);
 booksRoute.delete("/books/", deleteBook);
+
+//! Like
+booksRoute.put("/likes/", like);
 
 export default booksRoute;

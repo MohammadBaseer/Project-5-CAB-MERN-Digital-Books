@@ -143,4 +143,38 @@ const deleteBook = async (req, res) => {
   }
 };
 
-export { displayBookById, displayBook, bookInsert, bookUpdate, deleteBook };
+//! Like
+const like = async (req, res) => {
+  const bookID = "668556a41a296dbfac61d7a7";
+  // const bookID = "668557f81a296dbfac61d832";
+  const userID = "66855aa51a296dbfac61d8c8";
+
+  try {
+    const existBook = await BookModel.findById(bookID);
+    const result = existBook.likes;
+
+    if (existBook) {
+      console.log(" if existBook is working - 2");
+      result.map(async (singleLike) => {
+        console.log(singleLike);
+        if (singleLike !== userID) {
+          console.log(" if is working - 3");
+          console.log("Like found");
+          const like = await BookModel.findByIdAndUpdate(bookID, { $addToSet: { likes: userID } }, { new: true });
+          //res.status(200).json({like});
+          return;
+        } else {
+          console.log(" else is working - 4");
+          const unLike = await BookModel.findByIdAndUpdate(bookID, { $pull: { likes: userID } }, { new: true });
+          //res.status(200).json({unLike});
+          return;
+        }
+        //  return res.status(400).json({ error: "soothing went wrong" });
+      });
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export { displayBookById, displayBook, bookInsert, bookUpdate, deleteBook, like };

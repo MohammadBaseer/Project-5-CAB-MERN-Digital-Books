@@ -1,11 +1,14 @@
 import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const generateToken = (userID) => {
   const payload = {
     sub: userID,
   };
-  // const secretOrPrivateKey = process.env.JWT_SECRET;
-  const secretOrPrivateKey = "this is the password that we sett it by self";
+  const secretOrPrivateKey = process.env.JWT_SECRET;
+  // const secretOrPrivateKey = "this is the password that we sett it by self";
   const signOption = {
     expiresIn: "2d",
   };

@@ -57,7 +57,7 @@ const Home = () => {
                           <i className="pi pi-book"> Read</i>
                         </a> */}
                         {singleBook.detail && (
-                          <Link to={`${singleBook._id}`} className={styles.content}>
+                          <Link to={`books/${singleBook._id}`} className={styles.content}>
                             <i className="pi pi-file"> Details</i>
                           </Link>
                         )}
@@ -97,7 +97,7 @@ const Home = () => {
                       <i className="pi pi-book"> Read</i>
                     </a> */}
                     {displayItem.detail && (
-                      <Link to={`${displayItem._id}`} className={styles.content}>
+                      <Link to={`books/${displayItem._id}`} className={styles.content}>
                         <i className="pi pi-file"> Details</i>
                       </Link>
                     )}

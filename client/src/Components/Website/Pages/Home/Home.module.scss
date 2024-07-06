@@ -26,13 +26,11 @@ body {
     position: absolute;
     width: 100%;
     top: -6rem;
-
   }
 }
 .hr_line {
   height: 180px;
 }
-
 
 .books_list {
   display: flex;
@@ -106,6 +104,26 @@ body {
           color: $fontColor !important;
         }
       }
+    }
+  }
+}
+.item_footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 5px;
+  .count_like {
+    border: solid 1px;
+    padding: 5px;
+    position: absolute;
+    color: #686767;
+    right: 6px;
+    bottom: 6px;
+    border-radius: 30px;
+    .like {
+      cursor: pointer;
+      margin-left: 5px;
     }
   }
 }

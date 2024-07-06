@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 import styles from "./Home.module.scss";
 import "./css.css";
-
 import Loading from "../../../../Utils/Loading/Loading";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { FetchApiContext } from "../../../../Context/FetchApiContext";
 
+import { AuthContext } from "../../../../Context/AuthContext";
+
 const Home = () => {
-  const { data, loading, errorHandle } = useContext(FetchApiContext);
+  const { data, loading, errorHandle, likeFunction } = useContext(FetchApiContext);
+  const { userProfile } = useContext(AuthContext);
+
   const itemSlice = data?.slice(0, 27);
 
   //!
@@ -79,8 +82,8 @@ const Home = () => {
         {/* //!================================================================================== */}
 
         <div className={styles.books_list}>
-          {itemSlice &&
-            itemSlice.map((displayItem, index) => (
+          {data &&
+            data.map((displayItem, index) => (
               <div className={styles.books} key={index}>
                 <div className={styles.books_elements}>
                   <div className={styles.book_image}>
@@ -94,13 +97,23 @@ const Home = () => {
                     <p className={styles.author}>{displayItem.authors[0]}</p>
                     <p className={styles.star}></p>
                     {/* <a href="/read" className={styles.read}>
-                      <i className="pi pi-book"> Read</i>
-                    </a> */}
-                    {displayItem.detail && (
-                      <Link to={`books/${displayItem._id}`} className={styles.content}>
-                        <i className="pi pi-file"> Details</i>
-                      </Link>
-                    )}
+                    <i className="pi pi-book"> Read</i>
+                  </a> */}
+                    <div className={styles.item_footer}>
+                      {displayItem.detail && (
+                        <Link to={`${displayItem._id}`} className={styles.content}>
+                          <i className="pi pi-file"> Details</i>
+                        </Link>
+                      )}
+
+                      <div className={styles.count_like}>
+                        {displayItem.likes.length || 0}
+                        &nbsp;
+                        <Link to={"#"} onClick={() => likeFunction(displayItem._id)}>
+                          <span className={`pi pi-thumbs-up${displayItem.likes.includes(userProfile?.id) ? "-fill" : ""} ${styles.like}`}></span>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

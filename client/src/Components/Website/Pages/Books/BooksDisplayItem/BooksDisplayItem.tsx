@@ -12,43 +12,11 @@ import { AuthContext } from "../../../../../Context/AuthContext";
 const BooksDisplayItem = () => {
   const toast = useRef<Toast>(null);
 
-  const { data, loading, errorHandle, ApiFetchDataFun } = useContext(FetchApiContext);
+  const { data, loading, errorHandle, likeFunction } = useContext(FetchApiContext);
   const { userProfile } = useContext(AuthContext);
   const [bookData, setBookData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 27;
-
-  const likeFunction = async (bookID: string) => {
-    console.log("book ID", bookID);
-    const token = localStorage.getItem("token");
-    const isUserLogged = isToken();
-
-    if (!isUserLogged) {
-      toast.current?.show({ severity: "error", summary: "Error", detail: "Please Login!", life: 3000 });
-      return;
-    }
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    myHeaders.append("Authorization", `Bearer ${token}`);
-    const urlencoded = new URLSearchParams();
-    urlencoded.append("bookId", bookID);
-    const requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      body: urlencoded,
-    };
-
-    try {
-      const response = await fetch("http://localhost:5000/api/likes", requestOptions);
-      if (response.ok) {
-        const result = await response.json();
-        ApiFetchDataFun();
-        toast.current?.show({ severity: "success", summary: "Success", detail: result.error, life: 3000 });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     if (data) {

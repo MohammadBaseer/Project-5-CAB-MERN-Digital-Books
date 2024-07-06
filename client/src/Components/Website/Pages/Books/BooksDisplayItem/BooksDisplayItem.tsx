@@ -16,7 +16,7 @@ const BooksDisplayItem = () => {
   const { userProfile } = useContext(AuthContext);
   const [bookData, setBookData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 27;
+  const itemsPerPage = 20;
 
   useEffect(() => {
     if (data) {
@@ -58,11 +58,11 @@ const BooksDisplayItem = () => {
                     <i className="pi pi-book"> Read</i>
                   </a> */}
                   <div className={styles.item_footer}>
-                    {displayItem.detail && (
+                    {(displayItem.detail && (
                       <Link to={`${displayItem._id}`} className={styles.content}>
                         <i className="pi pi-file"> Details</i>
                       </Link>
-                    )}
+                    )) || <div></div>}
                     {console.log("displayItem", displayItem.likes.includes(userProfile?._id))}
                     {console.log("userProfile", userProfile)}
 

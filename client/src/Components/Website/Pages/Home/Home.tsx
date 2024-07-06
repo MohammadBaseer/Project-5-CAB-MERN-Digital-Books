@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./Home.module.scss";
 import "./css.css";
 import Loading from "../../../../Utils/Loading/Loading";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FetchApiContext } from "../../../../Context/FetchApiContext";
 
 import { AuthContext } from "../../../../Context/AuthContext";
@@ -11,25 +11,36 @@ const Home = () => {
   const { data, loading, errorHandle, likeFunction } = useContext(FetchApiContext);
   const { userProfile } = useContext(AuthContext);
 
-  const itemSlice = data?.slice(0, 27);
+  const itemSlice = data?.slice(0, 18);
 
   //!
-  // const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // const handleResize = () => {
-  //   setWindowWidth(window.innerWidth);
-  // };
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
 
-  // useEffect(() => {
-  //   window.addEventListener("resize", handleResize);
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   //!
 
   // const shuffled = data?.sort(() => 0.5 - Math.random());
-  var item = data?.slice(0, 4);
+  let size = 4;
+  if (windowWidth <= 1186) {
+    size = 3;
+  }
+  if (windowWidth <= 905) {
+    size = 2;
+  }
+  if (windowWidth <= 625) {
+    size = 1;
+  }
+
+  var item = data?.slice(0, size);
 
   return (
     <>
@@ -82,8 +93,8 @@ const Home = () => {
         {/* //!================================================================================== */}
 
         <div className={styles.books_list}>
-          {data &&
-            data.map((displayItem, index) => (
+          {itemSlice &&
+            itemSlice.map((displayItem, index) => (
               <div className={styles.books} key={index}>
                 <div className={styles.books_elements}>
                   <div className={styles.book_image}>
@@ -100,11 +111,11 @@ const Home = () => {
                     <i className="pi pi-book"> Read</i>
                   </a> */}
                     <div className={styles.item_footer}>
-                      {displayItem.detail && (
+                      {(displayItem.detail && (
                         <Link to={`${displayItem._id}`} className={styles.content}>
                           <i className="pi pi-file"> Details</i>
                         </Link>
-                      )}
+                      )) || <div></div>}
 
                       <div className={styles.count_like}>
                         {displayItem.likes.length || 0}

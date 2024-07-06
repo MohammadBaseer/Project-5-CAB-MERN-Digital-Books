@@ -1,105 +1,202 @@
-@import "../../../../../assets/scss/variables.scss";
+// @import "../../../../../assets/scss/variables.scss";
 
-.books_list {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-items: center;
-  align-items: stretch;
-  gap: 10px;
+// .books_list {
+//   display: flex;
+//   justify-content: center;
+//   flex-wrap: wrap;
+//   align-items: center;
+//   align-items: stretch;
+//   gap: 10px;
 
-  .books {
-    border: solid 1px #686767;
-    width: 182px;
-    min-width: 182px;
-    border-radius: 5px;
-    background-color: $cardColor;
+//   .books {
+//     border: solid 1px #686767;
+//     width: 182px;
+//     min-width: 182px;
+//     border-radius: 5px;
+//     background-color: $cardColor;
 
-    .books_elements {
-      // margin: 13px;
-      margin-top: 7px;
-      margin-bottom: 0px;
+//     .books_elements {
+//       // margin: 13px;
+//       margin-top: 7px;
+//       margin-bottom: 0px;
 
-      .book_image {
-        width: 100% !important;
-        text-align: center;
-        border-radius: 5px;
+//       .book_image {
+//         width: 100%;
+//         img {
+//           width: 100%;
+//           height: auto;
+//           border-radius: 10px;
+//         }
+//       }
 
-        img {
-          width: 135px;
-          height: 150px;
-          border-radius: 5px;
-          box-shadow: 0px 0px 2px 1px #787b7c;
+//       .book_title {
+//         display: flex;
+//         flex-direction: column;
+//         width: 100%;
+//         padding: 0 2px;
+//         justify-content: space-between;
+//         color: $fontColor !important;
 
-          // filter: grayscale(100%) !important;
-        }
-      }
+//         .title {
+//           font-size: 13px;
+//           padding: 4px;
+//           margin: 0px;
+//         }
+//         .author {
+//           font-size: 12px;
+//           padding: 4px;
+//           margin: 0px;
+//         }
+//         .star {
+//           font-size: 12px;
+//           padding: 4px;
+//           margin: 0px;
+//           color: $fontColor !important;
+//         }
+//         .read {
+//           font-size: 12px;
+//           padding: 4px;
+//           margin: 0px;
+//           color: $fontColor !important;
+//         }
+//         .content {
+//           font-size: 12px;
+//           padding: 4px;
+//           margin: 0px;
+//           color: $fontColor !important;
+//         }
+//       }
+//     }
+//   }
+// }
 
-      .book_title {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        padding: 0 2px;
-        justify-content: space-between;
-        color: $fontColor !important;
-
-        .title {
-          font-size: 13px;
-          padding: 4px;
-          margin: 0px;
-        }
-        .author {
-          font-size: 12px;
-          padding: 4px;
-          margin: 0px;
-        }
-        .star {
-          font-size: 12px;
-          padding: 4px;
-          margin: 0px;
-          color: $fontColor !important;
-        }
-        .read {
-          font-size: 12px;
-          padding: 4px;
-          margin: 0px;
-          color: $fontColor !important;
-        }
-        .content {
-          font-size: 12px;
-          padding: 4px;
-          margin: 0px;
-          color: $fontColor !important;
-        }
-      }
-    }
-  }
-}
-
-.item_footer {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px 5px;
-  .count_like {
-    border: solid 1px;
-    padding: 5px;
-    position: absolute;
-    color: #686767;
-    right: 6px;
-    bottom: 6px;
-    border-radius: 30px;
-    .like {
-      cursor: pointer;
-      margin-left: 5px;
-    }
-  }
-}
+// .item_footer {
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   padding: 5px 5px;
+//   .count_like {
+//     border: solid 1px;
+//     padding: 5px;
+//     position: absolute;
+//     color: #686767;
+//     right: 6px;
+//     bottom: 6px;
+//     border-radius: 30px;
+//     .like {
+//       cursor: pointer;
+//       margin-left: 5px;
+//     }
+//   }
+// }
 .error {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: red;
+}
+
+/* styles.scss */
+
+.books_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.books {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  width: 250px;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .books_elements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+
+    .book_image {
+      width: 100%;
+      img {
+        width: 100%;
+        height: 280px;
+
+        border-radius: 10px;
+      }
+    }
+
+    .book_title {
+      width: 100%;
+      text-align: left;
+      // margin-top: 10px;
+
+      .title {
+        font-size: 18px;
+        color: #333;
+        font-weight: bold;
+      }
+
+      .author {
+        font-size: 14px;
+        color: #777;
+        margin: 5px 0;
+      }
+
+      .star {
+        color: #f5b301;
+        font-size: 16px;
+        margin: 5px 0;
+      }
+    }
+
+    .item_footer {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 10px;
+
+      .content {
+        color: #007bff;
+        font-size: 14px;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .count_like {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+
+        .like {
+          margin-left: 5px;
+          color: #2c3e50;
+          cursor: pointer;
+          transition: color 0.3s ease-in-out;
+
+          &:hover {
+            color: #0056b3;
+          }
+        }
+
+        .pi-thumbs-up-fill {
+          color: #ff0000;
+        }
+      }
+    }
+  }
 }

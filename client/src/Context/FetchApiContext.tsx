@@ -31,9 +31,10 @@ const FetchApiContextProvider = ({ children }: FetchApiContextProvider) => {
     try {
       const url = await fetch(ApiURL);
       const result = (await url.json()) as BooksDataType[];
+      console.log("FetchApiContext Test ====>", result);
       setData(result);
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to fetch data ===>", error);
       setLoading(false);
       setErrorHandle(error.message);

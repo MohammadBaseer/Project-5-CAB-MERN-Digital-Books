@@ -10,7 +10,7 @@ const displayBook = async (req, res) => {
     // const allBooks = await BookModel.find().populate("detail").populate("comment");
     const allBooks = await BookModel.find()
       .populate("detail")
-      .populate({ path: "comment", populate: { path: "users", select: ["name", "avatar"] } })
+      .populate({ path: "comment", populate: { path: "users", select: ["name", "surname", "avatar", "email", "dob", "address", "createdAt"] } })
       .sort({ createdAt: -1 });
 
     res.status(200).json(allBooks);
@@ -29,7 +29,7 @@ const displayBookById = async (req, res) => {
   try {
     const allBooks = await BookModel.findById({ _id: fetchByIdPrams })
       .populate("detail")
-      .populate({ path: "comment", select: ["_id", "comment", "bookRef", "userRef"], populate: { path: "users", select: ["name", "avatar"] } });
+      .populate({ path: "comment", select: ["_id", "comment", "bookRef", "userRef"], populate: { path: "users", select: ["name", "surname", "avatar", "email", "dob", "address", "createdAt"] } });
 
     res.status(200).json(allBooks);
   } catch (error) {
@@ -42,6 +42,7 @@ const displayBookById = async (req, res) => {
 
 //! Insert Data  API Endpoint
 const bookInsert = async (req, res) => {
+  const uid = req.user._id;
   console.log("req.file", req.file);
   if (!req.body.title || !req.body.authors) {
     removeTempFile(req.file);
@@ -57,14 +58,13 @@ const bookInsert = async (req, res) => {
         title: req.body.title.trim(),
         image: imageUrl,
         authors: req.body.authors.split(","),
-        userRef: req.body.userRef,
+        userRef: uid,
       });
       await insertNewData.save();
       res.status(200).json({ error: "New book inserted" });
     }
   } catch (error) {
     res.status(400).json({ error: error });
-    console.log("error==== >", error);
   } finally {
     removeTempFile(req.file);
   }
@@ -145,32 +145,18 @@ const deleteBook = async (req, res) => {
 
 //! Like
 const like = async (req, res) => {
-  const bookID = "668556a41a296dbfac61d7a7";
-  // const bookID = "668557f81a296dbfac61d832";
-  const userID = "66855aa51a296dbfac61d8c8";
+  const bookID = req.body.bookId;
 
   try {
     const existBook = await BookModel.findById(bookID);
     const result = existBook.likes;
-
-    if (existBook) {
-      console.log(" if existBook is working - 2");
-      result.map(async (singleLike) => {
-        console.log(singleLike);
-        if (singleLike !== userID) {
-          console.log(" if is working - 3");
-          console.log("Like found");
-          const like = await BookModel.findByIdAndUpdate(bookID, { $addToSet: { likes: userID } }, { new: true });
-          //res.status(200).json({like});
-          return;
-        } else {
-          console.log(" else is working - 4");
-          const unLike = await BookModel.findByIdAndUpdate(bookID, { $pull: { likes: userID } }, { new: true });
-          //res.status(200).json({unLike});
-          return;
-        }
-        //  return res.status(400).json({ error: "soothing went wrong" });
-      });
+    const isBookLiked = existBook.likes.includes(req.user._id);
+    if (!isBookLiked) {
+      const like = await BookModel.findByIdAndUpdate(bookID, { $addToSet: { likes: req.user._id } }, { new: true });
+      res.status(200).json({ error: "Like" });
+    } else {
+      const unLike = await BookModel.findByIdAndUpdate(bookID, { $pull: { likes: req.user._id } }, { new: true });
+      res.status(200).json({ error: "unlike" });
     }
   } catch (error) {
     res.status(400).json(error);

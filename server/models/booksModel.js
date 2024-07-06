@@ -8,9 +8,7 @@ const BookSchema = new Schema(
     image: { type: String, required: true },
     authors: { type: [String], required: true },
     userRef: { type: mongoose.Schema.ObjectId, required: false },
-    likes: [{ type: String }],
-    // likes: [{ type: mongoose.Types.ObjectId }],
-    // likes: [{ type: ObjectId, ref: "User" }],
+    likes: [{ type: mongoose.Types.ObjectId }],
   },
   { timestamps: true }
 );

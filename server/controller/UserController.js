@@ -1,7 +1,7 @@
 import colors from "colors";
 import UserModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import { imageUpload } from "../utils/imageManagement.js";
+import { imageUpload, removeImage } from "../utils/imageManagement.js";
 import { removeTempFile } from "../utils/tempFileManagement.js";
 import { encryptPassword, verifyPassword } from "../utils/Bcrypt/PasswordService.js";
 import generateToken from "../utils/tokenServices.js";
@@ -123,18 +123,16 @@ const UserLogin = async (req, res) => {
 
 //! USer Update
 const userUpdate = async (req, res) => {
-  const uid = req.params.id;
+  const uid = req.user._id;
+  const imageUrl = req.user.avatar;
+
+  console.log(imageUrl);
+
   if (!req.body) {
     return res.status(400).json({ error: "inputs missing" });
   }
   try {
     const updateFields = {};
-
-    // const bookExist = await UserModel.findOne({ email: req.body.email });
-    // if (!bookExist) {
-    //   res.status(200).json({ error: "User Not Found" });
-    //   return;
-    // }
 
     if (req.body.name) {
       updateFields.name = req.body.name.trim();
@@ -156,16 +154,15 @@ const userUpdate = async (req, res) => {
       updateFields.passport = encryptedPassword;
     }
     if (req.file) {
-      const imageUploadToCloud = await imageUpload(req.file, "books_images");
-      updateFields.image = imageUploadToCloud;
-      removeImage("books_images", imageUrl);
+      console.log("====> file <====");
+      const imageUploadToCloudUrl = await imageUpload(req.file, "users_avatar");
+      updateFields.avatar = imageUploadToCloudUrl;
+      removeImage("users_avatar", imageUrl); ///REVIEW -  Provide ImageUrl from user token data
     }
 
     const result = await UserModel.findByIdAndUpdate({ _id: uid }, updateFields, { new: true });
 
     res.status(200).json({ error: "Update successful" });
-
-    console.log("updateFields ====> ", updateFields);
   } catch (error) {
     res.status(400).json({ error: error });
   }

@@ -19,6 +19,7 @@ body {
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
+    position: relative;
     .profile_image {
       background-color: $navBarColor;
       border: solid 1px gray;
@@ -28,7 +29,11 @@ body {
       overflow: hidden;
 
       .image {
+        cursor: pointer !important;
         width: 100%;
+        &:hover {
+          opacity: 0.5;
+        }
       }
     }
     .user_profile_info {
@@ -37,6 +42,13 @@ body {
         padding: 0px !important;
         margin: 0px !important;
       }
+    }
+    .profile_image_action {
+      // border: solid;
+      display: flex;
+      position: absolute;
+      bottom: 40px;
+      left: 187px;
     }
   }
 }

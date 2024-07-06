@@ -10,7 +10,7 @@ type PropsTypes = {
   id: string;
   imageUrl: string;
   title: string;
-  authors: string;
+  authors: string[];
 };
 
 const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {

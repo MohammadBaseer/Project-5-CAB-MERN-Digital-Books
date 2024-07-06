@@ -82,12 +82,18 @@
   align-items: center;
   justify-content: space-between;
   padding: 5px 5px;
-  .like {
+  .count_like {
+    border: solid 1px;
+    padding: 5px;
     position: absolute;
-    cursor: pointer;
-    color: red;
+    color: #686767;
     right: 6px;
     bottom: 6px;
+    border-radius: 30px;
+    .like {
+      cursor: pointer;
+      margin-left: 5px;
+    }
   }
 }
 .error {

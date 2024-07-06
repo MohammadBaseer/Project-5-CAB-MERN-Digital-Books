@@ -1,16 +1,54 @@
 import "primeicons/primeicons.css";
 import styles from "./BooksDisplayItem.module.scss";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FetchApiContext } from "../../../../../Context/FetchApiContext";
 import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loading from "../../../../../Utils/Loading/Loading";
+import { isToken } from "../../../../../Utils/tokenServices";
+import { Toast } from "primereact/toast";
+import { AuthContext } from "../../../../../Context/AuthContext";
 
 const BooksDisplayItem = () => {
-  const { data, loading, errorHandle } = useContext(FetchApiContext);
+  const toast = useRef<Toast>(null);
+
+  const { data, loading, errorHandle, ApiFetchDataFun } = useContext(FetchApiContext);
+  const { userProfile } = useContext(AuthContext);
   const [bookData, setBookData] = useState<any>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 27;
+
+  const likeFunction = async (bookID: string) => {
+    console.log("book ID", bookID);
+    const token = localStorage.getItem("token");
+    const isUserLogged = isToken();
+
+    if (!isUserLogged) {
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Please Login!", life: 3000 });
+      return;
+    }
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("bookId", bookID);
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: urlencoded,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5000/api/likes", requestOptions);
+      if (response.ok) {
+        const result = await response.json();
+        ApiFetchDataFun();
+        toast.current?.show({ severity: "success", summary: "Success", detail: result.error, life: 3000 });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     if (data) {
@@ -31,6 +69,8 @@ const BooksDisplayItem = () => {
   const dLength = data && (data.length as any);
   return (
     <>
+      <Toast ref={toast} />
+
       <InfiniteScroll dataLength={bookData.length} next={fetchMoreData} hasMore={currentPage * itemsPerPage < dLength} loader={<Loading />}>
         <div className={styles.books_list}>
           {bookData.map((displayItem, index) => (
@@ -55,9 +95,16 @@ const BooksDisplayItem = () => {
                         <i className="pi pi-file"> Details</i>
                       </Link>
                     )}
-                    <Link to={""}>
-                      <span className={`pi pi-heart ${styles.like}`}> </span>
-                    </Link>
+                    {console.log("displayItem", displayItem.likes.includes(userProfile?._id))}
+                    {console.log("userProfile", userProfile)}
+
+                    <div className={styles.count_like}>
+                      {displayItem.likes.length || 0}
+                      &nbsp;
+                      <Link to={"#"} onClick={() => likeFunction(displayItem._id)}>
+                        <span className={`pi pi-thumbs-up${displayItem.likes.includes(userProfile?.id) ? "-fill" : ""} ${styles.like}`}></span>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>

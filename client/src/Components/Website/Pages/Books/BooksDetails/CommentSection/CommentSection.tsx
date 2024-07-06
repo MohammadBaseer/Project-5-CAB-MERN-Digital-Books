@@ -1,6 +1,6 @@
 import { useContext, useRef, useState } from "react";
 import styles from "./CommentSection.module.scss";
-import { CommentType, NotOkType } from "../../../../../../@Types/Types";
+import { CommentsType, NotOkType } from "../../../../../../@Types/Types";
 import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
 import Comments from "./Comments/Comments";
 import { AuthContext } from "../../../../../../Context/AuthContext";
@@ -9,7 +9,7 @@ import { Toast } from "primereact/toast";
 
 type CommentTypeProps = {
   id: string;
-  comment: CommentType[];
+  comment: CommentsType[];
   addComment: any;
 };
 

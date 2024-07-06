@@ -12,7 +12,6 @@ import { AuthContext } from "../../../../../../Context/AuthContext";
 const InsertBookModal = () => {
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
   const { ApiFetchDataFun } = useContext(FetchApiContext);
-  const { userProfile } = useContext(AuthContext);
   const selectedFile = useRef<File | null>(null);
 
   const toast = useRef<Toast>(null);
@@ -25,6 +24,8 @@ const InsertBookModal = () => {
   const addBookHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     setErrorHandler("");
     e.preventDefault();
+    const token = localStorage.getItem("token");
+
     if (!bookInput.title.trim()) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Title is missing!", life: 3000 });
       return;
@@ -38,16 +39,25 @@ const InsertBookModal = () => {
       return;
     }
 
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
     const formdata = new FormData();
     formdata.append("title", bookInput.title);
     formdata.append("authors", bookInput.authors);
-    formdata.append("userRef", userProfile.id);
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+    };
+
     if (selectedFile.current) {
       formdata.append("image", selectedFile.current);
     }
 
     try {
-      const response = await fetch(`${BaseURL}/api/books`, { method: "POST", body: formdata });
+      const response = await fetch(`${BaseURL}/api/books`, requestOptions);
       console.log("response", response);
       if (response.ok) {
         const result = await response.json();
@@ -136,7 +146,7 @@ const InsertBookModal = () => {
                     <span>Add an Image</span>
                   </label>
 
-                  <input type="file" id="file" name="image" placeholder="Your last name.." style={{ display: "none" }} onChange={handleFileChange} />
+                  <input type="file" id="file" name="image" style={{ display: "none" }} onChange={handleFileChange} />
                 </div>
               </div>
 

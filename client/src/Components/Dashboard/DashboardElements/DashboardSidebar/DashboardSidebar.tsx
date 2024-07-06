@@ -25,21 +25,6 @@ const DashboardSidebar = () => {
                   <span className="pi pi-angle-right"> Books</span>
                 </NavLink>
               </li>
-              <li className={styles.li_sub}>
-                <NavLink to="">
-                  <span className="pi pi-angle-right"> Home 2</span>
-                </NavLink>
-              </li>
-              <li className={styles.li_sub}>
-                <NavLink to="">
-                  <span className="pi pi-angle-right"> Home 3</span>
-                </NavLink>
-              </li>
-              <li className={styles.li_sub}>
-                <NavLink to="">
-                  <span className="pi pi-angle-right"> Home 4</span>
-                </NavLink>
-              </li>
             </ul>
 
             <li className={styles.li_main}>
@@ -52,16 +37,6 @@ const DashboardSidebar = () => {
               <li className={styles.li_sub}>
                 <NavLink to="/users">
                   <span className="pi pi-user"> Users</span>
-                </NavLink>
-              </li>
-              <li className={styles.li_sub}>
-                <NavLink to="">
-                  <span className="pi pi-angle-right"> Home Sub 2</span>
-                </NavLink>
-              </li>
-              <li className={styles.li_sub}>
-                <NavLink to="">
-                  <span className="pi pi-angle-right"> Home Sub 3</span>
                 </NavLink>
               </li>
             </ul>

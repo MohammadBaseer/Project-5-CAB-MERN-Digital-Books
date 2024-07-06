@@ -13,8 +13,28 @@ import Loading from "../../../../Utils/Loading/Loading";
 import { AuthContext } from "../../../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+interface BookData {
+  _id: string;
+  title: string;
+  image: string;
+  authors: string[];
+  userRef: string;
+  detail: {
+    publishAt: any;
+    longDescription: string;
+    categories: string[];
+  };
+}
+
+// Define the FetchApiContext data structure
+interface FetchApiContextType {
+  data: BookData[];
+  loading: boolean;
+  errorHandle: string;
+}
+
 const Books = () => {
-  const { data, loading, errorHandle } = useContext(FetchApiContext);
+  const { data, loading, errorHandle } = useContext(FetchApiContext) as FetchApiContextType;
   const { userProfile } = useContext(AuthContext);
 
   // if (data.userRef) {

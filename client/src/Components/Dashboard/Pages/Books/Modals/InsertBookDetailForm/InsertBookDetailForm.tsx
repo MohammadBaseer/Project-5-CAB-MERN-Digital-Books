@@ -5,11 +5,15 @@ import { NotOkType } from "../../../../../../@Types/Types";
 import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
 import { Toast } from "primereact/toast";
 
-const InsertBookDetailForm = ({ id }) => {
+type InsertBookDetailFormProps = {
+  id: string;
+};
+
+const InsertBookDetailForm = ({ id }: InsertBookDetailFormProps) => {
   const { ApiFetchDataFun } = useContext(FetchApiContext);
   const [formToggle, setFormToggle] = useState<boolean>(false);
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
-  const [bookDetailInput, setBookDetailInput] = useState({ longDescription: "", categories: "", publishAt: "" });
+  const [bookDetailInput, setBookDetailInput] = useState({ longDescription: "", categories: "", publishAt: "", bookref: "" });
   const toast = useRef<Toast>(null);
 
   //! OnChange Fun

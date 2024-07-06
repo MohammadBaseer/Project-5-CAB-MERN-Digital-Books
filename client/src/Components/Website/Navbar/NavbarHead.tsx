@@ -36,12 +36,9 @@ const NavbarHead = () => {
     setProfileNavbarToggle(false);
   }, [location]);
   //!---------------------------------------------------------------------------------
+
   const isUserLogged = isToken();
-  useEffect(() => {
-    if (isUserLogged) {
-      getUserProfile();
-    }
-  }, []);
+
   return (
     <>
       <div className={styles.navbar_head}>

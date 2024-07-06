@@ -1,21 +1,35 @@
 import { Link } from "react-router-dom";
 import styles from "./UpdateBookModal.module.scss";
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
-import { NotOkType } from "../../../../../../../@Types/Types";
+import { BooksDataType, NotOkType } from "../../../../../../../@Types/Types";
 import { BaseURL } from "../../../../../../../Utils/URLs/ApiURL";
 import { FetchApiContext } from "../../../../../../../Context/FetchApiContext";
 import { Toast } from "primereact/toast";
 
-const UpdateBookDetailsModal = ({ bookDate }) => {
+type BookDataProps = {
+  bookData: {
+    _id: string;
+    title: string;
+    image: string;
+    authors: string[];
+    detail: {
+      publishAt: any;
+      longDescription: string;
+      categories: string[];
+    };
+  };
+};
+
+const UpdateBookDetailsModal = ({ bookData }: BookDataProps) => {
   const toast = useRef<Toast>(null);
   const { ApiFetchDataFun } = useContext(FetchApiContext);
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
 
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [bookInput, setBookInput] = useState({
-    longDescription: bookDate.detail.longDescription,
-    categories: bookDate.detail.categories,
-    date: bookDate.detail.publishAt,
+    longDescription: bookData.detail.longDescription,
+    categories: bookData.detail.categories,
+    date: bookData.detail.publishAt,
   });
 
   const getInputValues = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,7 +43,7 @@ const UpdateBookDetailsModal = ({ bookDate }) => {
   //   //!
   const updateBookDetailsHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("id", bookDate._id);
+    console.log("id", bookData._id);
 
     if (!bookInput.longDescription.trim()) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Description is missing!", life: 3000 });
@@ -44,7 +58,7 @@ const UpdateBookDetailsModal = ({ bookDate }) => {
     formdata.append("publishAt", bookInput.date);
 
     try {
-      const response = await fetch(`${BaseURL}/api/books?id=${bookDate._id}`, { method: "PUT", body: formdata });
+      const response = await fetch(`${BaseURL}/api/books?id=${bookData._id}`, { method: "PUT", body: formdata });
 
       if (response.ok) {
         await response.json();

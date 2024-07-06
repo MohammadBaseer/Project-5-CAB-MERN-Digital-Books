@@ -3,8 +3,21 @@ import styles from "./ViewBookModal.module.scss";
 import { Link } from "react-router-dom";
 import InsertBookDetailForm from "../InsertBookDetailForm/InsertBookDetailForm";
 import UpdateBookDetailsModal from "../UpdateBookModals/UpdateBookDetailsModal/UpdateBookDetailsModal";
-
-const ViewBookModal = ({ bookData }) => {
+import { BooksDataType } from "../../../../../../@Types/Types";
+type BookDataProps = {
+  bookData: {
+    _id: string;
+    title: string;
+    image: string;
+    authors: string[];
+    detail: {
+      publishAt: any;
+      longDescription: string;
+      categories: string[];
+    };
+  };
+};
+const ViewBookModal = ({ bookData }: BookDataProps) => {
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
 
   useEffect(() => {
@@ -33,7 +46,7 @@ const ViewBookModal = ({ bookData }) => {
 
           <div className={styles.books_details_container}>
             <div className={styles.details_image}>
-              <img className={styles.image} src={bookData.image} alt="" />
+              <img className={styles.image} src={bookData?.image} alt="" />
             </div>
 
             <div className={styles.details_elements}>
@@ -44,7 +57,7 @@ const ViewBookModal = ({ bookData }) => {
                 <h3>{bookData.authors}</h3>
               </div>
               <div className={styles.details_publish_date}>
-                <h3>{bookData?.detail?.date}</h3>
+                <h3>{bookData?.detail?.publishAt}</h3>
               </div>
               <div className={styles.pages}>
                 <h3>
@@ -76,18 +89,16 @@ const ViewBookModal = ({ bookData }) => {
             <h3>Info</h3>{" "}
             {bookData.detail ? (
               <h3>
-                ISBN: {bookData?.detail?.isbn} <br />
-                Published Date: {bookData?.detail?.date} <br />
+                Published Date: {bookData?.detail?.publishAt} <br />
                 Publisher: Grand Central Publishing <br />
                 Language: English <br />
-                Page Count: {bookData?.detail?.pageCount} <br />
                 Size: 7.25" l x 5.09" w x 0.68" h
               </h3>
             ) : (
               <InsertBookDetailForm id={bookData._id} />
             )}
           </div>
-          {bookData.detail && <UpdateBookDetailsModal bookDate={bookData} />}
+          {bookData.detail && <UpdateBookDetailsModal bookData={bookData} />}
         </div>
       </div>
     </>

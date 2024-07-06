@@ -4,7 +4,7 @@ import { BaseURL } from "../../../../Utils/URLs/ApiURL";
 import { AuthContext } from "../../../../Context/AuthContext";
 import { Toast } from "primereact/toast";
 
-const UserProfileInputs = ({ type, fieldKey, fieldValue, id, readOnly }) => {
+const UserProfileInputs = ({ type, fieldKey, fieldValue, readOnly }) => {
   const { getUserProfile } = useContext(AuthContext);
   const [editButtons, setEditButtons] = useState(true);
   const [value, setValue] = useState(fieldValue || "");
@@ -15,8 +15,11 @@ const UserProfileInputs = ({ type, fieldKey, fieldValue, id, readOnly }) => {
   };
 
   const userUpdate = async () => {
+    const token = localStorage.getItem("token");
+
     const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
     const urlencoded = new URLSearchParams();
     urlencoded.append(fieldKey, value);
     const requestOptions = {
@@ -25,16 +28,17 @@ const UserProfileInputs = ({ type, fieldKey, fieldValue, id, readOnly }) => {
       body: urlencoded,
     };
     try {
-      const response = await fetch(`${BaseURL}/auth/user/${id}`, requestOptions);
+      const response = await fetch(`${BaseURL}/auth/user`, requestOptions);
       if (response.ok) {
         const data = await response.json();
         console.log("Success", data);
         setEditButtons(!editButtons);
         getUserProfile();
-        toast.current?.show({ severity: "success", summary: "Success", detail: "Profile Updated", life: 3000 });
+        toast.current?.show({ severity: "success", summary: "Success", detail: data.error, life: 3000 });
       } else {
         const data = await response.json();
         console.log(" Error", data);
+        toast.current?.show({ severity: "error", summary: "Error", detail: data.error, life: 3000 });
       }
     } catch (error: any) {
       console.log("err==============>", error);

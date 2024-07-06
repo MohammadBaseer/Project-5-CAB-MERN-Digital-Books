@@ -5,7 +5,7 @@ const DashboardNavbar = () => {
   return (
     <div className={styles.navbar_head}>
       {/* <h1> Navbar</h1> */}
-      <NavbarHead/>
+      <NavbarHead />
     </div>
   );
 };

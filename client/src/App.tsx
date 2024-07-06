@@ -55,31 +55,24 @@ function App() {
           />
         </Route>
         //! Dashboard Routs -----------------------------
-        <Route path="/" element={<DashboardLayout />}>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/users" element={<User />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route
-            path="/users"
+            path="/books-table"
             element={
-              <ProtectedRoute>
-                <User />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="books-table"
-            element={
-              <ProtectedRoute>
-                <FetchApiContextProvider>
-                  <BooksFromDashboard />
-                </FetchApiContextProvider>
-              </ProtectedRoute>
+              <FetchApiContextProvider>
+                {/* <ProtectedRoute> */}
+                <BooksFromDashboard />
+                {/* </ProtectedRoute> */}
+              </FetchApiContextProvider>
             }
           />
         </Route>

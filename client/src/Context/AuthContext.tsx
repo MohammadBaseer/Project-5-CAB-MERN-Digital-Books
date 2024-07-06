@@ -5,14 +5,14 @@ import { getToken, isToken } from "../Utils/tokenServices";
 
 type AuthContextType = {
   newUser: { name: string; email: string; password: string };
-  errorHandler: NotOkType | string | any;
+  errorHandler: NotOkType | string | any; //REVIEW -
   previewImg: string | null;
-  selectedFile: File | null;
+  selectedFile: File | null | any; //REVIEW -
   currentUser: { email: string; password: string };
   userProfile: User | null;
   isLoading: boolean;
-  setCurrentUser: (prev: any) => any;
-  setNewUser: (prev: any) => any;
+  setCurrentUser: (prev: any) => any; //REVIEW -
+  setNewUser: (prev: any) => any; //REVIEW -
   setPreviewImg: (previewImg: string | null) => void;
   UserRegisterFun: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   getUserProfile: () => Promise<void>;
@@ -22,11 +22,11 @@ type AuthContextType = {
 
 const AuthContextInitialValue: AuthContextType = {
   newUser: { name: "", email: "", password: "" },
-  errorHandler: "" as NotOkType | string | any,
+  errorHandler: "" as NotOkType | string | any, //REVIEW -
   previewImg: "",
   selectedFile: null,
   currentUser: { email: "", password: "" },
-  userProfile: { email: "", name: "", id: "", avatar: "" },
+  userProfile: { email: "", name: "", surname: "", dob: "", address: "", id: "", avatar: "" },
   isLoading: true,
   setCurrentUser: () => {
     throw new Error("The setCurrentUser Error");
@@ -63,11 +63,11 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //TODO - ---------------------------------------------------------------
 
   // NOTE: //! User Registration State
-  const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
+  const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>(""); //REVIEW -
   const [newUser, setNewUser] = useState({ name: "", email: "", password: "" });
   const [previewImg, setPreviewImg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const selectedFile = useRef<File | null>(null);
+  const selectedFile = useRef<File | null | undefined>(null);
 
   //! Registration Function
   const UserRegisterFun = async (e: FormEvent<HTMLFormElement>) => {
@@ -167,6 +167,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //TODO - -------------------------------------------------------
 
   const getUserProfile = async () => {
+    console.log("%c getProfile running", "color:red");
     const token = getToken();
     if (!token) {
       alert("You need Token");
@@ -197,6 +198,12 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       }
     }
   };
+  const isUserLogged = isToken();
+  useEffect(() => {
+    if (isUserLogged) {
+      getUserProfile();
+    }
+  }, []);
   // useEffect(() => {
   //   const isUserLogged = isToken();
 

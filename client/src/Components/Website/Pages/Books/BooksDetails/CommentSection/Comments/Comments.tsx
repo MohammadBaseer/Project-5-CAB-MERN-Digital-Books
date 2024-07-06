@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import styles from "./Comments.module.scss";
-import { CommentType } from "../../../../../../../@Types/Types";
+import { CommentsType } from "../../../../../../../@Types/Types";
 import { AuthContext } from "../../../../../../../Context/AuthContext";
 import UpdateCommentModal from "./CommentModal/UpdateCommentModal";
 type CommentTypeProps = {
-  comment: CommentType[];
+  comment: CommentsType[];
   addComment: any;
 };
 const Comments = ({ comment, addComment }: CommentTypeProps) => {

@@ -48,7 +48,7 @@ const Home = () => {
       <div className={styles.container}>
         <br />
         <div className={styles.slider}>
-          <img className={styles.slider_image} src="https://dispatch.barnesandnoble.com/content/dam/ccr/homepage/daily/2024/07/02/29800_Quote_A2_Evenings_and_Weekends_07_02_24.jpg" alt="" />
+          <img className={styles.slider_image} src="https://cdn.pixabay.com/photo/2018/07/17/14/43/banner-3544296_1280.jpg" alt="" />
         </div>
         <div className={styles.random_items_box}>
           <div className={`${styles.random_items_box_a}  col-12 md:col-12 lg:col-12`}>

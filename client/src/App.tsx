@@ -1,5 +1,4 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import { useEffect } from "react";
 import Home from "./Components/Website/Pages/Home/Home";
 import Contact from "./Components/Website/Pages/Contact/Contact";
 import Login from "./Components/Dashboard/AuthAction/Login/Login";
@@ -16,6 +15,7 @@ import Dashboard from "./Components/Dashboard/Pages/Home/Dashboard";
 import UserProfile from "./Components/Website/Pages/UserProfile/UserProfile";
 import ProtectedRoute from "./Components/Dashboard/AuthAction/ProtectedRouts/ProtectedRouts";
 import NotFound from "./Components/Website/Pages/NotFound";
+import WebContactMessages from "./Components/Dashboard/Pages/WebContactMessages/WebContactMesages";
 
 function App() {
   const router = createBrowserRouter(
@@ -63,7 +63,6 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="/users" element={<User />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route
             path="/books-table"
@@ -75,6 +74,8 @@ function App() {
               </FetchApiContextProvider>
             }
           />
+          <Route path="/users" element={<User />} />
+          <Route path="/messages" element={<WebContactMessages />} />
         </Route>
       </>
     )

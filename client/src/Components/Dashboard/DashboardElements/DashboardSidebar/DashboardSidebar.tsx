@@ -15,7 +15,7 @@ const DashboardSidebar = () => {
               </NavLink>
             </li>
             <li className={styles.li_main}>
-              <NavLink to="books-table">
+              <NavLink to="">
                 <span className="pi pi-book"> Book Section</span>
               </NavLink>
             </li>
@@ -23,6 +23,20 @@ const DashboardSidebar = () => {
               <li className={styles.li_sub}>
                 <NavLink to="books-table">
                   <span className="pi pi-angle-right"> Books</span>
+                </NavLink>
+              </li>
+            </ul>
+
+            <li className={styles.li_main}>
+              <NavLink to="">
+                <span className="pi pi-cog"> Web Contact Section </span>
+              </NavLink>
+            </li>
+
+            <ul className={styles.ul_sub}>
+              <li className={styles.li_sub}>
+                <NavLink to="/messages">
+                  <span className="pi pi-envelope"> Messages</span>
                 </NavLink>
               </li>
             </ul>

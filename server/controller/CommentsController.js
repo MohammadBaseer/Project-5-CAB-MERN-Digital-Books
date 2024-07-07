@@ -10,7 +10,6 @@ const fetchComments = async (req, res) => {
   }
 };
 
-
 //! Submit Comment APi Endpoint
 const insertComments = async (req, res) => {
   if (!req.body.comment) {
@@ -26,8 +25,8 @@ const insertComments = async (req, res) => {
 };
 //! update Comment APi Endpoint
 const updateComments = async (req, res) => {
-const comment_id = req.params.id;
-console.log(comment_id)
+  const comment_id = req.params.id;
+
   try {
     const updateFields = {};
 
@@ -39,9 +38,9 @@ console.log(comment_id)
     if (!req.body.comment) {
       return res.status(400).json({ error: "cannot submit the blank comment" });
     }
-    const newComment = { comment: req.body.comment}; 
+    const newComment = { comment: req.body.comment.trim() };
     const result = await CommentModel.findByIdAndUpdate(comment_id, newComment, { new: true });
-    res.status(200).json({ error: "Commented"});
+    res.status(200).json({ error: "Commented" });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

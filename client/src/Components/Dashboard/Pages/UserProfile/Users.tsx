@@ -6,7 +6,7 @@ type UserType = {
   name: string;
   email: string;
   avatar: string;
-  createdAt: Date | string;
+  createdAt: Date | string | any;
 };
 
 const User = () => {
@@ -21,7 +21,7 @@ const User = () => {
       const result = (await response.json()) as UserType[];
 
       setUserData(result);
-    } catch (error) {
+    } catch (error: any) {
       setError(error.message);
     }
   };
@@ -62,7 +62,7 @@ const User = () => {
                         <td>{item.name}</td>
                         <td>{item.email}</td>
                         <td>{item.createdAt}</td>
-                        <td>50</td>
+                        <td>N/A</td>
                       </tr>
                     );
                   })}

@@ -28,7 +28,7 @@ const Comments = ({ comment, addComment }: CommentTypeProps) => {
 
                 {singleComment.userRef === userProfile?.id && (
                   <>
-                    <UpdateCommentModal id={singleComment.id} addComment={addComment} />
+                    <UpdateCommentModal id={singleComment.id} addComment={addComment} commentText={singleComment.comment} />
                   </>
                 )}
               </div>

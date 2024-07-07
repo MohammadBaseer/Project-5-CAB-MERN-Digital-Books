@@ -8,13 +8,14 @@ import { AuthContext } from "../../../../../../../../Context/AuthContext";
 type CommentsProps = {
   id: string;
   addComment: () => void;
+  commentText: string;
 };
 
-const UpdateCommentModal = ({ id, addComment }: CommentsProps) => {
+const UpdateCommentModal = ({ id, addComment, commentText }: CommentsProps) => {
   const toast = useRef<Toast>(null);
   const { userProfile } = useContext(AuthContext);
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
-  const [updateComment, setUpdateComment] = useState("");
+  const [updateComment, setUpdateComment] = useState(commentText);
 
   //!SECTION
   const updateComments = async () => {
@@ -40,6 +41,7 @@ const UpdateCommentModal = ({ id, addComment }: CommentsProps) => {
         addComment();
         toast.current?.show({ severity: "success", summary: "Error", detail: "Updated", life: 3000 });
         setDisplayToggle(false);
+        setUpdateComment(commentText);
       }
     } catch (error) {
       console.log(error);
@@ -67,6 +69,7 @@ const UpdateCommentModal = ({ id, addComment }: CommentsProps) => {
   const formToggle = () => {
     if (displayToggle) {
       setDisplayToggle(false);
+      setUpdateComment(commentText);
     } else {
       setDisplayToggle(true);
     }
@@ -107,7 +110,7 @@ const UpdateCommentModal = ({ id, addComment }: CommentsProps) => {
                 </label>
               </div>
               <div className={styles.col_75}>
-                <textarea className={styles.text_area} id="updateComments" name="updateComments" onChange={(e) => setUpdateComment(e.target.value)} />
+                <textarea className={styles.text_area} id="updateComments" name="updateComments" value={updateComment} onChange={(e) => setUpdateComment(e.target.value)} />
               </div>
             </div>
 

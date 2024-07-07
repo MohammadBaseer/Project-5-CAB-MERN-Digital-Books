@@ -2,6 +2,8 @@ import { FormEvent, ReactNode, SetStateAction, createContext, useEffect, useRef,
 import { GetProfileResponse, LoginOkResponse, NotOkType, User } from "../@Types/Types";
 import { BaseURL } from "../Utils/URLs/ApiURL";
 import { getToken, isToken } from "../Utils/tokenServices";
+import { Toast } from "primereact/toast";
+import { Navigate, useNavigate } from "react-router-dom";
 
 type AuthContextType = {
   newUser: { name: string; email: string; password: string };
@@ -26,7 +28,7 @@ const AuthContextInitialValue: AuthContextType = {
   previewImg: "",
   selectedFile: null,
   currentUser: { email: "", password: "" },
-  userProfile: { email: "", name: "", surname: "", dob: "", address: "", id: "", avatar: "" },
+  userProfile: { email: "", name: "", surname: "", dob: "", address: "", id: "", avatar: "", createdAt: "" },
   isLoading: true,
   setCurrentUser: () => {
     throw new Error("The setCurrentUser Error");
@@ -61,6 +63,8 @@ type AuthContextProviderProps = {
 //TODO - ---------------------------------------------------------------
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //TODO - ---------------------------------------------------------------
+  const toast = useRef<Toast>(null);
+  // const toNavigate = useNavigate();
 
   // NOTE: //! User Registration State
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>(""); //REVIEW -
@@ -96,14 +100,14 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     try {
       const response = await fetch(`${BaseURL}/auth/user`, { method: "POST", body: formdata });
       if (response.ok) {
-        const data = await response.json();
+        await response.json();
         setNewUser({ name: "", email: "", password: "" });
         selectedFile.current = null;
         setPreviewImg(null);
+        toast.current?.show({ severity: "success", summary: "Success", detail: "New User Created", life: 3000 });
       } else {
         const data = (await response.json()) as NotOkType;
-        setErrorHandler(data);
-        console.log(" Error", data);
+        toast.current?.show({ severity: "error", summary: "Error", detail: data.error, life: 3000 });
       }
     } catch (error: any) {
       setErrorHandler(error.message || "An unknown error occurred");
@@ -215,7 +219,12 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   //!--------------------------------------------------------
 
-  return <AuthContext.Provider value={{ newUser, errorHandler, previewImg, setNewUser, setPreviewImg, selectedFile, UserRegisterFun, getUserProfile, currentUser, setCurrentUser, userLogin, userProfile, setUserProfile, isLoading }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ newUser, errorHandler, previewImg, setNewUser, setPreviewImg, selectedFile, UserRegisterFun, getUserProfile, currentUser, setCurrentUser, userLogin, userProfile, setUserProfile, isLoading }}>
+      {children}
+      <Toast ref={toast} />;
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthContextProvider;

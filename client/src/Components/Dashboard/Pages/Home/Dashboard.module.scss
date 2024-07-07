@@ -9,3 +9,39 @@
     padding: 20px;
   }
 }
+// Dashboard.module.scss
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.card p {
+  font-size: 20px;
+  color: #777;
+}
+
+.percentage {
+  font-size: 36px;
+  font-weight: bold;
+  color: #4caf50;
+}

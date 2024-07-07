@@ -7,10 +7,10 @@ import booksRoute from "./routes/booksRoute.js";
 import UserRouter from "./routes/userRoute.js";
 import { cloudinaryConfig } from "./config/Cloudinary.js";
 import { CommentRoute } from "./routes/commentsRoute.js";
-// import { bookDetailRoute } from "./routes/bookDetailRoute.js";
 import passport from "passport";
 import passportStrategy from "./config/passportConfig.js";
 import { errorHandler } from "./middleware/multer.js";
+import ContactFormMessagesRouter from "./routes/ContactFormMessagesRoute.js";
 
 dotenv.config();
 const app = express();
@@ -37,7 +37,7 @@ const loadRoots = () => {
   app.use("/api", booksRoute);
 
   // book detail
-  // app.use("/api", bookDetailRoute);
+  app.use("/api", ContactFormMessagesRouter);
 
   //  Users
   app.use("/auth", UserRouter);

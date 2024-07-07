@@ -7,7 +7,7 @@ import booksRoute from "./routes/booksRoute.js";
 import UserRouter from "./routes/userRoute.js";
 import { cloudinaryConfig } from "./config/Cloudinary.js";
 import { CommentRoute } from "./routes/commentsRoute.js";
-import { bookDetailRoute } from "./routes/bookDetailRoute.js";
+// import { bookDetailRoute } from "./routes/bookDetailRoute.js";
 import passport from "passport";
 import passportStrategy from "./config/passportConfig.js";
 import { errorHandler } from "./middleware/multer.js";
@@ -22,7 +22,7 @@ const addMiddlewares = () => {
   app.use(cors());
   cloudinaryConfig();
   app.use(passport.initialize());
-  passport.use(passportStrategy)
+  passport.use(passportStrategy);
 };
 
 const startServer = () => {
@@ -37,7 +37,7 @@ const loadRoots = () => {
   app.use("/api", booksRoute);
 
   // book detail
-  app.use("/api", bookDetailRoute);
+  // app.use("/api", bookDetailRoute);
 
   //  Users
   app.use("/auth", UserRouter);
@@ -51,7 +51,7 @@ const loadRoots = () => {
   });
 
   // Use the error-handling middleware
-app.use(errorHandler);
+  app.use(errorHandler);
 };
 
 const DBConnection = async () => {

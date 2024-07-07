@@ -54,7 +54,7 @@ const InsertBookDetailForm = ({ id }: InsertBookDetailFormProps) => {
         body: body,
       };
 
-      const response = await fetch(`${BaseURL}/api/book/detail`, requestOption);
+      const response = await fetch(`${BaseURL}/api/detail`, requestOption);
       console.log("response", response);
       if (response.ok) {
         await response.json();

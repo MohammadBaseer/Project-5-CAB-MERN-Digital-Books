@@ -1,9 +1,7 @@
 import express from "express";
-import { displayBook, displayBookById, bookUpdate, bookInsert, deleteBook, like } from "../controller/BooksController.js";
+import { displayBook, displayBookById, bookUpdate, bookInsert, deleteBook, like, insertBookDetails } from "../controller/BooksController.js";
 import { multerUpload } from "../middleware/multer.js";
 import JWTAuth from "../middleware/JSTAuth.js";
-// import BooksDetailsModel from "../models/booksDetailsModel.js";
-// import BookModel from "../models/booksModel.js";
 
 const booksRoute = express.Router();
 
@@ -27,5 +25,8 @@ booksRoute.delete("/books/", deleteBook);
 //! Like
 booksRoute.put("/likes/", JWTAuth, like);
 // booksRoute.put("/likes/", like);
+
+//! Book Details API
+booksRoute.post("/detail", insertBookDetails);
 
 export default booksRoute;

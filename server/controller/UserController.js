@@ -143,9 +143,6 @@ const userUpdate = async (req, res) => {
     if (req.body.dob) {
       updateFields.dob = req.body.dob;
     }
-    // if (req.body.email) {
-    //   updateFields.email = req.body.email..trim();
-    // }
     if (req.body.address) {
       updateFields.address = req.body.address.trim();
     }
@@ -154,7 +151,6 @@ const userUpdate = async (req, res) => {
       updateFields.passport = encryptedPassword;
     }
     if (req.file) {
-      console.log("====> file <====");
       const imageUploadToCloudUrl = await imageUpload(req.file, "users_avatar");
       updateFields.avatar = imageUploadToCloudUrl;
       removeImage("users_avatar", imageUrl); ///REVIEW -  Provide ImageUrl from user token data

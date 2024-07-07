@@ -63,8 +63,6 @@ const BooksDisplayItem = () => {
                         <i className="pi pi-file"> Details</i>
                       </Link>
                     )) || <div></div>}
-                    {console.log("displayItem", displayItem.likes.includes(userProfile?._id))}
-                    {console.log("userProfile", userProfile)}
 
                     <div className={styles.count_like}>
                       {displayItem.likes.length || 0}

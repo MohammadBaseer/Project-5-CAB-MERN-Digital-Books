@@ -30,8 +30,6 @@ const BookDeleteModal = ({ id, imageUrl }: PropsType) => {
 
   const confirmDelete = async () => {
     try {
-      console.log("id =======<", id);
-
       await fetch(`${BaseURL}/api/books?id=${id}&imageUrl=${imageUrl}`, { method: "DELETE" });
       toastBC.current?.show({ severity: "success", summary: "Item deleted successfully!" });
       ApiFetchDataFun();

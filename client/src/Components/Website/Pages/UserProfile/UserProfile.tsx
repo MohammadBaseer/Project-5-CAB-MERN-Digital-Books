@@ -35,7 +35,6 @@ const UserProfile = () => {
       const response = await fetch(`${BaseURL}/auth/user`, requestOptions);
       if (response.ok) {
         const data = await response.json();
-        console.log("Success", data);
         setImage(null);
         getUserProfile();
         toast.current?.show({ severity: "success", summary: "Success", detail: data.error, life: 3000 });
@@ -50,7 +49,6 @@ const UserProfile = () => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
     if (image) {
       URL.revokeObjectURL(image);
     }

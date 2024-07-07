@@ -8,8 +8,6 @@ type CommentTypeProps = {
   addComment: any;
 };
 const Comments = ({ comment, addComment }: CommentTypeProps) => {
-  console.log("comments======>", comment);
-
   const { userProfile } = useContext(AuthContext);
 
   return (

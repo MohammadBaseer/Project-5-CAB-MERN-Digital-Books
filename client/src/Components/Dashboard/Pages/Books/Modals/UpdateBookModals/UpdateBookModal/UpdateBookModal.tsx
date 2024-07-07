@@ -12,6 +12,10 @@ type PropsTypes = {
   title: string;
   authors: string[];
 };
+type BookInputsTypes = {
+  title: string;
+  authors: string;
+};
 
 const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
   const { ApiFetchDataFun } = useContext(FetchApiContext);
@@ -19,7 +23,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
   const selectedFileUpdate = useRef<File | null>(null);
   const [imageUpdate, setImageUpdate] = useState<string | null | any>(null);
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
-  const [bookInput, setBookInput] = useState({ title: title, authors: authors });
+  const [bookInput, setBookInput] = useState<BookInputsTypes | any>({ title: title, authors: authors });
   const toast = useRef<Toast>(null);
 
   //!
@@ -55,11 +59,11 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
 
       if (response.ok) {
         await response.json();
-        console.log("update success");
         setDisplayToggle(!displayToggle);
         selectedFileUpdate.current = null;
         setImageUpdate(null);
         ApiFetchDataFun();
+        toast.current?.show({ severity: "success", summary: "Error", detail: "Updated", life: 3000 });
       } else {
         const data = (await response.json()) as NotOkType;
         setErrorHandler(data.error);
@@ -78,7 +82,6 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
   // ! image preview
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
     if (imageUpdate) {
       URL.revokeObjectURL(imageUpdate);
     }

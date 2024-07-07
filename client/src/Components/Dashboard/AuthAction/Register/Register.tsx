@@ -17,7 +17,6 @@ const Register = () => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
     if (previewImg) {
       URL.revokeObjectURL(previewImg);
     }

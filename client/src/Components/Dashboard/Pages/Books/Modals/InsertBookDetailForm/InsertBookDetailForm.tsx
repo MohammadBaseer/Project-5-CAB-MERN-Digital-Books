@@ -55,7 +55,6 @@ const InsertBookDetailForm = ({ id }: InsertBookDetailFormProps) => {
       };
 
       const response = await fetch(`${BaseURL}/api/detail`, requestOption);
-      console.log("response", response);
       if (response.ok) {
         await response.json();
         setBookDetailInput({ longDescription: "", categories: "", publishAt: "", bookref: "" });

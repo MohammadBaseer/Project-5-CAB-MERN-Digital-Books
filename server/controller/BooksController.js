@@ -25,7 +25,6 @@ const displayBook = async (req, res) => {
 //! Display by ID API Endpoint
 const displayBookById = async (req, res) => {
   const fetchByIdPrams = req.params.id;
-  console.log("fetchByIdPrams", fetchByIdPrams);
   try {
     const allBooks = await BookModel.findById({ _id: fetchByIdPrams })
       .populate("detail")
@@ -43,7 +42,6 @@ const displayBookById = async (req, res) => {
 //! Insert Data  API Endpoint
 const bookInsert = async (req, res) => {
   const uid = req.user._id;
-  console.log("req.file", req.file);
   if (!req.body.title || !req.body.authors) {
     removeTempFile(req.file);
     return res.status(400).json({ error: "inputs missing" });
@@ -76,8 +74,6 @@ const bookUpdate = async (req, res) => {
   const bookId = req.query.id;
   const imageUrl = req.query.imageUrl;
 
-  console.log("id", bookId);
-  console.log("imageUrl", imageUrl);
   try {
     const updateFields = {};
 

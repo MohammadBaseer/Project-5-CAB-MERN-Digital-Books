@@ -31,7 +31,6 @@ const UserProfileInputs = ({ type, fieldKey, fieldValue, readOnly }) => {
       const response = await fetch(`${BaseURL}/auth/user`, requestOptions);
       if (response.ok) {
         const data = await response.json();
-        console.log("Success", data);
         setEditButtons(!editButtons);
         getUserProfile();
         toast.current?.show({ severity: "success", summary: "Success", detail: data.error, life: 3000 });

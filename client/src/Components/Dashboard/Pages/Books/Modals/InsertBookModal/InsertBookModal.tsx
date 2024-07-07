@@ -58,11 +58,9 @@ const InsertBookModal = () => {
 
     try {
       const response = await fetch(`${BaseURL}/api/books`, requestOptions);
-      console.log("response", response);
       if (response.ok) {
         const result = await response.json();
         ApiFetchDataFun();
-        console.log("new book response", response);
         setBookInput({ title: "", authors: "" });
         selectedFile.current = null;
         setImage(null);
@@ -89,7 +87,6 @@ const InsertBookModal = () => {
   // ! image preview
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
     if (image) {
       URL.revokeObjectURL(image);
     }

@@ -43,7 +43,6 @@ const UpdateBookDetailsModal = ({ bookData }: BookDataProps) => {
   //   //!
   const updateBookDetailsHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("id", bookData._id);
 
     if (!bookInput.longDescription.trim()) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Description is missing!", life: 3000 });
@@ -62,10 +61,9 @@ const UpdateBookDetailsModal = ({ bookData }: BookDataProps) => {
 
       if (response.ok) {
         await response.json();
-        console.log("update success");
         ApiFetchDataFun();
         setDisplayToggle(!displayToggle);
-        toast.current?.show({ severity: "success", summary: "Success", detail: "New Book Inserted", life: 3000 });
+        toast.current?.show({ severity: "success", summary: "Success", detail: "Updated", life: 3000 });
       } else {
         const data = (await response.json()) as NotOkType;
         setErrorHandler(data.error);
@@ -92,7 +90,7 @@ const UpdateBookDetailsModal = ({ bookData }: BookDataProps) => {
             {" "}
             &times;{" "}
           </span>
-          <h2>Insert Book Detail:</h2>
+          <h2>Update Book Detail:</h2>
           <hr />
           <div className={styles.container}>
             <form className={styles.form} onSubmit={updateBookDetailsHandler}>

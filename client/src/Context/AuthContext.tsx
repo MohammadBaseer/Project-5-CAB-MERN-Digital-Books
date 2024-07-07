@@ -171,7 +171,6 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //TODO - -------------------------------------------------------
 
   const getUserProfile = async () => {
-    console.log("%c getProfile running", "color:red");
     const token = getToken();
     if (!token) {
       alert("You need Token");
@@ -194,10 +193,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
           const result = (await response.json()) as GetProfileResponse;
           setUserProfile(result.user);
           setIsLoading(false);
-          // console.log("User Profile Result ====>", result);
         }
       } catch (error) {
-        console.log("User Profile -----<", error);
         setIsLoading(false);
       }
     }
@@ -208,14 +205,6 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       getUserProfile();
     }
   }, []);
-  // useEffect(() => {
-  //   const isUserLogged = isToken();
-
-  //   if (isUserLogged) {
-  //     setUserProfile
-  //   }
-
-  // }, [userProfile])
 
   //!--------------------------------------------------------
 

@@ -1,8 +1,6 @@
 import ContactFormMessagesModel from "../models/ContactFormMessagesModel.js";
 
 const insertContactFormMessages = async (req, res) => {
-  console.log("Worked");
-
   if (!req.body.name) {
     res.status(400).json({ error: " Name is empty* " });
     return;

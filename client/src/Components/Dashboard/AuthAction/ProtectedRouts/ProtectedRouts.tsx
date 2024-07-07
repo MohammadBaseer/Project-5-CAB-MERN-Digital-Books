@@ -11,7 +11,6 @@ type ProtectedRoutType = {
 const ProtectedRoute = ({ children }: ProtectedRoutType) => {
   const { userProfile, isLoading } = useContext(AuthContext);
   const isUserLogged = isToken();
-  console.log("isLoading>>>", isLoading);
 
   return <>{isLoading ? <Spinner /> : isUserLogged && userProfile?.email ? children : <Navigate to={"/"} />}</>;
 };

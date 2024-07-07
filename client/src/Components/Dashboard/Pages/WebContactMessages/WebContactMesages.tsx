@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./WebContactMessages.module.scss";
 import DashboardNavbar from "../../DashboardElements/DashboardNavbar/DashboardNavbar";
 import { BaseURL } from "../../../../Utils/URLs/ApiURL";
+import { Toast } from "primereact/toast";
 
 type MessagesType = {
   name: string;
@@ -12,16 +13,19 @@ type MessagesType = {
 
 const WebContactMessages = () => {
   const [data, setData] = useState<MessagesType[] | null>(null);
+  const toast = useRef<Toast>(null);
 
   const FetchContactMessages = async () => {
     try {
       const response = await fetch(`${BaseURL}/api/messages`);
-      // const response = await fetch("http://localhost:5000/auth/user");
       if (!response.ok) {
-        console.log("Response Felid");
+        toast.current?.show({ severity: "error", summary: "Error", detail: "Response Felid", life: 3000 });
+        return;
       }
-      const result = (await response.json()) as MessagesType[];
-      setData(result);
+      if (!response.ok) {
+        const result = (await response.json()) as MessagesType[];
+        setData(result);
+      }
     } catch (error: any) {
       console.log("err=====>", error);
     }
@@ -33,6 +37,7 @@ const WebContactMessages = () => {
 
   return (
     <>
+      <Toast ref={toast} />
       <div className={styles.main_container}>
         <DashboardNavbar />
         <div className={styles.container}>

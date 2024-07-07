@@ -6,7 +6,6 @@ import { FetchApiContext } from "../../../../Context/FetchApiContext";
 const Dashboard = () => {
   const { data } = useContext(FetchApiContext);
 
-  console.log(data);
   return (
     <>
       <div className={styles.main_container}>

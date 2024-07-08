@@ -19,10 +19,11 @@ const WebContactMessages = () => {
     try {
       const response = await fetch(`${BaseURL}/api/messages`);
       if (!response.ok) {
-        toast.current?.show({ severity: "error", summary: "Error", detail: "Response Felid", life: 3000 });
+        console.log("Response Failed ");
+        toast.current?.show({ severity: "error", summary: "Error", detail: "Response Failed", life: 3000 });
         return;
       }
-      if (!response.ok) {
+      if (response.ok) {
         const result = (await response.json()) as MessagesType[];
         setData(result);
       }
@@ -63,7 +64,9 @@ const WebContactMessages = () => {
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{msg.name}</td>
-                        <td>{msg.email}</td>
+                        <td>
+                          <a href={`mailto: ${msg.email}`}> {msg.email}</a>
+                        </td>
                         <td>{msg.messages}</td>
                         {/* <td>{msg.createdAt}</td> */}
                         <td>N/A</td>

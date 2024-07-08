@@ -1,7 +1,7 @@
 import { FormEvent, ReactNode, SetStateAction, createContext, useEffect, useRef, useState } from "react";
 import { GetProfileResponse, LoginOkResponse, NotOkType, User } from "../@Types/Types";
 import { BaseURL } from "../Utils/URLs/ApiURL";
-import { getToken, isToken } from "../Utils/tokenServices";
+import { getToken, isToken, removeToken } from "../Utils/tokenServices";
 import { Toast } from "primereact/toast";
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -20,6 +20,7 @@ type AuthContextType = {
   getUserProfile: () => Promise<void>;
   userLogin: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   setUserProfile: (value: SetStateAction<User | null>) => void;
+  logout: () => void;
 };
 
 const AuthContextInitialValue: AuthContextType = {
@@ -50,6 +51,9 @@ const AuthContextInitialValue: AuthContextType = {
   },
   setUserProfile: () => {
     throw new Error("The setUserProfile Error");
+  },
+  logout: () => {
+    throw new Error("The LogOut Error");
   },
 };
 
@@ -155,7 +159,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
           getUserProfile();
         }
         setCurrentUser({ email: "", password: "" });
-        setErrorHandler("Login Successful");
+        // setErrorHandler("Login Successful");
       }
     } catch (error) {
       setErrorHandler(error);
@@ -204,12 +208,21 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     if (isUserLogged) {
       getUserProfile();
     }
+    if (!isUserLogged) {
+      setIsLoading(false);
+    }
   }, []);
 
   //!--------------------------------------------------------
-
+  //! Logout
+  const logout = () => {
+    removeToken();
+    setUserProfile(null);
+    setIsLoading(false);
+  };
+  //! ---------------------------------------------------------
   return (
-    <AuthContext.Provider value={{ newUser, errorHandler, previewImg, setNewUser, setPreviewImg, selectedFile, UserRegisterFun, getUserProfile, currentUser, setCurrentUser, userLogin, userProfile, setUserProfile, isLoading }}>
+    <AuthContext.Provider value={{ newUser, errorHandler, previewImg, setNewUser, setPreviewImg, selectedFile, UserRegisterFun, getUserProfile, currentUser, setCurrentUser, userLogin, userProfile, setUserProfile, isLoading, logout }}>
       {children}
       <Toast ref={toast} />;
     </AuthContext.Provider>

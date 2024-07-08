@@ -7,7 +7,7 @@ import { AuthContext } from "../../../Context/AuthContext";
 
 const NavbarHead = () => {
   //! AuthContext to get the User Profile
-  const { userProfile, setUserProfile, getUserProfile } = useContext(AuthContext);
+  const { userProfile, logout } = useContext(AuthContext);
   //!------------------------------------
   //! in every location change the toggle state
   const location = useLocation();
@@ -25,10 +25,7 @@ const NavbarHead = () => {
   };
   //!---------------------------------------------------------------------------------
   //! Logout Function
-  const logout = () => {
-    removeToken();
-    setUserProfile(null);
-  };
+
   //!---------------------------------------------------------------------------------
 
   //! in every location change the toggle state

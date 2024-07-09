@@ -2,7 +2,7 @@ import "primeicons/primeicons.css";
 import styles from "./NavbarHead.module.scss";
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { isToken, removeToken } from "../../../Utils/tokenServices";
+import { isToken } from "../../../Utils/tokenServices";
 import { AuthContext } from "../../../Context/AuthContext";
 
 const NavbarHead = () => {
@@ -64,11 +64,11 @@ const NavbarHead = () => {
                         <span className="pi pi-shop"> Admin Panel</span>{" "}
                       </Link>
                     </div>
-                    <div className={styles.user_tab_navbar_element}>
+                    {/* <div className={styles.user_tab_navbar_element}>
                       <Link to="/register">
                         <span className="pi pi-cog"> Settings</span>
                       </Link>
-                    </div>
+                    </div> */}
                     <div className={styles.user_tab_navbar_element}>
                       <Link to="#" onClick={logout}>
                         <span className="pi pi-sign-out"> Logout</span>

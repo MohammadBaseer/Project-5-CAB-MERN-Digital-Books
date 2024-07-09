@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./UpdateBookModal.module.scss";
-import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useContext, useRef, useState } from "react";
 import { FetchApiContext } from "../../../../../../../Context/FetchApiContext";
 import { NotOkType } from "../../../../../../../@Types/Types";
 import { BaseURL } from "../../../../../../../Utils/URLs/ApiURL";
@@ -10,11 +10,11 @@ type PropsTypes = {
   id: string;
   imageUrl: string;
   title: string;
-  authors: string[];
+  authors: string;
 };
 type BookInputsTypes = {
   title: string;
-  authors: string;
+  authors: string | any;
 };
 
 const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
@@ -23,39 +23,52 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
   const selectedFileUpdate = useRef<File | null>(null);
   const [imageUpdate, setImageUpdate] = useState<string | null | any>(null);
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
-  const [bookInput, setBookInput] = useState<BookInputsTypes | any>({ title: title, authors: authors });
+  const [bookInputGet, setBookInputGet] = useState<BookInputsTypes>({ title, authors });
+
   const toast = useRef<Toast>(null);
 
   //!
   const updateBookHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!bookInput.title.trim()) {
+    if (!bookInputGet.title.trim()) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Title is missing!", life: 3000 });
       return;
     }
 
-    const authorsString = typeof bookInput.authors === "string" ? bookInput.authors : bookInput.authors.join(",");
-    if (
-      !authorsString
-        .split(",")
-        .map((author) => author.trim())
-        .join(",")
-        .trim()
-    ) {
+    let authorsString = typeof bookInputGet.authors === "string" ? bookInputGet.authors : bookInputGet.authors.join(",");
+
+    const authorsStringResult = authorsString
+      .split(",")
+      .map((author: string) => author.trim())
+      .join(", ");
+
+    if (!authorsStringResult) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Author is missing", life: 3000 });
       return;
     }
 
+    const token = localStorage.getItem("token");
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
     const formdata = new FormData();
-    formdata.append("title", bookInput.title);
-    formdata.append("authors", bookInput.authors);
+    formdata.append("title", bookInputGet.title);
+    formdata.append("authors", authorsStringResult);
+
     if (selectedFileUpdate.current) {
       formdata.append("image", selectedFileUpdate.current);
     }
 
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: formdata,
+    };
+
     try {
-      const response = await fetch(`${BaseURL}/api/books?id=${id}&imageUrl=${imageUrl}`, { method: "PUT", body: formdata });
+      const response = await fetch(`${BaseURL}/api/books?id=${id}&imageUrl=${imageUrl}`, requestOptions);
 
       if (response.ok) {
         await response.json();
@@ -63,6 +76,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
         selectedFileUpdate.current = null;
         setImageUpdate(null);
         ApiFetchDataFun();
+        setBookInputGet({ title, authors });
         toast.current?.show({ severity: "success", summary: "Error", detail: "Updated", life: 3000 });
       } else {
         const data = (await response.json()) as NotOkType;
@@ -75,7 +89,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
   //! OnChange Function
 
   const getInputValues = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
-    setBookInput((prev) => {
+    setBookInputGet((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
@@ -100,7 +114,12 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
   return (
     <>
       <Toast ref={toast} />
-      <Link to="#" onClick={() => setDisplayToggle(true)}>
+      <Link
+        to="#"
+        onClick={() => {
+          setDisplayToggle(true);
+        }}
+      >
         <span className="pi pi-file-edit">&nbsp;</span>
       </Link>
 
@@ -130,12 +149,12 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <label htmlFor="fileUpload" className={styles.file}>
+                  <label htmlFor={id} className={styles.file}>
                     <img className={styles.image} src={imageUpdate !== null ? imageUpdate : imageUrl} alt="" />
                     <span>Add an Image</span>
                   </label>
 
-                  <input type="file" id="fileUpload" name="image" onChange={handleFileChange} style={{ display: "none" }} />
+                  <input type="file" id={id} name="image" onChange={handleFileChange} style={{ display: "none" }} />
                 </div>
               </div>
 
@@ -146,7 +165,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <input className={styles.inputs} type="text" id="titleUpdate" name="title" placeholder="Book title.." value={bookInput.title} onChange={getInputValues} />
+                  <input className={styles.inputs} type="text" id="titleUpdate" name="title" placeholder="Book title.." value={bookInputGet.title} onChange={getInputValues} />
                 </div>
               </div>
 
@@ -157,7 +176,7 @@ const UpdateBookModal = ({ id, imageUrl, title, authors }: PropsTypes) => {
                   </label>
                 </div>
                 <div className={styles.col_75}>
-                  <textarea className={styles.text_area} id="authorsUpdate" name="authors" placeholder="Author1, Author2, Author3..." value={bookInput.authors} onChange={getInputValues} />
+                  <textarea className={styles.text_area} id="authorsUpdate" name="authors" placeholder="Author1, Author2, Author3..." value={bookInputGet.authors} onChange={getInputValues} />
 
                   <div className={styles.error}>{errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}</div>
                 </div>

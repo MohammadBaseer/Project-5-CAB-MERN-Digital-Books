@@ -68,6 +68,7 @@ const User = () => {
                   })}
               </tbody>
             </table>
+            <div>{error}</div>
           </div>
         </div>
       </div>

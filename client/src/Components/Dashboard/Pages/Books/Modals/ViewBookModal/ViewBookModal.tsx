@@ -5,17 +5,7 @@ import InsertBookDetailForm from "../InsertBookDetailForm/InsertBookDetailForm";
 import UpdateBookDetailsModal from "../UpdateBookModals/UpdateBookDetailsModal/UpdateBookDetailsModal";
 import { BooksDataType } from "../../../../../../@Types/Types";
 type BookDataProps = {
-  bookData: {
-    _id: string;
-    title: string;
-    image: string;
-    authors: string[];
-    detail: {
-      publishAt: any;
-      longDescription: string;
-      categories: string[];
-    };
-  };
+  bookData: BooksDataType;
 };
 const ViewBookModal = ({ bookData }: BookDataProps) => {
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
@@ -90,9 +80,6 @@ const ViewBookModal = ({ bookData }: BookDataProps) => {
             {bookData.detail ? (
               <h3>
                 Published Date: {bookData?.detail?.publishAt} <br />
-                Publisher: Grand Central Publishing <br />
-                Language: English <br />
-                Size: 7.25" l x 5.09" w x 0.68" h
               </h3>
             ) : (
               <InsertBookDetailForm id={bookData._id} />

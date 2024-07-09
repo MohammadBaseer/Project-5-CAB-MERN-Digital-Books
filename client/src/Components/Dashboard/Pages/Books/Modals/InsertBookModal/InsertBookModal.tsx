@@ -5,9 +5,6 @@ import { FetchApiContext } from "../../../../../../Context/FetchApiContext";
 import { BaseURL } from "../../../../../../Utils/URLs/ApiURL";
 import { NotOkType } from "../../../../../../@Types/Types";
 import { Toast } from "primereact/toast";
-import { AuthContext } from "../../../../../../Context/AuthContext";
-
-// import AddItemForm from "./AddItemForm";
 
 const InsertBookModal = () => {
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
@@ -16,7 +13,6 @@ const InsertBookModal = () => {
 
   const toast = useRef<Toast>(null);
 
-  // const [image, setImage] = useState<File | null | any>(null);
   const [image, setImage] = useState<string | null | any>(null);
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [bookInput, setBookInput] = useState({ title: "", authors: "" });
@@ -30,10 +26,17 @@ const InsertBookModal = () => {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Title is missing!", life: 3000 });
       return;
     }
-    if (!bookInput.authors.trim()) {
+
+    let authorsString = bookInput.authors
+      .split(",")
+      .map((author) => author.trim())
+      .join(", ");
+
+    if (!authorsString) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Author is missing", life: 3000 });
       return;
     }
+
     if (!image) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Please select an image", life: 3000 });
       return;
@@ -44,7 +47,7 @@ const InsertBookModal = () => {
 
     const formdata = new FormData();
     formdata.append("title", bookInput.title);
-    formdata.append("authors", bookInput.authors);
+    formdata.append("authors", authorsString);
 
     const requestOptions = {
       method: "POST",
@@ -59,13 +62,13 @@ const InsertBookModal = () => {
     try {
       const response = await fetch(`${BaseURL}/api/books`, requestOptions);
       if (response.ok) {
-        const result = await response.json();
-        ApiFetchDataFun();
+        await response.json();
         setBookInput({ title: "", authors: "" });
         selectedFile.current = null;
         setImage(null);
         setDisplayToggle(false);
         toast.current?.show({ severity: "success", summary: "Success", detail: "New Book Inserted", life: 3000 });
+        ApiFetchDataFun();
       }
       if (!response.ok) {
         const data = (await response.json()) as NotOkType;

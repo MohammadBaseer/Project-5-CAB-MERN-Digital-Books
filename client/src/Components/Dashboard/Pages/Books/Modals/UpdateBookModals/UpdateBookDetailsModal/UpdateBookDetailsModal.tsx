@@ -1,23 +1,13 @@
 import { Link } from "react-router-dom";
 import styles from "./UpdateBookModal.module.scss";
-import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useContext, useRef, useState } from "react";
 import { BooksDataType, NotOkType } from "../../../../../../../@Types/Types";
 import { BaseURL } from "../../../../../../../Utils/URLs/ApiURL";
 import { FetchApiContext } from "../../../../../../../Context/FetchApiContext";
 import { Toast } from "primereact/toast";
 
 type BookDataProps = {
-  bookData: {
-    _id: string;
-    title: string;
-    image: string;
-    authors: string[];
-    detail: {
-      publishAt: any;
-      longDescription: string;
-      categories: string[];
-    };
-  };
+  bookData: BooksDataType;
 };
 
 const UpdateBookDetailsModal = ({ bookData }: BookDataProps) => {
@@ -44,25 +34,52 @@ const UpdateBookDetailsModal = ({ bookData }: BookDataProps) => {
   const updateBookDetailsHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+
     if (!bookInput.longDescription.trim()) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Description is missing!", life: 3000 });
       return;
     }
 
-    const categoryString = typeof bookInput.categories === "string" ? bookInput.categories : bookInput.categories.join(",");
+    let categoryStringCleaned = typeof bookInput.categories === "string" ? bookInput.categories : bookInput.categories.join(",");
+
+    const categoryStringCleanedResult = categoryStringCleaned
+      .split(",")
+      .map((author: string) => author.trim())
+      .join(", ");
+
+    if (!categoryStringCleanedResult) {
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Book Author is missing", life: 3000 });
+      return;
+    }
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     const formdata = new FormData();
     formdata.append("longDescription", bookInput.longDescription);
-    formdata.append("categories", bookInput.categories);
+    formdata.append("categories", categoryStringCleanedResult);
     formdata.append("publishAt", bookInput.date);
 
+    const requestOption = {
+      method: "PUT",
+      headers: myHeaders,
+      body: formdata,
+    };
+
     try {
-      const response = await fetch(`${BaseURL}/api/books?id=${bookData._id}`, { method: "PUT", body: formdata });
+      const response = await fetch(`${BaseURL}/api/books?id=${bookData._id}`, requestOption);
 
       if (response.ok) {
         await response.json();
-        ApiFetchDataFun();
         setDisplayToggle(!displayToggle);
+        ApiFetchDataFun();
+        setBookInput({
+          longDescription: bookData.detail.longDescription,
+          categories: bookData.detail.categories,
+          date: bookData.detail.publishAt,
+        });
+
         toast.current?.show({ severity: "success", summary: "Success", detail: "Updated", life: 3000 });
       } else {
         const data = (await response.json()) as NotOkType;

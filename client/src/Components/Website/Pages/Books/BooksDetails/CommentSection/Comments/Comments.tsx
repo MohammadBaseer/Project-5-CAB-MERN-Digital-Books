@@ -4,7 +4,7 @@ import { CommentsType } from "../../../../../../../@Types/Types";
 import { AuthContext } from "../../../../../../../Context/AuthContext";
 import UpdateCommentModal from "./CommentModal/UpdateCommentModal";
 type CommentTypeProps = {
-  comment: CommentsType[];
+  comment: CommentsType[] | undefined;
   addComment: any;
 };
 const Comments = ({ comment, addComment }: CommentTypeProps) => {

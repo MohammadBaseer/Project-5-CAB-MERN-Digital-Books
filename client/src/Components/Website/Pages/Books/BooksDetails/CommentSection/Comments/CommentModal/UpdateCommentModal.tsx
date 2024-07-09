@@ -17,7 +17,6 @@ const UpdateCommentModal = ({ id, addComment, commentText }: CommentsProps) => {
   const [displayToggle, setDisplayToggle] = useState<boolean>(false);
   const [updateComment, setUpdateComment] = useState(commentText);
 
-  //!SECTION
   const updateComments = async () => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -47,8 +46,6 @@ const UpdateCommentModal = ({ id, addComment, commentText }: CommentsProps) => {
       console.log(error);
     }
   };
-
-  //!
 
   const deleteComments = async (commentId: string) => {
     try {
@@ -121,8 +118,6 @@ const UpdateCommentModal = ({ id, addComment, commentText }: CommentsProps) => {
               </button>
             </div>
           </div>
-
-          {/* //! */}
         </div>
       </div>
     </>

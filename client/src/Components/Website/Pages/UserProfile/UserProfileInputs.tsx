@@ -1,10 +1,17 @@
-import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useContext, useRef, useState } from "react";
 import styles from "./UserProfile.module.scss";
 import { BaseURL } from "../../../../Utils/URLs/ApiURL";
 import { AuthContext } from "../../../../Context/AuthContext";
 import { Toast } from "primereact/toast";
 
-const UserProfileInputs = ({ type, fieldKey, fieldValue, readOnly }) => {
+type InputPropsType = {
+  type: string;
+  fieldKey: string;
+  fieldValue: string;
+  readOnly: boolean;
+};
+
+const UserProfileInputs = ({ type, fieldKey, fieldValue, readOnly }: InputPropsType) => {
   const { getUserProfile } = useContext(AuthContext);
   const [editButtons, setEditButtons] = useState(true);
   const [value, setValue] = useState(fieldValue || "");

@@ -1,10 +1,8 @@
-///REVIEW -  Restructured ---
-
 export type BooksDataType = {
   _id: string;
   title: string;
   image: string;
-  authors: string[];
+  authors: string | any;
   userRef: string;
   likes: string[];
   createdAt: string;
@@ -18,7 +16,7 @@ export type BooksDataType = {
 export type Detail = {
   _id: string;
   longDescription: string;
-  categories: string[];
+  categories: string | any;
   publishAt: string;
   bookref: string;
   createdAt: string;

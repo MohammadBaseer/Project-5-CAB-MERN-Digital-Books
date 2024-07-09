@@ -27,11 +27,19 @@ const InsertBookDetailForm = ({ id }: InsertBookDetailFormProps) => {
   const addProductHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     setErrorHandler("");
     e.preventDefault();
-    if (!bookDetailInput.longDescription) {
+    const token = localStorage.getItem("token");
+
+    if (!bookDetailInput.longDescription.trim()) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Description is missing!", life: 3000 });
       return;
     }
-    if (!bookDetailInput.categories.trim()) {
+
+    let categoryStringCleaned = bookDetailInput.categories
+      .split(",")
+      .map((author) => author.trim())
+      .join(", ");
+
+    if (!categoryStringCleaned) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Category is missing!", life: 3000 });
       return;
     }
@@ -39,18 +47,20 @@ const InsertBookDetailForm = ({ id }: InsertBookDetailFormProps) => {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Book Publish Date is missing!", life: 3000 });
       return;
     }
+
     try {
-      const headers = new Headers();
-      headers.append("Content-Type", "application/x-www-form-urlencoded");
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
+
       const body = new URLSearchParams();
       body.append("bookref", id);
       body.append("longDescription", bookDetailInput.longDescription);
-      body.append("categories", bookDetailInput.categories);
+      body.append("categories", categoryStringCleaned);
       body.append("publishAt", bookDetailInput.publishAt);
 
       const requestOption = {
         method: "POST",
-        headers: headers,
+        headers: myHeaders,
         body: body,
       };
 
@@ -85,7 +95,7 @@ const InsertBookDetailForm = ({ id }: InsertBookDetailFormProps) => {
             {" "}
             &times;{" "}
           </span>
-          <h2>Insert Book Detail: {id}</h2>
+          <h2>Insert Book Detail:</h2>
           <hr />
           <div className={styles.container}>
             <form className={styles.form} onSubmit={addProductHandler}>

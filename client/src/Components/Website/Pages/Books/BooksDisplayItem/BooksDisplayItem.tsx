@@ -4,17 +4,17 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { FetchApiContext } from "../../../../../Context/FetchApiContext";
 import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Loading from "../../../../../Utils/Loading/Loading";
-import { isToken } from "../../../../../Utils/tokenServices";
 import { Toast } from "primereact/toast";
 import { AuthContext } from "../../../../../Context/AuthContext";
+import { BooksDataType } from "../../../../../@Types/Types";
+import Loading from "../../../../../Loaders/Loading/Loading";
 
 const BooksDisplayItem = () => {
   const toast = useRef<Toast>(null);
 
   const { data, loading, errorHandle, likeFunction } = useContext(FetchApiContext);
   const { userProfile } = useContext(AuthContext);
-  const [bookData, setBookData] = useState<any>([]);
+  const [bookData, setBookData] = useState<BooksDataType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
@@ -25,13 +25,15 @@ const BooksDisplayItem = () => {
   }, [data]);
 
   const fetchMoreData = () => {
-    setTimeout(() => {
-      if (currentPage * itemsPerPage < data.length) {
-        const nextPageData = data && data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
-        setBookData((prevItems) => [...prevItems, ...nextPageData]);
-        setCurrentPage((prevPage) => prevPage + 1);
-      }
-    }, 1500);
+    if (data) {
+      setTimeout(() => {
+        if (currentPage * itemsPerPage < data.length) {
+          const nextPageData = data && data.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+          setBookData((prevItems) => [...prevItems, ...nextPageData]);
+          setCurrentPage((prevPage) => prevPage + 1);
+        }
+      }, 1500);
+    }
   };
 
   const dLength = data && (data.length as any);
@@ -68,7 +70,7 @@ const BooksDisplayItem = () => {
                       {displayItem.likes.length || 0}
                       &nbsp;
                       <Link to={"#"} onClick={() => likeFunction(displayItem._id)}>
-                        <span className={`pi pi-thumbs-up${displayItem.likes.includes(userProfile?.id) ? "-fill" : ""} ${styles.like}`}></span>
+                        <span className={`pi pi-thumbs-up${userProfile && displayItem.likes.includes(userProfile?.id) ? "-fill" : ""} ${styles.like}`}></span>
                       </Link>
                     </div>
                   </div>

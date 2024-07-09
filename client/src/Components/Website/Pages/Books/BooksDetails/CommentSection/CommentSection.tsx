@@ -9,7 +9,7 @@ import { Toast } from "primereact/toast";
 
 type CommentTypeProps = {
   id: string;
-  comment: CommentsType[];
+  comment: CommentsType[] | undefined;
   addComment: any;
 };
 
@@ -49,19 +49,19 @@ const CommentSection = ({ id, comment, addComment }: CommentTypeProps) => {
       if (response.ok) {
         await response.json();
         setCommentText("");
-        setErrorHandler("comment added successfully");
+        toast.current?.show({ severity: "success", summary: "Success", detail: "Commented", life: 3000 });
         addComment();
       }
       if (!response.ok) {
-        const data = (await response.json()) as NotOkType;
-        setErrorHandler(data);
+        (await response.json()) as NotOkType;
+        toast.current?.show({ severity: "error", summary: "Error", detail: "API Response Error*", life: 3000 });
         return;
       }
     } catch (error: any) {
       setErrorHandler(error.message || "An unknown error occurred");
     }
   };
-  //! OnChange Function
+
   const AddCommentHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     setErrorHandler("");
     e.preventDefault();
@@ -76,7 +76,7 @@ const CommentSection = ({ id, comment, addComment }: CommentTypeProps) => {
           <form onSubmit={AddCommentHandler}>
             <div className={styles.comment_box}>
               <textarea className={styles.comments} rows={10} placeholder="Aa" name="comment" value={commentText} onChange={(e) => setCommentText(e.target.value)}></textarea>
-              {/* {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>} */}
+              {errorHandler && <div className={styles.error}>{typeof errorHandler === "string" ? errorHandler : errorHandler.error}</div>}
             </div>
 
             <div className={styles.comment_button}>

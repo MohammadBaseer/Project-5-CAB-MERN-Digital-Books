@@ -25,6 +25,7 @@ const WebContactMessages = () => {
       }
       if (response.ok) {
         const result = (await response.json()) as MessagesType[];
+        // console.log("result:::::", result)
         setData(result);
       }
     } catch (error: any) {
@@ -58,7 +59,14 @@ const WebContactMessages = () => {
                 </tr>
               </thead>
               <tbody>
-                {data &&
+                {data?.length === 0 ? (
+                  <tr>
+                    <td>
+                      <strong>No Data Found</strong>
+                    </td>
+                  </tr>
+                ) : (
+                  data &&
                   data.map((msg, index) => {
                     return (
                       <tr key={index}>
@@ -72,7 +80,8 @@ const WebContactMessages = () => {
                         <td>N/A</td>
                       </tr>
                     );
-                  })}
+                  })
+                )}
               </tbody>
             </table>
           </div>

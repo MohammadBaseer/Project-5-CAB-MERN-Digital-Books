@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import styles from "./Home.module.scss";
 import "./css.css";
-import Loading from "../../../../Utils/Loading/Loading";
 import { useContext, useEffect, useState } from "react";
 import { FetchApiContext } from "../../../../Context/FetchApiContext";
 
 import { AuthContext } from "../../../../Context/AuthContext";
+import Loading from "../../../../Loaders/Loading/Loading";
 
 const Home = () => {
   const { data, loading, errorHandle, likeFunction } = useContext(FetchApiContext);
@@ -29,18 +29,18 @@ const Home = () => {
   //!
 
   // const shuffled = data?.sort(() => 0.5 - Math.random());
-  let size = 4;
+  let size = 20;
   if (windowWidth <= 1186) {
-    size = 3;
+    size = 19;
   }
   if (windowWidth <= 905) {
-    size = 2;
+    size = 18;
   }
   if (windowWidth <= 625) {
-    size = 1;
+    size = 17;
   }
 
-  var item = data?.slice(0, size);
+  var item = data?.slice(16, size);
 
   return (
     <>
@@ -112,7 +112,7 @@ const Home = () => {
                   </a> */}
                     <div className={styles.item_footer}>
                       {(displayItem.detail && (
-                        <Link to={`${displayItem._id}`} className={styles.content}>
+                        <Link to={`books/${displayItem._id}`} className={styles.content}>
                           <i className="pi pi-file"> Details</i>
                         </Link>
                       )) || <div></div>}
@@ -121,7 +121,7 @@ const Home = () => {
                         {displayItem.likes.length || 0}
                         &nbsp;
                         <Link to={"#"} onClick={() => likeFunction(displayItem._id)}>
-                          <span className={`pi pi-thumbs-up${displayItem.likes.includes(userProfile?.id) ? "-fill" : ""} ${styles.like}`}></span>
+                          <span className={`pi pi-thumbs-up${userProfile && displayItem.likes.includes(userProfile?.id) ? "-fill" : ""} ${styles.like}`}></span>
                         </Link>
                       </div>
                     </div>

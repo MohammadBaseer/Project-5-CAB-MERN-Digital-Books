@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import styles from "./Contact.module.scss";
 import { Toast } from "primereact/toast";
 
@@ -24,7 +24,7 @@ const Contact = () => {
     });
   };
 
-  const insertContactFormMessage = async (e) => {
+  const insertContactFormMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!messagesInput.name) {
       toast.current?.show({ severity: "error", summary: "Error", detail: "Name is missing!", life: 3000 });

@@ -20,40 +20,29 @@ const BookReadMode = () => {
           <div className={styles.side_a_container}>
             <div className={styles.nav_side_a}>
               <input type="search" placeholder="Search" />
-              {/* ------------ */}
-
               <a href="/1" className={styles.link_base}>
                 <div className={styles.sidebar_navigation_listItem}>
                   <span className={styles.sidebar_navigation_chapter_number}>1</span>
                   <span className={styles.chapter_title}> Getting started with TypeScript</span>
                 </div>
               </a>
-
-              {/* ------- */}
-
               <a href="/1" className={styles.link_base}>
                 <div className={styles.sidebar_navigation_listItem}>
                   <span className={styles.sidebar_navigation_chapter_number}>2</span>
                   <span className={styles.chapter_title}> Getting started with TypeScript</span>
                 </div>
               </a>
-              {/* ------------ */}
             </div>
           </div>
 
           <div className={styles.side_b_container}>
             <div className={styles.nav_side_b}>
               <input type="search" placeholder="Search" />
-
-              {/* ------------ */}
-
               <a href="/1" className={styles.link_base}>
                 <div className={styles.sidebar_navigation_listItem}>
                   <span className={styles.chapter_title}> Installation and setup</span>
                 </div>
               </a>
-
-              {/* ------- */}
             </div>
           </div>
         </div>

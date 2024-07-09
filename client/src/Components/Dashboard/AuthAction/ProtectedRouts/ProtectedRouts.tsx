@@ -2,7 +2,7 @@ import { ReactNode, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { isToken } from "../../../../Utils/tokenServices";
 import { AuthContext } from "../../../../Context/AuthContext";
-import Spinner from "../../../../Utils/Spinner/Spinner";
+import Spinner from "../../../../Loaders/Spinner/Spinner";
 
 type ProtectedRoutType = {
   children: ReactNode;

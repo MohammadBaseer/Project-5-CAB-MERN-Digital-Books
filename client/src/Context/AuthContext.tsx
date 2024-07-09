@@ -3,18 +3,17 @@ import { GetProfileResponse, LoginOkResponse, NotOkType, User } from "../@Types/
 import { BaseURL } from "../Utils/URLs/ApiURL";
 import { getToken, isToken, removeToken } from "../Utils/tokenServices";
 import { Toast } from "primereact/toast";
-import { Navigate, useNavigate } from "react-router-dom";
 
 type AuthContextType = {
   newUser: { name: string; email: string; password: string };
-  errorHandler: NotOkType | string | any; //REVIEW -
+  errorHandler: NotOkType | string | any;
   previewImg: string | null;
-  selectedFile: File | null | any; //REVIEW -
+  selectedFile: File | null | any;
   currentUser: { email: string; password: string };
   userProfile: User | null;
   isLoading: boolean;
-  setCurrentUser: (prev: any) => any; //REVIEW -
-  setNewUser: (prev: any) => any; //REVIEW -
+  setCurrentUser: (prev: any) => any;
+  setNewUser: (prev: any) => any;
   setPreviewImg: (previewImg: string | null) => void;
   UserRegisterFun: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   getUserProfile: () => Promise<void>;
@@ -25,7 +24,7 @@ type AuthContextType = {
 
 const AuthContextInitialValue: AuthContextType = {
   newUser: { name: "", email: "", password: "" },
-  errorHandler: "" as NotOkType | string | any, //REVIEW -
+  errorHandler: "" as NotOkType | string | any,
   previewImg: "",
   selectedFile: null,
   currentUser: { email: "", password: "" },
@@ -71,7 +70,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   // const toNavigate = useNavigate();
 
   // NOTE: //! User Registration State
-  const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>(""); //REVIEW -
+  const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [newUser, setNewUser] = useState({ name: "", email: "", password: "" });
   const [previewImg, setPreviewImg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -126,8 +125,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   //! Login Function
   const userLogin = async (e: FormEvent<HTMLFormElement>) => {
-    setErrorHandler("");
     e.preventDefault();
+    setErrorHandler("");
 
     if (!currentUser.email.trim()) {
       setErrorHandler("Email is missing");

@@ -39,8 +39,8 @@ const WebContactMessages = () => {
 
   return (
     <>
-      <Toast ref={toast} />
       <div className={styles.main_container}>
+        <Toast ref={toast} />
         <DashboardNavbar />
         <div className={styles.container}>
           <h2>

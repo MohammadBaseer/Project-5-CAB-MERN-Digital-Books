@@ -56,40 +56,37 @@ const AuthContextInitialValue: AuthContextType = {
   },
 };
 
-//TODO - -------------------------------------------------------------------------
 export const AuthContext = createContext<AuthContextType>(AuthContextInitialValue);
-//TODO - -------------------------------------------------------------------------
 
 type AuthContextProviderProps = {
   children: ReactNode;
 };
-//TODO - ---------------------------------------------------------------
+
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  //TODO - ---------------------------------------------------------------
   const toast = useRef<Toast>(null);
   // const toNavigate = useNavigate();
 
-  // NOTE: //! User Registration State
   const [errorHandler, setErrorHandler] = useState<NotOkType | string | any>("");
   const [newUser, setNewUser] = useState({ name: "", email: "", password: "" });
   const [previewImg, setPreviewImg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const selectedFile = useRef<File | null | undefined>(null);
+  const [currentUser, setCurrentUser] = useState({ email: "", password: "" });
+  const [userProfile, setUserProfile] = useState<User | null>(null);
 
-  //! Registration Function
   const UserRegisterFun = async (e: FormEvent<HTMLFormElement>) => {
     setErrorHandler("");
     e.preventDefault();
     if (!newUser.name.trim()) {
-      setErrorHandler("Username is missing");
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Username is missing", life: 3000 });
       return;
     }
     if (!newUser.email.trim()) {
-      setErrorHandler("Email is missing");
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Email is missing", life: 3000 });
       return;
     }
-    if (!newUser.password.trim()) {
-      setErrorHandler("Password is missing");
+    if (!newUser.password) {
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Password is missing", life: 3000 });
       return;
     }
     const formdata = new FormData();
@@ -117,19 +114,13 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       console.log("err==============>", error);
     }
   };
-  //!---------------------------------------------------------------------
 
-  //TODO ------------------User Login------------------
-  //! Login State
-  const [currentUser, setCurrentUser] = useState({ email: "", password: "" });
-
-  //! Login Function
   const userLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorHandler("");
 
     if (!currentUser.email.trim()) {
-      setErrorHandler("Email is missing");
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Email is missing", life: 3000 });
       return;
     }
     try {
@@ -150,7 +141,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         return setErrorHandler(result.error);
       }
       if (!res.ok) {
-        setErrorHandler("Login failed");
+        toast.current?.show({ severity: "error", summary: "Error", detail: "Login failed", life: 3000 });
       }
       if (res.ok) {
         if (result.token) {
@@ -164,14 +155,6 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       setErrorHandler(error);
     }
   };
-
-  //!--------------------------------------------------------
-
-  //TODO ------------------USer Profile------------------
-  //! User Profile State
-  //TODO - in This UserProfile my exist user data stored, Now I can Pass at anywhere I want
-  const [userProfile, setUserProfile] = useState<User | null>(null);
-  //TODO - -------------------------------------------------------
 
   const getUserProfile = async () => {
     const token = getToken();
@@ -187,9 +170,10 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         headers: myHeaders,
       };
       try {
-        const response = await fetch("http://localhost:5000/auth/profile", requestOptions);
+        const response = await fetch(`${BaseURL}/auth/profile`, requestOptions);
         if (!response.ok && response.status === 401) {
-          console.log("Token Invalid or Login again");
+          // console.log("Token Invalid or Login again");
+          toast.current?.show({ severity: "error", summary: "Error", detail: "Token Invalid or Login again", life: 3000 });
           return;
         }
         if (response.ok) {

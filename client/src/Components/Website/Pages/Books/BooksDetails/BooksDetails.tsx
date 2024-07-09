@@ -4,6 +4,7 @@ import "primeicons/primeicons.css";
 import { useEffect, useState } from "react";
 import { BooksDataType } from "../../../../../@Types/Types";
 import CommentSection from "./CommentSection/CommentSection";
+import { BaseURL } from "../../../../../Utils/URLs/ApiURL";
 
 const BooksDetails = () => {
   const [data, setData] = useState<BooksDataType | null>(null);
@@ -13,7 +14,7 @@ const BooksDetails = () => {
 
   const ApiFetchDataFunction = async () => {
     try {
-      const url = await fetch(`http://localhost:5000/api/books/${id}`);
+      const url = await fetch(`${BaseURL}/api/books/${id}`);
       const response = (await url.json()) as BooksDataType;
       if (response) {
         setData(response);

@@ -2,7 +2,7 @@ import { FetchApiContext } from "../../../../Context/FetchApiContext";
 import DashboardNavbar from "../../DashboardElements/DashboardNavbar/DashboardNavbar";
 import styles from "./Books.module.scss";
 import "primeicons/primeicons.css";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import ViewBookModal from "./Modals/ViewBookModal/ViewBookModal";
 import UpdateBookModal from "./Modals/UpdateBookModals/UpdateBookModal/UpdateBookModal";
 import BookDeleteModal from "./Modals/BookDeleteModal/BookDeleteModal";
@@ -14,6 +14,18 @@ import Loading from "../../../../Loaders/Loading/Loading";
 const Books = () => {
   const { data, loading, errorHandle } = useContext(FetchApiContext);
   const { userProfile } = useContext(AuthContext);
+  const [msg, setMsg] = useState("");
+
+  useEffect(() => {
+    if (data && userProfile) {
+      const userBooks = data.filter((book) => book.userRef === userProfile.id);
+      if (userBooks.length === 0) {
+        setMsg("Please insert a book");
+      } else {
+        setMsg("");
+      }
+    }
+  }, [data, userProfile]);
 
   return (
     <>
@@ -39,42 +51,30 @@ const Books = () => {
                 </tr>
               </thead>
               <tbody>
-                {data?.length === 0 ? (
-                  <tr>
-                    <td>
-                      <strong>No Books Found</strong>
-                    </td>
-                  </tr>
-                ) : (
-                  data &&
+                {data &&
                   data.map((bookData: BooksDataType, index: number) => {
-                    return bookData.userRef === userProfile?.id ? (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>
-                          <img className={styles.image} src={bookData.image} alt="" />
-                        </td>
-                        <td>{bookData.title}</td>
-                        <td>{bookData.authors.join(", ")}</td>
-
-                        <td>
-                          {/* View  */}
-                          <ViewBookModal bookData={bookData} />
-
-                          {/* Edit  */}
-                          <UpdateBookModal id={bookData._id} imageUrl={bookData.image} title={bookData.title} authors={bookData.authors} />
-
-                          {/* Delete Confirm Notified */}
-                          <BookDeleteModal id={bookData._id} imageUrl={bookData.image} />
-                        </td>
-                      </tr>
-                    ) : (
-                      ""
+                    return (
+                      bookData.userRef === userProfile?.id && (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>
+                            <img className={styles.image} src={bookData.image} alt="" />
+                          </td>
+                          <td>{bookData.title}</td>
+                          <td>{bookData.authors.join(", ")}</td>
+                          <td>
+                            <ViewBookModal bookData={bookData} />
+                            <UpdateBookModal id={bookData._id} imageUrl={bookData.image} title={bookData.title} authors={bookData.authors} />
+                            <BookDeleteModal id={bookData._id} imageUrl={bookData.image} />
+                          </td>
+                        </tr>
+                      )
                     );
-                  })
-                )}
+                  })}
               </tbody>
             </table>
+
+            <strong>{msg}</strong>
           </div>
         </div>
         {loading && <Loading />}

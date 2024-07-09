@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import styles from "./Contact.module.scss";
 import { Toast } from "primereact/toast";
+import { BaseURL } from "../../../../Utils/URLs/ApiURL";
 
 type MessagesInputType = {
   name: string;
@@ -53,7 +54,7 @@ const Contact = () => {
       body: urlencoded,
     };
     try {
-      const response = await fetch("http://localhost:5000/api/messages", requestOptions);
+      const response = await fetch(`${BaseURL}/api/messages`, requestOptions);
       if (!response.ok) {
         toast.current?.show({ severity: "error", summary: "Error", detail: "Response Failed", life: 3000 });
         return;

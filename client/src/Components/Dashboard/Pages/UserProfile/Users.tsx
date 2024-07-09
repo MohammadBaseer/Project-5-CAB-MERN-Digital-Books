@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./User.module.scss";
 import DashboardNavbar from "../../DashboardElements/DashboardNavbar/DashboardNavbar";
+import { BaseURL } from "../../../../Utils/URLs/ApiURL";
 
 type UserType = {
   name: string;
@@ -13,11 +14,9 @@ const User = () => {
   const [userData, setUserData] = useState<UserType[] | null>(null);
   const [error, setError] = useState("");
 
-  const ApiURL = "http://localhost:5000/auth/user";
-
   const FetchUSerDataFun = async () => {
     try {
-      const response = await fetch(ApiURL);
+      const response = await fetch(`${BaseURL}/auth/user`);
       const result = (await response.json()) as UserType[];
 
       setUserData(result);

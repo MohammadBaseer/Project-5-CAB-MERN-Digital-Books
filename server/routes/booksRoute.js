@@ -16,17 +16,17 @@ booksRoute.get("/books/:id", displayBookById);
 booksRoute.post("/books", JWTAuth, multerUpload.single("image"), bookInsert);
 
 //! Display by ID and update API Endpoint
-booksRoute.put("/books/", multerUpload.single("image"), bookUpdate);
+booksRoute.put("/books/", JWTAuth, multerUpload.single("image"), bookUpdate);
 
 //! Delete by ID  API Endpoint
 // booksRoute.delete("/books/:id", deleteBook);
-booksRoute.delete("/books/", deleteBook);
+booksRoute.delete("/books/", JWTAuth, deleteBook);
 
 //! Like
 booksRoute.put("/likes/", JWTAuth, like);
 // booksRoute.put("/likes/", like);
 
 //! Book Details API
-booksRoute.post("/detail", insertBookDetails);
+booksRoute.post("/detail", JWTAuth, insertBookDetails);
 
 export default booksRoute;

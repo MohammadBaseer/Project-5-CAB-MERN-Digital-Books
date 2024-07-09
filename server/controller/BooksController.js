@@ -7,7 +7,6 @@ import BooksDetailsModel from "../models/booksDetailsModel.js";
 //! display All Book Data API Endpoint
 const displayBook = async (req, res) => {
   try {
-    // const allBooks = await BookModel.find().populate("detail").populate("comment");
     const allBooks = await BookModel.find()
       .populate("detail")
       .populate({ path: "comment", populate: { path: "users", select: ["name", "surname", "avatar", "email", "dob", "address", "createdAt"] } })
@@ -42,6 +41,10 @@ const displayBookById = async (req, res) => {
 //! Insert Data  API Endpoint
 const bookInsert = async (req, res) => {
   const uid = req.user._id;
+
+  // convert String to Array and clean the spacing
+  const authorsStringCleaned = req.body.authors.split(",").map((author) => author.trim());
+
   if (!req.body.title || !req.body.authors) {
     removeTempFile(req.file);
     return res.status(400).json({ error: "inputs missing" });
@@ -55,7 +58,9 @@ const bookInsert = async (req, res) => {
       const insertNewData = new BookModel({
         title: req.body.title.trim(),
         image: imageUrl,
-        authors: req.body.authors.split(","),
+
+        authors: authorsStringCleaned,
+
         userRef: uid,
       });
       await insertNewData.save();
@@ -89,7 +94,9 @@ const bookUpdate = async (req, res) => {
       updateFields.description = req.body.description;
     }
     if (req.body.authors) {
-      updateFields.authors = req.body.authors.split(",");
+      // convert String to Array and clean the spacing
+      const authorsStringCleaned = req.body.authors.split(",").map((author) => author.trim());
+      updateFields.authors = authorsStringCleaned;
     }
     if (req.file) {
       const imageUploadToCloud = await imageUpload(req.file, "books_images");
@@ -101,14 +108,16 @@ const bookUpdate = async (req, res) => {
       updateFields.longDescription = req.body.longDescription.trim();
     }
     if (req.body.categories) {
-      updateFields.categories = req.body.categories.split(",");
+      // convert String to Array and clean the spacing
+      const categoriesStringCleaned = req.body.categories.split(",").map((category) => category.trim());
+      updateFields.categories = categoriesStringCleaned;
     }
     if (req.body.publishAt) {
       updateFields.publishAt = req.body.publishAt;
     }
 
-    const result = await BookModel.findByIdAndUpdate(bookId, updateFields, { new: true });
-    const result1 = await BooksDetailsModel.findOneAndUpdate({ bookref: bookId }, updateFields, { new: true });
+    await BookModel.findByIdAndUpdate(bookId, updateFields, { new: true });
+    await BooksDetailsModel.findOneAndUpdate({ bookref: bookId }, updateFields, { new: true });
     res.status(200).json({ error: "Book updated" });
   } catch (error) {
     res.status(400).json({ error: error });
@@ -159,8 +168,11 @@ const like = async (req, res) => {
   }
 };
 
-//! Book Details
+//! Book Details EndPoint
 const insertBookDetails = async (req, res) => {
+  // convert String to Array and clean the spacing
+  const categoriesStringCleaned = req.body.categories.split(",").map((author) => author.trim());
+
   if (!req.body.longDescription) {
     return res.status(400).json({ error: "Description input is missing" });
   }
@@ -177,7 +189,7 @@ const insertBookDetails = async (req, res) => {
   try {
     const insertNewDetails = new BooksDetailsModel({
       longDescription: req.body.longDescription.trim(),
-      categories: req.body.categories.split(","),
+      categories: categoriesStringCleaned,
       bookref: req.body.bookref,
       publishAt: req.body.publishAt,
       bookId: req.body.bookId,

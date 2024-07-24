@@ -14,7 +14,7 @@ const DashboardSidebar = () => {
             </li>
             <ul className={styles.ul_sub}>
               <li className={styles.li_sub}>
-                <NavLink to="dashboard">
+                <NavLink className={styles.link} to="dashboard">
                   <span className="pi pi-angle-right">&nbsp;Home</span>
                 </NavLink>
               </li>
@@ -24,19 +24,19 @@ const DashboardSidebar = () => {
             </li>
             <ul className={styles.ul_sub}>
               <li className={styles.li_sub}>
-                <NavLink to="books-table">
+                <NavLink className={styles.link} to="books-table">
                   <span className="pi pi-angle-right">&nbsp;Books</span>
                 </NavLink>
               </li>
             </ul>
 
             <li className={styles.li_main}>
-              <span className="pi pi-cog">&nbsp;Web Contact Section </span>
+              <span className="pi pi-cog">&nbsp;Contact</span>
             </li>
 
             <ul className={styles.ul_sub}>
               <li className={styles.li_sub}>
-                <NavLink to="/messages">
+                <NavLink className={styles.link} to="/messages">
                   <span className="pi pi-angle-right">&nbsp;Messages</span>
                 </NavLink>
               </li>
@@ -48,7 +48,7 @@ const DashboardSidebar = () => {
 
             <ul className={styles.ul_sub}>
               <li className={styles.li_sub}>
-                <NavLink to="/users">
+                <NavLink className={styles.link} to="/users">
                   <span className="pi pi-angle-right">&nbsp;Users</span>
                 </NavLink>
               </li>

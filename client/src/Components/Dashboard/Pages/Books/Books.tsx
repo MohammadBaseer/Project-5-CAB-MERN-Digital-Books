@@ -40,29 +40,29 @@ const Books = () => {
               <InsertBookModal />
             </div>
             <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Photo</th>
-                  <th>Book Name</th>
-                  <th>Author</th>
+              <thead className={styles.thead}>
+                <tr className={styles.tr}>
+                  <th className={styles.th}>No</th>
+                  <th className={styles.th}>Photo</th>
+                  <th className={styles.th}>Book Name</th>
+                  <th className={styles.th}>Author</th>
 
-                  <th>Action</th>
+                  <th className={styles.th}>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className={styles.tbody}>
                 {data &&
                   data.map((bookData: BooksDataType, index: number) => {
                     return (
                       bookData.userRef === userProfile?.id && (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>
+                        <tr className={styles.tr} key={index}>
+                          <td className={styles.td}>{index + 1}</td>
+                          <td className={styles.td}>
                             <img className={styles.image} src={bookData.image} alt="" />
                           </td>
-                          <td>{bookData.title}</td>
-                          <td>{bookData.authors.join(", ")}</td>
-                          <td>
+                          <td className={styles.td}>{bookData.title}</td>
+                          <td className={styles.td}>{bookData.authors.join(", ")}</td>
+                          <td className={styles.td}>
                             <ViewBookModal bookData={bookData} />
                             <UpdateBookModal id={bookData._id} imageUrl={bookData.image} title={bookData.title} authors={bookData.authors} />
                             <BookDeleteModal id={bookData._id} imageUrl={bookData.image} />

@@ -193,6 +193,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
     if (!isUserLogged) {
       setIsLoading(false);
+      removeToken();
     }
   }, []);
 

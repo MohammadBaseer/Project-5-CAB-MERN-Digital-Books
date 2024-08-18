@@ -14,6 +14,7 @@
 ### Client-Side
 
 - ![React](https://img.shields.io/badge/React-18.2.0-blue?logo=react)
+- ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript)
 - ![React Router](https://img.shields.io/badge/React%20Router-CA4245?logo=react-router)
 - ![SASS Module](https://img.shields.io/badge/SASS%20Module-CC6699?logo=sass&logoColor=white)
 - ![React Globe State Management](https://img.shields.io/badge/React%20Globe%20State%20Management-61DAFB?logo=react)

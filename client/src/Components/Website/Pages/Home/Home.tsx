@@ -1,4 +1,4 @@
-import { Book, ChevronRight, Heart } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import styles from "./page.module.css";
 import { useContext } from "react";
 import { FetchApiContext } from "../../../../Context/FetchApiContext";

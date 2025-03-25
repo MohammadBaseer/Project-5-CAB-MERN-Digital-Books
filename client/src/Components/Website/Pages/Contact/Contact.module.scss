@@ -1,22 +1,25 @@
 body {
   background-color: #fff;
 }
+
 .container {
   width: 95%;
   margin: auto;
+  margin-bottom: 3rem;
 }
-.box {
-}
+
 .input_elements {
   //   padding: 20px;
   text-align: center;
   width: auto;
   //   border: solid;
 }
+
 .contact_tile {
   //   display: inline-block;
   width: 100%;
 }
+
 .input_name[type="text"],
 .input_email[type="email"],
 .text {
@@ -27,22 +30,27 @@ body {
   border-radius: 4px;
   //   resize: vertical;
 }
+
 .text {
   width: 80%;
   height: 200px;
 }
+
 .Submit_button {
   padding: 12px;
   //   border: 1px solid #ccc;
   cursor: pointer;
 }
+
 .info {
   padding: 20px;
   text-align: -webkit-center;
 }
+
 .info_elements {
   width: 80%;
   text-align: left;
+
   .email {
     text-decoration: none;
     color: gray;

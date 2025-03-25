@@ -1,15 +1,45 @@
 @import "../../../assets/scss/variables.scss";
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // padding: 1.5rem 2rem;
+  border-bottom: 1px solid #eaeaea;
+  width: 100%;
+
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.87rem;
+}
+
+.logoIcon {
+  color: #838EE8;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
 .navbar_head {
   display: flex;
-  background-color: $navBarColor;
+  // background-color: #838EE8;
+  // color: #fff;
   // padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(221, 219, 219, 0.1);
-  height: 60px;
+  min-height: 60px;
+
   .body_container {
     width: 90%;
     margin: auto !important;
+
     .nav_elements {
       display: flex;
       justify-content: flex-end;
@@ -60,6 +90,7 @@
               padding: 12px 15px !important;
               cursor: pointer;
               width: 100%;
+
               &:hover {
                 background-color: $bgColor;
               }

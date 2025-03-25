@@ -17,7 +17,9 @@ const Contact = () => {
     messages: "",
   });
 
-  const inputsChangeHandler = (e: ChangeEvent<HTMLTextAreaElement> | ChangeEvent<HTMLInputElement>) => {
+  const inputsChangeHandler = (
+    e: ChangeEvent<HTMLTextAreaElement> | ChangeEvent<HTMLInputElement>
+  ) => {
     e.preventDefault();
 
     setMessagesInput((prev) => {
@@ -28,15 +30,30 @@ const Contact = () => {
   const insertContactFormMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!messagesInput.name) {
-      toast.current?.show({ severity: "error", summary: "Error", detail: "Name is missing!", life: 3000 });
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Name is missing!",
+        life: 3000,
+      });
       return;
     }
     if (!messagesInput.email) {
-      toast.current?.show({ severity: "error", summary: "Error", detail: "Email is missing!", life: 3000 });
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Email is missing!",
+        life: 3000,
+      });
       return;
     }
     if (!messagesInput.messages) {
-      toast.current?.show({ severity: "error", summary: "Error", detail: "Text is missing!", life: 3000 });
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Text is missing!",
+        life: 3000,
+      });
       return;
     }
 
@@ -56,12 +73,22 @@ const Contact = () => {
     try {
       const response = await fetch(`${BaseURL}/api/messages`, requestOptions);
       if (!response.ok) {
-        toast.current?.show({ severity: "error", summary: "Error", detail: "Response Failed", life: 3000 });
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Response Failed",
+          life: 3000,
+        });
         return;
       }
       if (response.ok) {
         await response.json();
-        toast.current?.show({ severity: "success", summary: "Success", detail: "Sent", life: 3000 });
+        toast.current?.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Sent",
+          life: 3000,
+        });
         setMessagesInput({ name: "", email: "", messages: "" });
       }
     } catch (error) {
@@ -70,7 +97,7 @@ const Contact = () => {
   };
 
   return (
-    <div>
+    <>
       <Toast ref={toast} />
       <div className={styles.container}>
         <br />
@@ -93,7 +120,9 @@ const Contact = () => {
                 <span className="pi pi-phone">&nbsp;Phone: 1234567</span>
               </p>
               <p>
-                <span className="pi pi-map-marker">&nbsp;Address: Xyz Str 44 Berlin</span>
+                <span className="pi pi-map-marker">
+                  &nbsp;Address: Xyz Str 44 Berlin
+                </span>
               </p>
             </div>
           </div>
@@ -102,11 +131,32 @@ const Contact = () => {
             <form action="" onSubmit={insertContactFormMessage}>
               <div className={styles.contact_tile}>
                 <div className={styles.elements}>
-                  <input className={styles.input_name} type="text" name="name" placeholder="Name" value={messagesInput.name} onChange={inputsChangeHandler} />
-                  <input className={styles.input_email} type="email" name="email" placeholder="Email" value={messagesInput.email} onChange={inputsChangeHandler} />
+                  <input
+                    className={styles.input_name}
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    value={messagesInput.name}
+                    onChange={inputsChangeHandler}
+                  />
+                  <input
+                    className={styles.input_email}
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={messagesInput.email}
+                    onChange={inputsChangeHandler}
+                  />
                 </div>
                 <div className={styles.elements}>
-                  <textarea className={styles.text} name="messages" id="" placeholder="Text" value={messagesInput.messages} onChange={inputsChangeHandler}></textarea>
+                  <textarea
+                    className={styles.text}
+                    name="messages"
+                    id=""
+                    placeholder="Text"
+                    value={messagesInput.messages}
+                    onChange={inputsChangeHandler}
+                  ></textarea>
                 </div>
                 <button className={styles.Submit_button} name="submit">
                   Sent
@@ -116,7 +166,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

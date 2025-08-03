@@ -14,7 +14,7 @@ body {
   color: #000;
 
   .main_box {
-    width: 35%;
+    // width: 35%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -69,5 +69,10 @@ body {
 @media only screen and (max-width: 815px) {
   .main_box {
     width: 60%;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .main_box {
+    width: 100%;
   }
 }
